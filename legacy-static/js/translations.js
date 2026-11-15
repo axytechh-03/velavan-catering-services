@@ -1,0 +1,373 @@
+/**
+ * Velavan Catering Services - Translations Dictionary
+ * Comprehensive English and Tamil translations covering the public interface,
+ * form validations, menu catalogue, and admin preview notifications.
+ */
+
+const TRANSLATIONS = {
+  en: {
+    // Navigation
+    topbar: "WEDDINGS · RECEPTIONS · GRAND CELEBRATIONS · TIMELESS HOSPITALITY",
+    navHome: "Home",
+    navStory: "Our Story",
+    navServices: "Services",
+    navMenu: "Our Menu",
+    navGallery: "Gallery",
+    navClients: "Clients",
+    navContact: "Contact",
+    navEnquireBtn: "Enquire Now",
+    langSwitchLabel: "தமிழ்",
+
+    // Hero Section
+    heroEyebrow: "THE ART OF GRAND HOSPITALITY",
+    heroTitle: "Every Celebration Deserves a Grand Feast.",
+    heroDesc: "Exceptional food. Thoughtful planning. Timeless traditions. We bring the spirit of grand South Indian hospitality to weddings and celebrations of every scale.",
+    heroBtnPlan: "Plan Your Celebration",
+    heroBtnWork: "Explore Our Work",
+    heroNote: "TRADITION · TASTE · TOGETHERNESS",
+    promiseStrip: "CRAFTED WITH CARE <span>✦</span> SERVED WITH PRIDE <span>✦</span> REMEMBERED FOREVER",
+
+    // Story Section
+    storyEyebrow: "A LEGACY OF HOSPITALITY",
+    storyTitle: "More Than Food. A Celebration of Togetherness.",
+    storyP1: "At Velavan Catering Services, we believe every gathering deserves a memorable dining experience. From magnificent wedding celebrations to large-scale events, we bring together thoughtful preparation, delicious food and gracious hospitality.",
+    storyP2: "Every menu is thoughtfully planned to complement the occasion, the guests and the traditions that make it special.",
+    storyBtn: "Let's Plan Together",
+    storyCaption: "Every detail served with care and warmth.",
+
+    // Jayanthi's Portrait Section (Heritage Tribute)
+    tributeEyebrow: "THE HEART BEHIND OUR JOURNEY",
+    tributeName: "JAYANTHI",
+    tributeTagline: "Her legacy lives on.",
+
+    // Values
+    val1Title: "Thoughtful Planning",
+    val1Sub: "Every detail considered",
+    val2Title: "Grand Celebrations",
+    val2Sub: "Events of every scale",
+    val3Title: "Freshly Prepared",
+    val3Sub: "Food made for the occasion",
+    val4Title: "Warm Hospitality",
+    val4Sub: "Guests are our priority",
+
+    // Services Section
+    servicesEyebrow: "CELEBRATIONS WE CATER",
+    servicesTitle: "Made for Moments That Matter.",
+    servicesDesc: "From grand wedding feasts to important family occasions, we bring care, coordination and flavour to every gathering.",
+    service1Title: "Wedding Celebrations",
+    service1Desc: "Memorable wedding feasts thoughtfully planned for your most special day.",
+    service2Title: "Receptions & Muhurtham",
+    service2Desc: "Beautiful dining experiences for the most meaningful family occasions.",
+    service3Title: "Large-Scale Events",
+    service3Desc: "Coordinated catering arrangements for large gatherings and celebrations.",
+    service4Title: "Engagement Functions",
+    service4Desc: "Special menus and thoughtful service for the beginning of a beautiful journey.",
+    service5Title: "Corporate Gatherings",
+    service5Desc: "Professional food service for business events, conferences and gatherings.",
+    service6Title: "Family Celebrations",
+    service6Desc: "Birthdays, anniversaries and meaningful moments shared with loved ones.",
+    service7Title: "Birthday Celebrations",
+    service7Desc: "Joyful birthday celebrations with live food stations, sweet spreads and customized party treats.",
+    service8Title: "Special Events & Milestones",
+    service8Desc: "Housewarmings, cultural gatherings and milestone anniversaries catered with grace and warmth.",
+
+    // Scale Banner
+    scaleEyebrow: "FOR CELEBRATIONS OF EVERY SCALE",
+    scaleTitle: "A Grand Gathering. A Seamless Dining Experience.",
+    scaleDesc: "Every guest matters. Every plate matters. Let us help make your next celebration memorable with carefully coordinated catering and hospitality.",
+    scaleBtn: "Discuss Your Event",
+
+    // Clients
+    clientsEyebrow: "TRUSTED PARTNERS & CLIENTS",
+    clientsTitle: "A Circle of Trust.",
+    clientsNote: "Logo placeholders for the prototype. Replace with Velavan's actual client logos.",
+
+    // Menu Section
+    menuEyebrow: "A FEAST TO REMEMBER",
+    menuTitle: "A Symphony of Flavours.",
+    menuDesc: "Explore a selection of menu inspirations. Final menus can be tailored to your event, guest preferences and traditions.",
+    menuTabVeg: "Vegetarian",
+    menuTabNonveg: "Non-Vegetarian",
+    menuSearchPlaceholder: "Search dishes by name or ingredient...",
+    menuFilterAll: "All Categories",
+    menuBrowseHint: "Browse by category · Search by dish name",
+    menuShowingDishes: "Showing {visible} of {total} dishes",
+    menuLoadMore: "Load More Dishes",
+    menuNote: "Illustrative menu only. Actual dishes and combinations will be confirmed with Velavan Catering Services.",
+    menuEmpty: "No dishes match your search. Try another dish name or select another category.",
+    menuResetBtn: "Reset Filters",
+
+    // Gallery Section
+    galleryEyebrow: "MOMENTS & MEMORIES",
+    galleryTitle: "A Glimpse of Our World.",
+    galleryDesc: "The atmosphere, the food and the little details that make a celebration special.",
+    galleryNote: "Sample photographs for design preview. Replace with authentic Velavan event photographs before launch.",
+
+    // Enquiry Section
+    enquiryEyebrow: "LET'S MAKE IT MEMORABLE",
+    enquiryTitle: "Your Celebration Begins With a Conversation.",
+    enquiryDesc: "Tell us a little about your upcoming event. Share your plans and our team can discuss suitable menus and catering arrangements with you.",
+    enquiryPoint1Title: "Personalised Menus",
+    enquiryPoint1Desc: "Planned around your occasion and preferences.",
+    enquiryPoint2Title: "Large-Event Coordination",
+    enquiryPoint2Desc: "Discuss guest count, venue and service arrangements.",
+    enquiryPoint3Title: "Warm Hospitality",
+    enquiryPoint3Desc: "Thoughtful service for every guest.",
+
+    // Form
+    formTitle: "Tell Us About Your Event",
+    formNameLabel: "YOUR NAME *",
+    formNamePlaceholder: "Enter your full name",
+    formPhoneLabel: "PHONE NUMBER *",
+    formPhonePlaceholder: "10-digit mobile number",
+    formEmailLabel: "EMAIL ADDRESS (OPTIONAL)",
+    formEmailPlaceholder: "name@example.com",
+    formEventLabel: "EVENT TYPE *",
+    formEventPlaceholder: "Select event type",
+    formDateLabel: "EVENT DATE *",
+    formGuestsLabel: "EXPECTED GUESTS *",
+    formGuestsPlaceholder: "Approx. guest count (e.g. 500)",
+    formFoodLabel: "FOOD PREFERENCE",
+    formLocationLabel: "EVENT LOCATION / VENUE *",
+    formLocationPlaceholder: "City, Mandapam or Venue name",
+    formNotesLabel: "ADDITIONAL REQUIREMENTS",
+    formNotesPlaceholder: "Tell us about menu preferences, live counter ideas, or special requests...",
+    formSubmitBtn: "Submit Catering Enquiry →",
+    formSubmitting: "Submitting Enquiry...",
+    formSuccess: "Thank you! Your enquiry has been saved in this browser prototype. In production, this enquiry will be delivered securely to Velavan Catering Services management.",
+    formErrorName: "Please enter your name.",
+    formErrorPhone: "Please enter a valid 10-digit mobile number.",
+    formErrorEmail: "Please enter a valid email address.",
+    formErrorEvent: "Please select an event type.",
+    formErrorDate: "Please choose a valid event date (today or future).",
+    formErrorGuests: "Please enter expected guest count (minimum 1).",
+    formErrorLocation: "Please provide the event venue or city.",
+
+    // WhatsApp & Buttons
+    whatsappBtn: "WhatsApp Enquiry ↗",
+    whatsappDemoMsg: "WhatsApp preview: In production this opens direct chat with Velavan's catering manager. Configure the phone number in the Admin Settings tab.",
+    adminLaunchBtn: "⚙ ADMIN PREVIEW",
+
+    // Registrations & Compliance Section
+    regEyebrow: "COMPLIANCE & FOOD SAFETY",
+    regTitle: "REGISTERED. RECOGNISED. RESPONSIBLE.",
+    regGovtOfIndia: "Government of India",
+    regUdyamTitle: "UDYAM – MSME REGISTRATION",
+    regNumberLabel: "Registration Number",
+    regEnterpriseType: "Enterprise Type",
+    regEnterpriseTypeValue: "Micro",
+    regIssuingMinistry: "Issuing Ministry",
+    regIssuingMinistryValue: "Ministry of MSME, Govt. of India",
+    regStatusLabel: "Registration Status",
+    regStatusVerified: "Verified & Active",
+    regFoodSafetyStandards: "Food Safety Standards",
+    regFssaiTitle: "FSSAI – STATE LICENSE",
+    regLicenseNumberLabel: "License Number",
+    regLicenseCategory: "License Category",
+    regLicenseCategoryValue: "State License",
+    regFeePaidThrough: "Fee Paid Through",
+    regFeePaidThroughValue: "17 August 2027",
+    regComplianceStatus: "Compliance Status",
+    regComplianceStatusValue: "Licensed & Active",
+
+    // Footer
+    footerExplore: "Explore",
+    footerContact: "Get in Touch",
+    footerRights: "Velavan Catering Services. All rights reserved.",
+    footerAgency: "Designed with care by AXY Technologies.",
+    footerAddressPlaceholder: "Chennai, Tamil Nadu · South India",
+
+    // Admin Dashboard
+    adminTitle: "Website Admin Dashboard",
+    adminSubtitle: "VELAVAN CATERING SERVICES — CLIENT PREVIEW",
+    adminTabOverview: "Overview",
+    adminTabEnquiries: "Enquiries",
+    adminTabMenus: "Menu Items",
+    adminTabGallery: "Gallery",
+    adminTabSettings: "Settings & Config",
+    adminDisclaimer: "Prototype note: Enquiry records, menu updates, and gallery uploads are stored in this browser's localStorage. This interface is for client demonstration and feature review; a production deployment will include secure multi-role authentication, encrypted databases, and backend APIs."
+  },
+
+  ta: {
+    // Navigation
+    topbar: "திருமணங்கள் · வரவேற்பு விழாக்கள் · பிரம்மாண்ட கொண்டாட்டங்கள் · சிறப்பான விருந்தோம்பல்",
+    navHome: "முகப்பு",
+    navStory: "எங்களைப் பற்றி",
+    navServices: "சேவைகள்",
+    navMenu: "உணவு வகைகள்",
+    navGallery: "புகைப்படங்கள்",
+    navClients: "வாடிக்கையாளர்கள்",
+    navContact: "தொடர்பு",
+    navEnquireBtn: "விசாரிக்க",
+    langSwitchLabel: "English",
+
+    // Hero Section
+    heroEyebrow: "சிறப்பான விருந்தோம்பலின் கலை",
+    heroTitle: "ஒவ்வொரு கொண்டாட்டத்திற்கும் ஒரு சிறப்பான விருந்து.",
+    heroDesc: "சிறந்த உணவு. கவனமான திட்டமிடல். காலத்தால் அழியாத பாரம்பரியம். அனைத்து அளவிலான திருமணங்கள் மற்றும் கொண்டாட்டங்களுக்கும் தென்னிந்திய விருந்தோம்பலின் சிறப்பைக் கொண்டு வருகிறோம்.",
+    heroBtnPlan: "உங்கள் விழாவைத் திட்டமிடுங்கள்",
+    heroBtnWork: "எங்கள் பணிகளைப் பாருங்கள்",
+    heroNote: "பாரம்பரியம் · சுவை · ஒற்றுமை",
+    promiseStrip: "அக்கறையுடன் தயாரிப்பு <span>✦</span> பெருமையுடன் பரிமாறுதல் <span>✦</span> என்றும் நினைவில்",
+
+    // Story Section
+    storyEyebrow: "விருந்தோம்பலின் பாரம்பரியம்",
+    storyTitle: "உணவைத் தாண்டி. உறவுகளின் கொண்டாட்டம்.",
+    storyP1: "வேலவன் கேட்டரிங் சர்வீசஸில் ஒவ்வொரு நிகழ்வும் மறக்க முடியாத விருந்து அனுபவத்தைப் பெற வேண்டும் என்று நம்புகிறோம். பிரம்மாண்ட திருமணங்கள் முதல் பெரிய அளவிலான நிகழ்வுகள் வரை, தரமான உணவு, சிறந்த தயாரிப்பு மற்றும் அன்பான விருந்தோம்பலை ஒன்றிணைக்கிறோம்.",
+    storyP2: "ஒவ்வொரு நிகழ்வின் சிறப்புக்கும், விருந்தினர்களுக்கும், பாரம்பரியத்திற்கும் ஏற்றவாறு உணவு வகைகள் கவனமாகத் திட்டமிடப்படுகின்றன.",
+    storyBtn: "இணைந்து திட்டமிடுவோம்",
+    storyCaption: "ஒவ்வொரு விவரத்திலும் அக்கறையும் அன்பும்.",
+
+    // Jayanthi's Portrait Section (Heritage Tribute)
+    tributeEyebrow: "எங்கள் பயணத்தின் இதயம்",
+    tributeName: "ஜெயந்தி",
+    tributeTagline: "அவரது பெருமை என்றும் நிலைத்திருக்கும்.",
+
+    // Values
+    val1Title: "சிறந்த திட்டமிடல்",
+    val1Sub: "ஒவ்வொரு விவரத்திலும் கவனம்",
+    val2Title: "பிரம்மாண்ட விழாக்கள்",
+    val2Sub: "அனைத்து அளவிலான நிகழ்வுகள்",
+    val3Title: "புதிதாகத் தயாரித்தல்",
+    val3Sub: "நிகழ்விற்கேற்ற உணவு",
+    val4Title: "அன்பான விருந்தோம்பல்",
+    val4Sub: "விருந்தினர்களே எங்கள் முன்னுரிமை",
+
+    // Services Section
+    servicesEyebrow: "எங்கள் கேட்டரிங் சேவைகள்",
+    servicesTitle: "முக்கியமான தருணங்களுக்காக.",
+    servicesDesc: "பிரம்மாண்ட திருமண விருந்துகள் முதல் குடும்ப நிகழ்வுகள் வரை ஒவ்வொரு விழாவையும் அக்கறை, ஒருங்கிணைப்பு மற்றும் சுவையுடன் சிறப்பிக்கிறோம்.",
+    service1Title: "திருமண விழாக்கள்",
+    service1Desc: "உங்கள் வாழ்வின் மிக முக்கியமான நாளுக்காகத் திட்டமிடப்படும் மறக்க முடியாத திருமண விருந்துகள்.",
+    service2Title: "வரவேற்பு மற்றும் முகூர்த்தம்",
+    service2Desc: "குடும்பத்தின் முக்கியமான நிகழ்வுகளுக்கான அழகிய மற்றும் சுவையான விருந்து அனுபவங்கள்.",
+    service3Title: "பிரம்மாண்ட நிகழ்வுகள்",
+    service3Desc: "பெரிய அளவிலான கூட்டங்கள் மற்றும் கொண்டாட்டங்களுக்கான ஒருங்கிணைந்த கேட்டரிங் ஏற்பாடுகள்.",
+    service4Title: "நிச்சயதார்த்த விழாக்கள்",
+    service4Desc: "இனிய வாழ்க்கைப் பயணத்தின் தொடக்கத்திற்கான சிறப்பு உணவு வகைகள் மற்றும் சேவை.",
+    service5Title: "நிறுவன நிகழ்வுகள்",
+    service5Desc: "நிறுவன நிகழ்வுகள், மாநாடுகள் மற்றும் கூட்டங்களுக்கான தொழில்முறை உணவு சேவை.",
+    service6Title: "குடும்ப விழாக்கள்",
+    service6Desc: "குடும்ப விழாக்கள், ஆண்டு நிறைவுகள் மற்றும் அன்பானவர்களுடன் கொண்டாடும் தருணங்கள்.",
+    service7Title: "பிறந்தநாள் விழாக்கள்",
+    service7Desc: "குழந்தைகள் மற்றும் விருந்தினர்களைக் கவரும் நேரடி உணவு கவுண்டர்கள் மற்றும் இனிப்புகள்.",
+    service8Title: "சிறப்பு கொண்டாட்டங்கள் & புதுமனை புகுவிழா",
+    service8Desc: "புதுமனை புகுவிழா மற்றும் முக்கிய விழாக்களை முழு அர்ப்பணிப்புடன் ஒருங்கிணைக்கிறோம்.",
+
+    // Scale Banner
+    scaleEyebrow: "அனைத்து அளவிலான கொண்டாட்டங்களுக்கும்",
+    scaleTitle: "பிரம்மாண்டமான விழா. சிறப்பான விருந்து அனுபவம்.",
+    scaleDesc: "ஒவ்வொரு விருந்தினரும் முக்கியம். ஒவ்வொரு உணவும் முக்கியம். கவனமாக ஒருங்கிணைக்கப்பட்ட கேட்டரிங் மற்றும் விருந்தோம்பலுடன் உங்கள் அடுத்த விழாவை மறக்க முடியாததாக மாற்றுவோம்.",
+    scaleBtn: "உங்கள் நிகழ்வைப் பற்றி பேசுங்கள்",
+
+    // Clients
+    clientsEyebrow: "எங்களை நம்பும் வாடிக்கையாளர்கள்",
+    clientsTitle: "நம்பிக்கையின் உறவு.",
+    clientsNote: "மாதிரி லோகோக்கள். வேலவன் வழங்கும் உண்மையான வாடிக்கையாளர் லோகோக்களால் மாற்றவும்.",
+
+    // Menu Section
+    menuEyebrow: "மறக்க முடியாத விருந்து",
+    menuTitle: "சுவைகளின் சங்கமம்.",
+    menuDesc: "உணவு வகைகளுக்கான சில மாதிரிகளைப் பாருங்கள். உங்கள் நிகழ்வு, விருந்தினர்களின் விருப்பம் மற்றும் பாரம்பரியத்திற்கு ஏற்ப இறுதி உணவுப் பட்டியலை அமைக்கலாம்.",
+    menuTabVeg: "சைவம்",
+    menuTabNonveg: "அசைவம்",
+    menuSearchPlaceholder: "உணவின் பெயர் அல்லது உள்ளடக்கத்தால் தேடுங்கள்...",
+    menuFilterAll: "அனைத்து வகைகள்",
+    menuBrowseHint: "வகைப்படி பாருங்கள் · உணவின் பெயரால் தேடுங்கள்",
+    menuShowingDishes: "{total} உணவுகளில் {visible} காட்டப்படுகிறது",
+    menuLoadMore: "மேலும் உணவுகளைக் காண்க",
+    menuNote: "இது மாதிரி உணவுப் பட்டியல் மட்டுமே. உண்மையான உணவு வகைகள் வேலவன் கேட்டரிங் சர்வீசஸுடன் உறுதிப்படுத்தப்படும்.",
+    menuEmpty: "உங்கள் தேடலுக்கு ஏற்ற உணவு வகைகள் எதுவும் கிடைக்கவில்லை. மற்றொரு பெயரைத் தேடவும் அல்லது வேறு பிரிவைத் தேர்ந்தெடுக்கவும்.",
+    menuResetBtn: "வடிகட்டிகளை மீட்டமை",
+
+    // Gallery Section
+    galleryEyebrow: "தருணங்களும் நினைவுகளும்",
+    galleryTitle: "எங்கள் உலகின் ஒரு பார்வை.",
+    galleryDesc: "ஒரு விழாவைச் சிறப்பாக்கும் சூழல், உணவு மற்றும் சிறிய விவரங்கள்.",
+    galleryNote: "வடிவமைப்பு முன்னோட்டத்திற்கான மாதிரிப் புகைப்படங்கள். இணையதள வெளியீட்டிற்கு முன் வேலவனின் உண்மையான நிகழ்வுப் புகைப்படங்களைச் சேர்க்கவும்.",
+
+    // Enquiry Section
+    enquiryEyebrow: "மறக்க முடியாததாக மாற்றுவோம்",
+    enquiryTitle: "உங்கள் விழா ஒரு உரையாடலில் தொடங்குகிறது.",
+    enquiryDesc: "உங்கள் வரவிருக்கும் நிகழ்வைப் பற்றிய சில விவரங்களைப் பகிருங்கள். பொருத்தமான உணவு வகைகள் மற்றும் கேட்டரிங் ஏற்பாடுகள் குறித்து எங்கள் குழு உங்களுடன் கலந்துரையாடும்.",
+    enquiryPoint1Title: "தனிப்பயன் உணவுப் பட்டியல்",
+    enquiryPoint1Desc: "உங்கள் நிகழ்வு மற்றும் விருப்பங்களுக்கு ஏற்ப திட்டமிடப்படும்.",
+    enquiryPoint2Title: "பெரிய நிகழ்வு ஒருங்கிணைப்பு",
+    enquiryPoint2Desc: "விருந்தினர் எண்ணிக்கை, இடம் மற்றும் சேவை ஏற்பாடுகள் பற்றி பேசுங்கள்.",
+    enquiryPoint3Title: "அன்பான விருந்தோம்பல்",
+    enquiryPoint3Desc: "ஒவ்வொரு விருந்தினருக்கும் அக்கறையான சேவை.",
+
+    // Form
+    formTitle: "உங்கள் நிகழ்வைப் பற்றி தெரிவியுங்கள்",
+    formNameLabel: "உங்கள் பெயர் *",
+    formNamePlaceholder: "முழு பெயரை உள்ளிடவும்",
+    formPhoneLabel: "தொலைபேசி எண் *",
+    formPhonePlaceholder: "10 இலக்க கைபேசி எண்",
+    formEmailLabel: "மின்னஞ்சல் முகவரி (விருப்பத்தேர்வு)",
+    formEmailPlaceholder: "name@example.com",
+    formEventLabel: "நிகழ்வு வகை *",
+    formEventPlaceholder: "நிகழ்வைத் தேர்ந்தெடுக்கவும்",
+    formDateLabel: "நிகழ்வு தேதி *",
+    formGuestsLabel: "எதிர்பார்க்கப்படும் விருந்தினர்கள் *",
+    formGuestsPlaceholder: "எ.கா. 500",
+    formFoodLabel: "உணவு விருப்பம்",
+    formLocationLabel: "நிகழ்வு நடைபெறும் இடம் / மண்டபம் *",
+    formLocationPlaceholder: "ஊர், மண்டபம் அல்லது முகவரி",
+    formNotesLabel: "கூடுதல் தேவைகள்",
+    formNotesPlaceholder: "உணவு விருப்பங்கள், நேரடி கவுண்டர்கள் அல்லது சிறப்பு கோரிக்கைகளைப் பகிரவும்...",
+    formSubmitBtn: "விசாரணையை அனுப்புங்கள் →",
+    formSubmitting: "அனுப்பப்படுகிறது...",
+    formSuccess: "நன்றி! உங்கள் விசாரணை இந்த முன்மாதிரியில் சேமிக்கப்பட்டுள்ளது. உண்மையான இணையதளத்தில் இதை நிர்வாகக் குழுவிற்கு அனுப்ப backend இணைக்கப்படும்.",
+    formErrorName: "தயவுசெய்து உங்கள் பெயரை உள்ளிடவும்.",
+    formErrorPhone: "சரியான 10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்.",
+    formErrorEmail: "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.",
+    formErrorEvent: "நிகழ்வின் வகையைத் தேர்ந்தெடுக்கவும்.",
+    formErrorDate: "நிகழ்வு தேதியைத் தேர்ந்தெடுக்கவும் (இன்று அல்லது எதிர்கால தேதி).",
+    formErrorGuests: "விருந்தினர் எண்ணிக்கையை உள்ளிடவும் (குறைந்தது 1).",
+    formErrorLocation: "நிகழ்வு நடைபெறும் இடத்தை உள்ளிடவும்.",
+
+    // WhatsApp & Buttons
+    whatsappBtn: "வாட்ஸ்அப் விசாரணை ↗",
+    whatsappDemoMsg: "வாட்ஸ்அப் முன்னோட்டம்: உண்மையான தளத்தில் இது மேலாளரின் வாட்ஸ்அப் எண்ணிற்கு இணைக்கும். நிர்வாக அமைப்புகளில் எண்ணை உள்ளமைக்கவும்.",
+    adminLaunchBtn: "⚙ நிர்வாக முன்னோட்டம்",
+
+    // Registrations & Compliance Section
+    regEyebrow: "அங்கீகாரம் & உணவுப் பாதுகாப்பு",
+    regTitle: "பதிவு செய்யப்பட்டது. அங்கீகரிக்கப்பட்டது. நம்பகமானது.",
+    regGovtOfIndia: "இந்திய அரசு",
+    regUdyamTitle: "உத்யாம் – எம்.எஸ்.எம்.இ பதிவு",
+    regNumberLabel: "பதிவு எண்",
+    regEnterpriseType: "நிறுவன வகை",
+    regEnterpriseTypeValue: "மைக்ரோ (குறு தொழில்)",
+    regIssuingMinistry: "அமைச்சகம்",
+    regIssuingMinistryValue: "மத்திய எம்.எஸ்.எம்.இ அமைச்சகம், இந்திய அரசு",
+    regStatusLabel: "பதிவு நிலை",
+    regStatusVerified: "சரிபார்க்கப்பட்டது",
+    regFoodSafetyStandards: "உணவுப் பாதுகாப்பு தர நிர்ணயம்",
+    regFssaiTitle: "FSSAI – மாநில உரிமம்",
+    regLicenseNumberLabel: "உரிம எண்",
+    regLicenseCategory: "உரிம வகை",
+    regLicenseCategoryValue: "மாநில உரிமம்",
+    regFeePaidThrough: "கட்டணம் செலுத்திய காலம்",
+    regFeePaidThroughValue: "17 ஆகஸ்ட் 2027",
+    regComplianceStatus: "உரிம நிலை",
+    regComplianceStatusValue: "உரிமம் பெற்றது",
+
+    // Footer
+    footerExplore: "ஆராயுங்கள்",
+    footerContact: "தொடர்பு கொள்ளுங்கள்",
+    footerRights: "வேலவன் கேட்டரிங் சர்வீசஸ். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+    footerAgency: "AXY Technologies நிறுவனத்தால் நேர்த்தியாக வடிவமைக்கப்பட்டது.",
+    footerAddressPlaceholder: "சென்னை, தமிழ்நாடு · தென்னிந்தியா",
+
+    // Admin Dashboard
+    adminTitle: "இணையதள நிர்வாக பலகை",
+    adminSubtitle: "வேலவன் கேட்டரிங் சர்வீசஸ் — மாதிரி முன்னோட்டம்",
+    adminTabOverview: "மேலோட்டம்",
+    adminTabEnquiries: "விசாரணைகள்",
+    adminTabMenus: "உணவுப் பட்டியல்",
+    adminTabGallery: "புகைப்படங்கள்",
+    adminTabSettings: "அமைப்புகள்",
+    adminDisclaimer: "மாதிரி குறிப்பு: இந்த முன்னோட்டத்தில் மாற்றங்கள் உங்கள் உலாவியின் localStorage-ல் சேமிக்கப்படுகின்றன. நேரடி வெளியீட்டில் பாதுகாப்பான உள்நுழைவு, தரவுத்தளம் மற்றும் API-கள் சேர்க்கப்படும்."
+  }
+};

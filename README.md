@@ -273,31 +273,7 @@ The website is engineered and verified for consistent performance across:
 
 Responsive behaviour applies to header navigation, service card grids, menu filters, carousel arrow controls, form inputs, and typography wrapping.
 
----
 
-### Screenshots
-
-Real application screenshots captured from the running website:
-
-#### 1. Homepage & Hero Section
-![Homepage and Hero Section](docs/screenshots/01-homepage-hero.png)
-
-#### 2. Catering Services
-![Celebrations We Cater](docs/screenshots/02-services-section.png)
-
-#### 3. Interactive Menu & Search
-![Interactive Menu & Dish Search](docs/screenshots/03-interactive-menu.png)
-
-#### 4. Moments & Memories Gallery
-![Moments and Memories Gallery Carousel](docs/screenshots/04-moments-gallery.png)
-
-#### 5. Contact & Enquiry Form
-![Contact and Catering Enquiry Form](docs/screenshots/05-enquiry-contact.png)
-
-#### 6. Mobile Experience & Responsive Navigation
-![Mobile Responsive Navigation](docs/screenshots/06-mobile-responsive.png)
-
----
 
 ### Repository Information
 

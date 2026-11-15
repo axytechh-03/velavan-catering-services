@@ -1,311 +1,253 @@
-# Velavan Catering Services
+# Velavan Catering Services – Next.js, React and TypeScript Website
 
 <p align="center">
   <img src="public/images/logo/logo.png" alt="Velavan Catering Services Logo" width="130" />
 </p>
 
 <p align="center">
-  <strong>A Premium Catering Website | Coimbatore, Tamil Nadu</strong>
+  <strong>A Premium Next.js, React and TypeScript Web Application | Coimbatore, Tamil Nadu</strong>
 </p>
 
 <p align="center">
-  A modern, responsive website developed for Velavan Catering Services to showcase catering offerings, present food menus, highlight memorable events and make customer enquiries easier.
+  A high-performance, fully bilingual (English & Tamil) enterprise catering application built with <strong>Next.js 14 (App Router)</strong>, <strong>React 18</strong>, and <strong>TypeScript 5</strong>, featuring an interactive 14-category menu catalog, 9-photo celebration gallery carousel, customer enquiry CRM, and a comprehensive standalone administration panel.
 </p>
 
 ---
 
-### About the Project
+## 1. Project Overview
 
-Velavan Catering Services is a catering business website designed to provide customers with an elegant and convenient way to explore catering services and event offerings.
+**Velavan Catering Services** (`வேலவன் கேட்டரிங் சர்வீஸ்`) is a premier catering enterprise based in Chettipalayam, Coimbatore, Tamil Nadu, specializing in traditional Tamil banana leaf wedding banquets (*Muhurtham Virundhu*), grand reception banquets, engagement ceremonies, and corporate hospitality.
 
-The website focuses on presenting the brand, showcasing catering services, displaying menu categories, sharing event photographs and providing a simple enquiry experience.
-
-The platform supports both English and Tamil, making the website accessible to a wider audience.
-
----
-
-### Website Preview
-
-- **Live Website:** Production deployment ready via Netlify (`netlify.toml`) and Vercel. Local preview runs at `http://localhost:3000`.
-- **GitHub Repository:** [https://github.com/axytechh-03/velavan-catering-services](https://github.com/axytechh-03/velavan-catering-services)
+This web application is built strictly as a **modern React and TypeScript application** powered by **Next.js App Router**, featuring:
+- **Zero-flicker bilingual support** between English and தமிழ் (Tamil) across all content and menu items.
+- **Dynamic 14-category menu catalog** with 151+ prospectus dishes and subtle food-themed decorative vector watermarks.
+- **Moments & Memories gallery** with a finite, non-repeating 9-photo slide carousel and fullscreen lightbox.
+- **Standalone Administration Panel & CMS** (`/admin` & `/admin/dashboard/*`) completely isolated from the public layout, providing real-time management for bookings, menu items, services, gallery photos, and website copy.
+- **Hybrid database layer** featuring local persistent storage with seamless cloud synchronization via Supabase PostgreSQL.
 
 ---
 
-### Key Features
+## 2. Technology Stack & Architecture
 
-#### 1. Home Page
-- Premium hero section featuring authentic South Indian feast and celebration photography.
-- Clear brand presentation with the official chef emblem and brand badge.
-- Introductory tagline, service overview, and direct action call-to-action buttons (*Explore Menu* and *Enquire Now*).
-- Fluid responsive layout tailored for all screen resolutions.
-
-#### 2. About / Our Story
-- Introduction to Velavan Catering Services and its heritage of culinary excellence.
-- Brand story highlighting traditional preparation techniques, pure ingredients, and timeless hospitality.
-- Dedicated visual presentation honouring the brand legacy and guiding values.
-
-#### 3. Catering Services
-Showcases 6 core catering service offerings with bespoke menu highlights and dedicated photography:
-- **Wedding & Muhurtham Catering (`திருமண & முகூர்த்த விருந்து`):** Traditional Tamil plantain leaf feast featuring ghee-roasted delicacies, traditional sambar, poriyal, kootu, vadai, and hot payasam served from brass urulis.
-- **Wedding Reception Catering (`திருமண வரவேற்பு விருந்து`):** Grand reception buffets with live tawa stations, Dum Seeraga Samba Biryani, special dosas, and dessert counters.
-- **Engagement Catering (`நிச்சயதார்த்த விருந்து`):** Auspicious Nichayathartham and Thamboolam celebrations featuring refreshing welcome drinks, traditional sweets, and celebratory banquets.
-- **Corporate Events (`கார்ப்பரேட் & வணிக நிகழ்வுகள்`):** Thoughtfully prepared menus for executive dinners, annual meetings, conferences, and office celebrations.
-- **Birthday Celebrations & Family Functions (`பிறந்தநாள் & குடும்ப விசேஷங்கள்`):** Customised menus and warm hospitality making milestone birthdays and family gatherings memorable.
-- **Special Events & Occasions (`சிறப்பு நிகழ்வுகள் & விசேஷங்கள்`):** Tailored culinary spreads crafted for temple celebrations, housewarmings, anniversaries, and community gatherings.
-
-#### 4. Clients Section
-- Dedicated showcase highlighting corporate and institutional trust markers.
-- Clean grid layout harmonised with the brand's aesthetic.
-
-#### 5. Interactive Menu
-- Complete catalog transcribed from the official prospectus across 14 comprehensive categories:
-  - *Traditional Sweets, Aromatic Soups, Welcome Drinks, Idli & Morning Tiffin, Dosas & Live Roasts, Biryanis, Starters, Rotis & Breads, Rich Gravies, Chutneys & Sambars, Rice Specialties, Payasams, Feast Accompaniments, and Pickles & Beverages.*
-- Subtle, elegant food-themed vector watermarks tailored to each of the 14 categories (8% opacity, non-intrusive decorative finish).
-- Real-time global dish search across categories matching in both English and Tamil.
-- Interactive category drilldown view with visual category switching and pure vegetarian culinary tags.
-- Detailed dish cards with Tamil translations and specialty badges.
-
-#### 6. Moments & Memories Gallery
-- Finite, non-repeating multi-slide carousel presenting celebration photography.
-- In-boundary navigation controls with disabled state boundaries (`01 / 09` to `09 / 09`).
-- Image pagination counter and interactive indicator dots.
-- Touch swipe gesture support for mobile and tablet users.
-- Modal lightbox dialog for high-resolution photograph viewing with full captions.
-
-#### 7. Contact & Enquiry
-- Structured 9-field customer enquiry form with real-time validation (phone, event date, guest count, and event type).
-- Instant pre-filled WhatsApp direct messaging connecting customers to `+91 90803 09584`.
-- Dual-mode submission: Supabase database sync with automatic local storage backup.
-
-#### 8. Bilingual Experience
-- Instant language toggle between English and தமிழ் (Tamil) across the entire platform.
-- Zero page reload: preserves active search queries, selected menu category, and scroll position.
-- Persistent language preference stored in `localStorage`.
-- Calibrated Tamil typography for balanced readability on all devices.
-
-#### 9. Responsive Design
-- Optimized across desktop monitors (1440px, 1280px), laptops (1024px), tablets (768px), and mobile devices (430px, 390px, 375px, 360px, 320px).
-- Zero horizontal overflow across all viewports.
-- Touch-friendly tap targets and adaptive navigation headers.
-
-#### 10. Additional Features
-- Smooth scrolling navigation across all internal section anchors (`#home`, `#story`, `#services`, `#clients`, `#menu`, `#gallery`, `#contact`).
-- Subtle micro-interactions, entrance animations, and hover transitions.
-- Statutory business trust markers:
-  - **MSME Udyam Registration**: `UDYAM-TN-03-0341714` (Micro Enterprise, Event Catering 56210).
-  - **FSSAI Food Safety State License**: `12426003001273`.
-- Password-protected administrative control centre (`/admin`) for enquiry lifecycle management and CSV export.
+| Technology | Role | Purpose & Implementation |
+| :--- | :--- | :--- |
+| **Next.js 14** | Application Framework | App Router architecture, Server Components, Route Handlers (`/api/*`), Static Generation, and dynamic routing |
+| **React 18** | UI Library | Functional components, custom hooks, Client Components (`'use client'`), and dynamic UI state |
+| **TypeScript 5** | Language | Strict type safety across all 57 source files (`.tsx` components and `.ts` logic/types) |
+| **Vanilla CSS & Tailwind** | Styling & Theme | Custom royal green (`#153d2d`), warm ivory (`#faf8f1`), and muted gold (`#c4a365`) luxury design system (`app/globals.css`) |
+| **Lucide React** | Iconography | Accessible, lightweight SVG icon system for UI controls and administration panel |
+| **Framer Motion** | Animations | Smooth entrance transitions, brand loader, and scroll-linked observers |
+| **Supabase Client** | Database / Backend | Cloud PostgreSQL client for customer enquiries and content storage with zero-crash local JSON fallback |
+| **HTTP-Only Cookies** | Security | Cryptographically secure administrative session verification (`velavan_admin_token`) |
 
 ---
 
-### Technology Stack
-
-| Technology | Purpose |
-| :--- | :--- |
-| **Next.js 14** | Modern React framework with App Router, server-side rendering, and static generation |
-| **React 18** | Component-based interactive user interface |
-| **TypeScript 5** | Strict type safety and predictable development |
-| **Tailwind CSS 3** | Utility-first styling framework |
-| **Vanilla CSS** | Custom animations, responsive design system, and fine-tuned typography (`app/globals.css`) |
-| **Lucide React** | Clean, accessible SVG iconography |
-| **Framer Motion** | Lightweight UI transitions and scroll-linked entrance animations |
-| **Supabase Client** | PostgreSQL database client for customer enquiry management |
-| **Git & GitHub** | Version control, branch management, and repository source tracking |
-
----
-
-### Project Structure
+## 3. Actual Project Folder Structure
 
 ```text
 velavan-catering-services/
 ├── app/
-│   ├── admin/                    # Admin enquiry dashboard (/admin)
-│   ├── api/
-│   │   ├── admin/check/          # Admin authentication verification
-│   │   ├── admin/login/          # Secure admin login endpoint
-│   │   └── enquiry/              # Customer enquiry submission endpoint
-│   ├── globals.css               # Global design tokens, animations, responsive rules
-│   ├── layout.tsx                # Root layout with LanguageProvider and fonts
-│   └── page.tsx                  # Main homepage section composition
-├── components/
+│   ├── admin/                              # Standalone Admin Portal
+│   │   ├── dashboard/                      # Authenticated Admin Dashboard Layout & Pages
+│   │   │   ├── clients/page.tsx            # Partner convention centers & mandapams CMS
+│   │   │   ├── compliance/page.tsx         # MSME Udyam & FSSAI State License records CMS
+│   │   │   ├── contact/page.tsx            # Phone lines, email, and bilingual address CMS
+│   │   │   ├── content/page.tsx            # Hero, Our Story & Jayanthi Tribute copy CMS
+│   │   │   ├── enquiries/page.tsx          # Full customer booking CRM, notes & CSV export
+│   │   │   ├── gallery/page.tsx            # 9 Moments & Memories celebration photographs CMS
+│   │   │   ├── layout.tsx                  # Standalone Admin Left Sidebar & Top Toolbar
+│   │   │   ├── menu/page.tsx               # 14 Categories & 151+ dishes bilingual CMS
+│   │   │   ├── page.tsx                    # Executive Dashboard Overview with 7 KPI cards
+│   │   │   ├── services/page.tsx           # 6 Core celebration service cards CMS
+│   │   │   └── settings/page.tsx           # Password rotation, storage health & JSON backup
+│   │   ├── layout.tsx                      # Root admin layout wrapper (noindex, nofollow)
+│   │   └── page.tsx                        # Standalone branded administrator login screen
+│   ├── api/                                # Next.js Dynamic Route Handlers
+│   │   ├── admin/
+│   │   │   ├── check/route.ts              # Session cookie verification
+│   │   │   ├── clients/route.ts            # Client venue partners CRUD
+│   │   │   ├── content/route.ts            # Website copy content update handler
+│   │   │   ├── enquiries/route.ts          # Customer enquiries status & internal notes handler
+│   │   │   ├── gallery/route.ts            # Gallery photo captions & toggles CRUD
+│   │   │   ├── login/route.ts              # Secure HTTP-only session cookie authentication
+│   │   │   ├── logout/route.ts             # Session termination handler
+│   │   │   ├── menu/route.ts               # Dishes & categories management CRUD
+│   │   │   ├── services/route.ts           # Service cards update handler
+│   │   │   ├── settings/route.ts           # Password rotation & cache revalidator
+│   │   │   └── stats/route.ts              # Dashboard KPI counters & event distribution
+│   │   ├── content/route.ts                # High-speed public dynamic content feed
+│   │   └── enquiry/route.ts                # Public booking form submission gateway
+│   ├── globals.css                         # Brand design tokens, luxury typography, responsive rules
+│   ├── layout.tsx                          # Root application layout with LanguageProvider & AppShell
+│   └── page.tsx                            # Public homepage composition
+├── components/                             # Reusable React (TSX) Components
 │   ├── common/
-│   │   ├── BrandLoader.tsx       # Creative brand loading animation
-│   │   └── ScrollAnimationProvider.tsx # Scroll observer provider
+│   │   ├── BrandLoader.tsx                 # Official Velavan crest loading animation
+│   │   └── ScrollAnimationProvider.tsx     # Intersection observer for scroll-triggered reveals
 │   ├── layout/
-│   │   ├── Footer.tsx            # Website footer, contact info, quick links
-│   │   ├── Header.tsx            # Sticky navigation bar with mobile slide drawer
-│   │   ├── LanguageToggle.tsx    # Bilingual switch component
-│   │   └── TopBar.tsx            # Top announcement ticker
+│   │   ├── AppShell.tsx                    # Layout isolation: separates public chrome from admin routes
+│   │   ├── Footer.tsx                      # Public footer, contact details, dynamic CMS sync
+│   │   ├── Header.tsx                      # Sticky public header with navigation & CTA
+│   │   ├── LanguageToggle.tsx              # Bilingual English / தமிழ் switcher
+│   │   └── TopBar.tsx                      # Top announcement ticker with phone & license info
 │   └── sections/
-│       ├── Clients.tsx           # Institutional clients showcase
-│       ├── Enquiry.tsx           # 9-field enquiry form and WhatsApp connect
-│       ├── Gallery.tsx           # Moments & Memories finite animated carousel
-│       ├── Hero.tsx              # Hero banner with primary CTAs
-│       ├── MenuSection.tsx       # 14-category menu catalog with search & drilldown
-│       ├── PromiseStrip.tsx      # Brand values marquee strip
-│       ├── Registrations.tsx     # FSSAI license and MSME Udyam compliance cards
-│       ├── Services.tsx          # 6 Core celebration service cards
-│       ├── Story.tsx             # Culinary heritage and brand narrative
-│       ├── Tribute.tsx           # Tribute to founder Jayanthi
-│       └── Values.tsx            # Core pillars of hospitality and authenticity
+│       ├── Clients.tsx                     # Partner mandapams and convention centres
+│       ├── Enquiry.tsx                     # 9-field booking form with WhatsApp connect
+│       ├── Gallery.tsx                     # Finite carousel with in-boundary controls & lightbox
+│       ├── Hero.tsx                        # Luxury hero banner with primary booking CTAs
+│       ├── MenuSection.tsx                 # 14-category menu catalog with search & watermarks
+│       ├── PromiseStrip.tsx                # Brand values marquee strip
+│       ├── Registrations.tsx               # MSME Udyam and FSSAI statutory trust cards
+│       ├── Services.tsx                    # 6 Core celebration service offerings
+│       ├── Story.tsx                       # Culinary heritage narrative
+│       ├── Tribute.tsx                     # Founder Jayanthi memorial tribute
+│       └── Values.tsx                      # Pillars of pure vegetarian hospitality
 ├── context/
-│   └── LanguageContext.tsx       # Global bilingual state management (en / ta)
+│   └── LanguageContext.tsx                 # Global bilingual state management (`en` / `ta`)
 ├── data/
-│   ├── gallery.ts                # Gallery photography metadata and captions
-│   ├── menu.ts                   # 14-category prospectus menu dataset (240+ dishes)
-│   ├── services.ts               # Service card offerings, guest counts, and dishes
-│   └── translations.ts           # Complete bilingual translation dictionaries
-├── docs/
-│   └── screenshots/              # Real application documentation screenshots
+│   ├── cms-data.json                       # Seeded, high-speed atomic JSON persistence store
+│   ├── gallery.ts                          # Static fallback gallery photography data
+│   ├── menu.ts                             # Static fallback 14-category menu dataset (151+ dishes)
+│   ├── services.ts                         # Static fallback service packages and capacities
+│   └── translations.ts                     # Comprehensive English & Tamil translation dictionary
 ├── lib/
-│   ├── supabase.ts               # Supabase database client with fallback handling
-│   └── utils.ts                  # Shared helper utilities
+│   ├── admin-auth.ts                       # Server-side HTTP-only session cookie verification
+│   ├── cms-store.ts                        # Unified data layer (dual JSON / Supabase PostgreSQL sync)
+│   ├── supabase.ts                         # Supabase database client configuration
+│   └── utils.ts                            # Class name merging and string utility helpers
 ├── public/
 │   ├── favicon.ico
 │   ├── icon-192.png
 │   └── images/
-│       ├── founder/              # Founder portrait photograph
-│       ├── gallery/              # 9 celebration photographs (gallery-1.jpg - gallery-9.jpg)
-│       ├── hero/                 # Hero background photography
-│       ├── logo/                 # Official Velavan brand logo assets
-│       ├── menu-watermarks/      # 14 Food-themed subtle category vector watermarks
-│       └── services/             # 6 Celebration service photographs
+│       ├── founder/                        # Founder portrait photography
+│       ├── gallery/                        # 9 Celebration photographs (gallery-1.jpg - gallery-9.jpg)
+│       ├── hero/                           # Hero background photography
+│       ├── logo/                           # Official Velavan brand crest and transparent logos
+│       ├── menu-watermarks/                # 14 Subtle category-specific SVG watermarks (8% opacity)
+│       └── services/                       # 6 Core celebration service photographs
 ├── supabase/
-│   └── migrations/               # Database schema and Row-Level Security policies
-├── .env.example                  # Environment variable configuration template
-├── .gitignore                    # Exclusions for build artifacts, secrets, and caches
-├── netlify.toml                  # Netlify deployment configuration
-├── next.config.mjs               # Next.js compiler configuration
-├── package.json                  # Dependencies and execution scripts
-├── postcss.config.js             # PostCSS plugins
-├── tailwind.config.ts            # Tailwind CSS configuration
-└── tsconfig.json                 # TypeScript compiler configuration
+│   └── migrations/                         # Production SQL migrations with RLS policies
+│       ├── 001_initial_schema.sql
+│       └── 002_cms_schema.sql
+├── .gitattributes                          # GitHub Linguist language detection overrides
+├── .gitignore                              # Production exclusions for caches, build artifacts & secrets
+├── netlify.toml                            # Netlify deployment configuration
+├── next.config.mjs                         # Next.js compiler and image configuration
+├── package.json                            # Package dependencies and run scripts
+├── postcss.config.js                       # PostCSS configuration
+├── tailwind.config.ts                      # Tailwind styling configuration
+└── tsconfig.json                           # Strict TypeScript compiler options
 ```
 
 ---
 
-### Getting Started
+## 4. Key Website Features & Functionality
 
-Follow these instructions to run the project locally.
+### 1. Luxury Public Experience (`http://localhost:3000`)
+- **Brand Hero Banner:** Celebratory photography, chef emblem, brand promises, and immediate booking CTAs (*Explore Menu* and *Enquire Now*).
+- **Heritage & Story:** Detailed narrative honoring authentic Kongu Nadu and Tamil Nadu culinary customs.
+- **Founder Tribute:** Dedicated memorial tribute honoring founder Jayanthi's values of selfless hospitality.
+- **6 Core Celebration Services:**
+  1. *Wedding & Muhurtham Catering (`திருமண & முகூர்த்த விருந்து`)* — Traditional banana leaf virundhu.
+  2. *Wedding Reception Catering (`திருமண வரவேற்பு விருந்து`)* — Live tawa counters and banquets.
+  3. *Engagement Catering (`நிச்சயதார்த்த விருந்து`)* — Nichayathartham and Thamboolam celebrations.
+  4. *Corporate Events (`கார்ப்பரேட் & வணிக நிகழ்வுகள்`)* — Executive lunches and annual conferences.
+  5. *Birthday & Family Functions (`பிறந்தநாள் & குடும்ப விசேஷங்கள்`)* — Milestone family feasts.
+  6. *Special Events & Occasions (`சிறப்பு நிகழ்வுகள் & விசேஷங்கள்`)* — Housewarmings and celebrations.
+- **Interactive 14-Category Menu Catalog:**
+  - 14 distinct categories: *Sweets, Soups, Welcome Drinks, Idli & Morning Tiffin, Crispy Dosas, Biryanis, Starters, Rotis & Breads, Gravies & Curries, Chutneys & Sambars, Rice & Rasam, Payasam & Desserts, Lunch Vegetables, and Beverages & Paan.*
+  - Subtle, transparent food-themed background watermarks tailored to each category (5–8% opacity).
+  - Real-time bilingual search matching dish titles in both English and Tamil.
+  - Category drilldown with active filters, veg badges, and dish count indicators.
+- **Moments & Memories Gallery Carousel:**
+  - Finite 9-photograph slide carousel with disabled boundary buttons at index 1 and 9.
+  - Touch-swipe support on mobile and tablet devices.
+  - High-resolution fullscreen lightbox with bilingual captions.
+- **Customer Booking & WhatsApp Gateway:**
+  - 9-field booking form with real-time field validation.
+  - Instant WhatsApp direct booking connector to `+91 90803 09584`.
+- **Statutory Trust Credentials:**
+  - **MSME Udyam Registration:** `UDYAM-TN-03-0341714` (Micro Enterprise, Event Catering 56210).
+  - **FSSAI Food Safety State License:** `12426003001273` (Licensed & Active).
 
-#### Prerequisites
-- **Node.js**: `v18.17.0` or higher
+---
+
+## 5. Standalone Administration Panel & CMS (`/admin`)
+
+The administration panel is a completely standalone business management application:
+- **Decoupled Architecture:** Through `components/layout/AppShell.tsx`, all public navigation bars, top bars, and footers are eliminated from admin routes.
+- **Branded Administrator Login (`/admin`):**
+  - Secure authentication checking against hashed credentials or environment variables.
+  - Password recovery instructions modal.
+  - Sets HTTP-Only secure session cookie `velavan_admin_token`.
+- **Executive Dashboard Hub (`/admin/dashboard`):**
+  - **7 Summary Metric Cards** with live database counts: Total Enquiries, New Enquiries, Pending Enquiries, Confirmed Enquiries, Menu Categories, Total Dishes, and Gallery Images.
+  - **Quick Action Shortcuts:** Direct buttons to Add Dishes, Upload Photos, Add Services, and View Enquiries.
+  - **Enquiry Activity Breakdown:** Visual distribution bars by event type.
+  - **Recent Enquiries Table:** Customer records with quick status selectors and full **Customer Booking Dossier Modal** (Call, WhatsApp, Email, and Internal Notes).
+- **Dedicated Management Modules:**
+  - **Menu CMS (`/admin/dashboard/menu`):** Bilingual dish names, descriptions, categories, and active toggles.
+  - **Services CMS (`/admin/dashboard/services`):** Service card headings, guest capacities, and leaf styles.
+  - **Gallery CMS (`/admin/dashboard/gallery`):** 9 celebration photos, captions, and lightbox previews.
+  - **Clients CMS (`/admin/dashboard/clients`):** Partner mandapams and convention venues.
+  - **Website Content CMS (`/admin/dashboard/content`):** Hero, Story, and Tribute narrative editor.
+  - **Contact Details CMS (`/admin/dashboard/contact`):** Telephone lines, WhatsApp number, email, and bilingual addresses with live footer preview.
+  - **Compliance & Food Safety CMS (`/admin/dashboard/compliance`):** Government of India MSME Udyam and FSSAI statutory licenses editor.
+  - **Settings & Health (`/admin/dashboard/settings`):** Password rotation, storage health, and JSON data backup snapshot download.
+
+---
+
+## 6. Installation & Development
+
+### Prerequisites
+- **Node.js**: `v18.17.0` or higher (Node 20+ recommended)
 - **npm**: `v9.0.0` or higher
-- **Git**: Installed and configured
 
-#### 1. Clone the repository
-```bash
-git clone https://github.com/axytechh-03/velavan-catering-services.git
-```
-
-#### 2. Navigate to the project directory
-```bash
-cd velavan-catering-services
-```
-
-#### 3. Install dependencies
+### 1. Install Dependencies
 ```bash
 npm install
 ```
 
-#### 4. Configure environment variables
-Copy the environment template:
-```bash
-cp .env.example .env.local
+### 2. Configure Environment Variables
+Create `.env.local` in the project root:
+```env
+# Administrator Security Credentials
+ADMIN_PASSWORD=your-secure-admin-password
+ADMIN_SESSION_SECRET=your-random-session-secret
+
+# Supabase PostgreSQL Configuration (Optional - Defaults to high-speed local store)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
-*(Optionally populate your Supabase URL and key in `.env.local` if testing database synchronization. Fallback local storage works out of the box).*
 
-> Never commit `.env.local`, API keys, passwords, or credentials to GitHub.
-
-#### 5. Start the development server
+### 3. Run Development Server
 ```bash
 npm run dev
 ```
+Open [http://localhost:3000](http://localhost:3000) to view the public website, or [http://localhost:3000/admin](http://localhost:3000/admin) to view the admin portal.
 
-Open your browser and navigate to:
-```text
-http://localhost:3000
-```
-To view the admin control panel, visit:
-```text
-http://localhost:3000/admin
-```
-
----
-
-### Production Build
-
-To test or prepare for production deployment:
-
+### 4. Build for Production
 ```bash
-# Build the application
 npm run build
+```
 
-# Start the production server
-npm run start
+### 5. Start Production Server
+```bash
+npm run start -- -p 3000
 ```
 
 ---
 
-### Design Approach
+## 7. Repository & GitHub Language Distribution
 
-The website follows a premium South Indian catering brand identity rooted in tradition and warmth.
-
-#### Visual Direction
-- **Royal Green (`#0a2a1b`, `#153d2d`):** Primary brand colour representing auspicious banana leaves and prosperity.
-- **Ivory & Cream (`#faf8f1`, `#f5f0e3`):** Clean backgrounds reminiscent of traditional silk veshtis.
-- **Muted Gold (`#c4a365`):** Subtle accents reflecting festive brass lamps and auspicious celebrations.
-- **Serif & Clean Sans Typography:** Cormorant Garamond for elegant headings and Noto Sans Tamil / DM Sans for clear bilingual legibility.
-
-#### User Experience
-- Simple, intuitive single-page navigation with persistent header.
-- Clear service presentation with guest capacities and sample menu highlights.
-- Instant dish search across all 14 categories.
-- Frictionless enquiry submission with direct WhatsApp connectivity.
-- Responsive design tailored across all mobile, tablet, and desktop viewports.
+- **Repository Destination:** [https://github.com/axytechh-03/velavan-catering-services](https://github.com/axytechh-03/velavan-catering-services)
+- **Language Composition:** 57 TypeScript source files (`.tsx` and `.ts`), CSS design tokens, and SQL database migrations.
+- **Linguist Configuration (`.gitattributes`):** Configured to ensure GitHub naturally recognizes the genuine Next.js TypeScript application source by marking archived static prototypes as vendored/documentation.
 
 ---
 
-### Responsive Compatibility
+## 8. License & Ownership
 
-The website is engineered and verified for consistent performance across:
-- **Mobile Phones**: iPhone SE (320px), Galaxy S8 (360px), iPhone 13 mini (375px), iPhone 14/15 (390px), iPhone Pro Max (430px)
-- **Tablets**: iPad Portrait (768px), iPad Pro / Surface (1024px)
-- **Laptops & Desktops**: Standard HD (1280px, 1366px), Full HD & Retina (1440px+)
-
-Responsive behaviour applies to header navigation, service card grids, menu filters, carousel arrow controls, form inputs, and typography wrapping.
-
-
-
-### Repository Information
-
-| Detail | Information |
-| :--- | :--- |
-| **Project** | Velavan Catering Services |
-| **GitHub Owner** | `axytechh-03` |
-| **Repository** | `velavan-catering-services` |
-| **Default Branch** | `main` |
-| **Visibility** | Private |
-
-**Repository URL:**  
-[https://github.com/axytechh-03/velavan-catering-services](https://github.com/axytechh-03/velavan-catering-services)
-
----
-
-### Maintenance & Updates
-
-This repository contains the authoritative source code and documentation for the Velavan Catering Services website.
-
-The README is maintained whenever significant changes are made to:
-- Website features and offerings.
-- Technology stack and library versions.
-- Project folder hierarchy and file organisation.
-- Installation scripts and environment variables.
-- Statutory registrations and business details.
-
----
-
-### Developed With Care
-
-**Velavan Catering Services**  
-Website design and development repository maintained by **AXY Technologies**.
+© 2026 Velavan Catering Services. All rights reserved.  
+Developed by **AXY Technologies**.

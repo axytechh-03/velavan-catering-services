@@ -4,7 +4,7 @@ import { getSiteContentData, saveSiteContentData } from '@/lib/cms-store'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(request: Request) {
   if (!verifyAdminAuth()) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -13,6 +13,7 @@ export async function GET() {
     const content = getSiteContentData()
     return NextResponse.json({ success: true, content })
   } catch (err: any) {
+    console.error('ERROR IN ADMIN CONTENT GET:', err)
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
   }
 }

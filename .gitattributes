@@ -1,0 +1,13 @@
+# ==============================================================================
+# GitHub Linguist Configuration for Velavan Catering Services
+# Ensures repository language statistics naturally reflect the genuine Next.js,
+# React, and TypeScript application source code.
+# ==============================================================================
+
+# Mark legacy static prototypes as vendored / documentation so they are not
+# counted towards the active source code language breakdown
+legacy-static/** linguist-vendored
+legacy-static/** linguist-documentation
+
+# Mark documentation assets and screenshots as documentation
+docs/** linguist-documentation

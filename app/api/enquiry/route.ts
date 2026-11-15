@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { addEnquiry } from '@/lib/cms-store'
 
 export async function POST(request: Request) {
   try {
@@ -13,16 +13,21 @@ export async function POST(request: Request) {
       )
     }
 
-    if (isSupabaseConfigured && supabase) {
-      const { data, error } = await supabase.from('enquiries').insert([body]).select()
-      if (error) {
-        console.error('Supabase error:', error)
-        return NextResponse.json({ success: true, warning: 'Saved locally' })
-      }
-      return NextResponse.json({ success: true, data })
-    }
+    const savedRecord = await addEnquiry({
+      name: body.name,
+      phone: body.phone,
+      email: body.email || '',
+      event_type: body.event_type,
+      other_event_type: body.other_event_type || '',
+      guest_count: Number(body.guest_count) || 100,
+      event_date: body.event_date,
+      event_time: body.event_time || '',
+      location: body.location,
+      special_requests: body.special_requests || '',
+      status: 'new',
+    })
 
-    return NextResponse.json({ success: true, message: 'Received successfully' })
+    return NextResponse.json({ success: true, data: savedRecord })
   } catch (error: any) {
     console.error('API Error:', error)
     return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 })

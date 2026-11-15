@@ -8,6 +8,34 @@ import { ArrowUp } from 'lucide-react'
 export function Footer() {
   const { language, t } = useLanguage()
   const [showTopBtn, setShowTopBtn] = useState(false)
+  const [contactData, setContactData] = useState({
+    phonePrimary: '+91 90803 09584',
+    email: 'dhineshkumarctpm@gmail.com',
+    addressEn: '15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201',
+    addressTa: '15/49, மாரியம்மன் கோவில் வீதி, செட்டிபாளையம், கோயம்புத்தூர் – 641201',
+  })
+
+  useEffect(() => {
+    async function loadContact() {
+      try {
+        const res = await fetch('/api/content?section=content')
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data && json.data.contact) {
+            setContactData({
+              phonePrimary: json.data.contact.phonePrimary || '+91 90803 09584',
+              email: json.data.contact.email || 'dhineshkumarctpm@gmail.com',
+              addressEn: json.data.contact.addressEn || '15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201',
+              addressTa: json.data.contact.addressTa || '15/49, மாரியம்மன் கோவில் வீதி, செட்டிபாளையம், கோயம்புத்தூர் – 641201',
+            })
+          }
+        }
+      } catch (e) {
+        // Fallback
+      }
+    }
+    loadContact()
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,13 +110,13 @@ export function Footer() {
             <h4>{t.footerContact}</h4>
             <div className="footer-links">
               <span>
-                📞 <a href="tel:+919080309584" style={{ color: 'inherit' }}>+91 90803 09584</a>
+                📞 <a href={`tel:${contactData.phonePrimary.replace(/\s+/g, '')}`} style={{ color: 'inherit' }}>{contactData.phonePrimary}</a>
               </span>
               <span>
-                ✉ <a href="mailto:dhineshkumarctpm@gmail.com" style={{ color: 'inherit' }}>dhineshkumarctpm@gmail.com</a>
+                ✉ <a href={`mailto:${contactData.email}`} style={{ color: 'inherit' }}>{contactData.email}</a>
               </span>
               <span>
-                📍 <span>15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201</span>
+                📍 <span>{language === 'ta' ? contactData.addressTa : contactData.addressEn}</span>
               </span>
               <a
                 href="#contact"

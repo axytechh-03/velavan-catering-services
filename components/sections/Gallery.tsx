@@ -19,7 +19,7 @@ interface GalleryItemData {
 export function Gallery() {
   const { language, t } = useLanguage()
 
-  const galleryList: GalleryItemData[] = [
+  const defaultGalleryList: GalleryItemData[] = [
     {
       id: 'gal-1',
       titleEn: 'Traditional Muhurtham Virundhu & Payasam',
@@ -120,6 +120,25 @@ export function Gallery() {
       objectPosition: 'center 20%',
     },
   ]
+
+  const [galleryList, setGalleryList] = useState<GalleryItemData[]>(defaultGalleryList)
+
+  useEffect(() => {
+    async function loadDynamicGallery() {
+      try {
+        const res = await fetch('/api/content?section=gallery')
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data && json.data.length > 0) {
+            setGalleryList(json.data)
+          }
+        }
+      } catch (e) {
+        // Fallback
+      }
+    }
+    loadDynamicGallery()
+  }, [])
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const [visibleCount, setVisibleCount] = useState(3)

@@ -1,12 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function Services() {
   const { language, t } = useLanguage()
 
-  const servicesList = [
+  const defaultServicesList = [
     {
       number: '01 / TRADITIONAL VIRUNDHU',
       titleEn: 'Wedding & Muhurtham Catering',
@@ -74,6 +74,25 @@ export function Services() {
       imagePosition: 'center center',
     },
   ]
+
+  const [servicesList, setServicesList] = useState(defaultServicesList)
+
+  useEffect(() => {
+    async function loadDynamicServices() {
+      try {
+        const res = await fetch('/api/content?section=services')
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data && json.data.length > 0) {
+            setServicesList(json.data)
+          }
+        }
+      } catch (e) {
+        // Fallback silently
+      }
+    }
+    loadDynamicServices()
+  }, [])
 
   return (
     <section className="section services" id="services">

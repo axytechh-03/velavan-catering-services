@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { menuCategories, menuItems } from '@/data/menu'
 import {
@@ -63,6 +63,32 @@ const categoryWatermarkMap: Record<string, string> = {
 export function MenuSection() {
   const { language, t } = useLanguage()
 
+  const [categoriesList, setCategoriesList] = useState(menuCategories)
+  const [itemsList, setItemsList] = useState(menuItems)
+
+  // Fetch dynamic CMS data if available
+  useEffect(() => {
+    async function loadDynamicMenu() {
+      try {
+        const res = await fetch('/api/content?section=menu')
+        if (res.ok) {
+          const json = await res.json()
+          if (json.success && json.data) {
+            if (json.data.categories && json.data.categories.length > 0) {
+              setCategoriesList(json.data.categories)
+            }
+            if (json.data.items && json.data.items.length > 0) {
+              setItemsList(json.data.items)
+            }
+          }
+        }
+      } catch (e) {
+        // Fallback silently to static menu
+      }
+    }
+    loadDynamicMenu()
+  }, [])
+
   // When null: renders the Category Overview Grid.
   // When a category ID string: renders ONLY that category's dishes.
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
@@ -71,42 +97,42 @@ export function MenuSection() {
   // Selected category object
   const selectedCategory = useMemo(() => {
     if (!selectedCategoryId) return null
-    return menuCategories.find((c) => c.id === selectedCategoryId) || null
-  }, [selectedCategoryId])
+    return categoriesList.find((c) => c.id === selectedCategoryId) || null
+  }, [selectedCategoryId, categoriesList])
 
   // Current category index for prev/next navigation
   const currentIndex = useMemo(() => {
     if (!selectedCategoryId) return -1
-    return menuCategories.findIndex((c) => c.id === selectedCategoryId)
-  }, [selectedCategoryId])
+    return categoriesList.findIndex((c) => c.id === selectedCategoryId)
+  }, [selectedCategoryId, categoriesList])
 
-  const prevCategory = currentIndex > 0 ? menuCategories[currentIndex - 1] : null
+  const prevCategory = currentIndex > 0 ? categoriesList[currentIndex - 1] : null
   const nextCategory =
-    currentIndex >= 0 && currentIndex < menuCategories.length - 1
-      ? menuCategories[currentIndex + 1]
+    currentIndex >= 0 && currentIndex < categoriesList.length - 1
+      ? categoriesList[currentIndex + 1]
       : null
 
   // Dishes belonging ONLY to the selected category (never any other category)
   const categoryDishes = useMemo(() => {
     if (!selectedCategoryId) return []
-    return menuItems.filter((item) => item.categoryId === selectedCategoryId)
-  }, [selectedCategoryId])
+    return itemsList.filter((item) => item.categoryId === selectedCategoryId)
+  }, [selectedCategoryId, itemsList])
 
   // Global search across the complete menu dataset (all 14 categories)
   const globalMatchingDishes = useMemo(() => {
     const q = searchQuery.toLowerCase().trim()
     if (!q) return []
-    return menuItems.filter((dish) => {
+    return itemsList.filter((dish) => {
       const matchEn = dish.nameEn.toLowerCase().includes(q)
       const matchTa = dish.nameTa.toLowerCase().includes(q)
       const matchDescEn = dish.descEn ? dish.descEn.toLowerCase().includes(q) : false
       const matchDescTa = dish.descTa ? dish.descTa.toLowerCase().includes(q) : false
-      const cat = menuCategories.find((c) => c.id === dish.categoryId)
+      const cat = categoriesList.find((c) => c.id === dish.categoryId)
       const matchCatEn = cat ? cat.nameEn.toLowerCase().includes(q) : false
       const matchCatTa = cat ? cat.nameTa.toLowerCase().includes(q) : false
       return matchEn || matchTa || matchDescEn || matchDescTa || matchCatEn || matchCatTa
     })
-  }, [searchQuery])
+  }, [searchQuery, itemsList, categoriesList])
 
   // Scroll smoothly to menu section top
   const scrollToMenuTop = () => {
@@ -129,7 +155,7 @@ export function MenuSection() {
   }
 
   const getCategory = (catId: string) => {
-    return menuCategories.find((c) => c.id === catId)
+    return categoriesList.find((c) => c.id === catId)
   }
 
   const isSearching = searchQuery.trim().length > 0
@@ -303,9 +329,9 @@ export function MenuSection() {
 
             {/* Categories Responsive Grid */}
             <div className="menu-categories-grid">
-              {menuCategories.map((cat, idx) => {
+              {categoriesList.map((cat, idx) => {
                 const IconComponent = categoryIconMap[cat.id] || Sparkles
-                const dishCount = menuItems.filter((m) => m.categoryId === cat.id).length
+                const dishCount = itemsList.filter((m) => m.categoryId === cat.id).length
 
                 return (
                   <button
@@ -378,7 +404,7 @@ export function MenuSection() {
 
               {/* Quick switch category pills */}
               <div className="category-quick-pills">
-                {menuCategories.map((cat) => {
+                {categoriesList.map((cat) => {
                   const isActive = cat.id === selectedCategoryId
                   return (
                     <button

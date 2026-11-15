@@ -124,7 +124,7 @@ velavan-catering-services/
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/bhavatarini-08/velavan-catering-services.git
+   git clone https://github.com/axytechh-03/velavan-catering-services.git
    cd velavan-catering-services
    ```
 
@@ -177,6 +177,6 @@ Never commit `.env` or `.env.local` files containing real secrets to the reposit
 
 ## 📦 GitHub Repository
 
-- **Repository**: [https://github.com/bhavatarini-08/velavan-catering-services](https://github.com/bhavatarini-08/velavan-catering-services)
+- **Repository**: [https://github.com/axytechh-03/velavan-catering-services](https://github.com/axytechh-03/velavan-catering-services)
 - **Default Branch**: `main`
 - **Visibility**: Private

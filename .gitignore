@@ -43,3 +43,7 @@ next-env.d.ts
 
 # temporary debug dumps
 dump_body_html.html
+
+# temporary repository clones
+Velavan-catering/
+

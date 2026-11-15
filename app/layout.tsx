@@ -1,11 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { LanguageProvider } from '@/context/LanguageContext'
-import { ScrollAnimationProvider } from '@/components/common/ScrollAnimationProvider'
-import { BrandLoader } from '@/components/common/BrandLoader'
-import { TopBar } from '@/components/layout/TopBar'
-import { Header } from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Footer'
+import { AppShell } from '@/components/layout/AppShell'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://velavancatering.com'),
@@ -19,7 +15,7 @@ export const metadata: Metadata = {
     'Banana Leaf Catering',
     'Chettipalayam Catering',
     'Traditional Tamil Catering',
-    'Pure Vegetarian Caterer Coimbatore'
+    'Pure Vegetarian Caterer Coimbatore',
   ],
   authors: [{ name: 'Velavan Catering Services' }, { name: 'AXY Technologies' }],
   icons: {
@@ -60,14 +56,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <BrandLoader />
         <LanguageProvider>
-          <ScrollAnimationProvider>
-            <TopBar />
-            <Header />
+          <AppShell>
             {children}
-            <Footer />
-          </ScrollAnimationProvider>
+          </AppShell>
         </LanguageProvider>
       </body>
     </html>

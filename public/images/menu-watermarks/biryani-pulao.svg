@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Biryani Handi Base Ring -->
+  <ellipse cx="100" cy="166" rx="46" ry="12" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.3"/>
+  <!-- Traditional Handi Pot Body (Curved earthen/brass shape) -->
+  <path d="M46 112 C40 148, 64 166, 100 166 C136 166, 160 148, 154 112 C152 98, 142 94, 138 92 L62 92 C58 94, 48 98, 46 112 Z" stroke-width="2.6" fill="#fcf8ee" fill-opacity="0.35"/>
+  <!-- Handi Belly Line & Brass Ring Accent -->
+  <path d="M44 126 C62 144, 138 144, 156 126" stroke-width="1.8" stroke-dasharray="3 2"/>
+  <!-- Flared Handi Neck & Mouth -->
+  <ellipse cx="100" cy="92" rx="42" ry="11" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.5"/>
+  <!-- Dum Dough Seal Layer -->
+  <ellipse cx="100" cy="88" rx="40" ry="10" stroke-width="2" fill="#c4a365" fill-opacity="0.25"/>
+  <!-- Domed Handi Lid with Knob -->
+  <path d="M64 88 C66 68, 134 68, 136 88 Z" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.45"/>
+  <ellipse cx="100" cy="62" rx="8" ry="5" stroke-width="2.2" fill="#c4a365" fill-opacity="0.4"/>
+  <path d="M96 66 L104 66" stroke-width="2"/>
+  <!-- Handi Side Handles -->
+  <path d="M46 104 C34 104, 34 118, 44 118" stroke-width="2.2"/>
+  <path d="M154 104 C166 104, 166 118, 156 118" stroke-width="2.2"/>
+  <!-- Fragrant Whole Spices: Star Anise & Bay Leaf -->
+  <!-- Star Anise -->
+  <g transform="translate(142, 140) scale(0.65)">
+    <path d="M0 -15 L4 -4 L15 -4 L7 3 L10 14 L0 7 L-10 14 L-7 3 L-15 -4 L-4 -4 Z" stroke-width="2" fill="#c4a365" fill-opacity="0.4"/>
+    <circle cx="0" cy="0" r="3" fill="#153d2d" fill-opacity="0.4"/>
+  </g>
+  <!-- Cardamom Pod -->
+  <g transform="translate(56, 142) rotate(-25) scale(0.7)">
+    <ellipse cx="0" cy="0" rx="9" ry="5" stroke-width="2" fill="#c4a365" fill-opacity="0.3"/>
+    <path d="M-9 0 L9 0" stroke-width="1.2"/>
+    <path d="M9 0 L12 -2" stroke-width="1.5"/>
+  </g>
+  <!-- Long Grains of Seeraga Samba Rice -->
+  <ellipse cx="88" cy="148" rx="5" ry="1.5" transform="rotate(15 88 148)" fill="#c4a365"/>
+  <ellipse cx="112" cy="150" rx="5" ry="1.5" transform="rotate(-20 112 150)" fill="#c4a365"/>
+  <ellipse cx="100" cy="152" rx="5" ry="1.5" transform="rotate(5 100 152)" fill="#c4a365"/>
+  <!-- Aromatic Dum Steam Rising Gracefully -->
+  <path d="M84 56 C80 44, 88 36, 84 24 C80 14, 86 8, 82 2" stroke-width="2" stroke-dasharray="3 2"/>
+  <path d="M100 52 C96 38, 104 28, 98 16 C94 8, 102 2, 98 -4" stroke-width="2.4"/>
+  <path d="M116 56 C112 44, 120 36, 116 24 C112 14, 118 8, 114 2" stroke-width="2" stroke-dasharray="3 2"/>
+</svg>

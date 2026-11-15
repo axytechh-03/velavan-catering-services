@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Circular Drink Coaster -->
+  <ellipse cx="100" cy="174" rx="42" ry="12" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.25"/>
+  <!-- Glass Base & Stem -->
+  <ellipse cx="100" cy="168" rx="28" ry="7" stroke-width="2" fill="#fcf8ee" fill-opacity="0.3"/>
+  <path d="M100 162 L100 138" stroke-width="3"/>
+  <!-- Elegant Cooler Glass Body (Curved Hurricane shape) -->
+  <path d="M82 64 C78 92, 70 114, 88 132 C94 136, 106 136, 112 132 C130 114, 122 92, 118 64 Z" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.3"/>
+  <!-- Top Glass Rim -->
+  <ellipse cx="100" cy="64" rx="18" ry="6" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <!-- Liquid Level Line -->
+  <path d="M82 78 C90 84, 110 84, 118 78" stroke-width="1.5" stroke-dasharray="2 2"/>
+  <!-- Floating Ice Cubes -->
+  <polygon points="90,88 100,85 106,91 96,94" stroke-width="1.8" fill="#fcf8ee" fill-opacity="0.5"/>
+  <polygon points="94,104 104,101 110,107 100,110" stroke-width="1.8" fill="#fcf8ee" fill-opacity="0.5"/>
+  <!-- Straw -->
+  <path d="M104 126 L124 38 L142 28" stroke-width="2.5"/>
+  <!-- Lemon Slice on Rim -->
+  <circle cx="120" cy="56" r="15" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <circle cx="120" cy="56" r="10" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <line x1="120" y1="46" x2="120" y2="66" stroke-width="1.2"/>
+  <line x1="110" y1="56" x2="130" y2="56" stroke-width="1.2"/>
+  <line x1="113" y1="49" x2="127" y2="63" stroke-width="1.2"/>
+  <line x1="113" y1="63" x2="127" y2="49" stroke-width="1.2"/>
+  <!-- Fresh Mint Sprig -->
+  <path d="M84 56 C74 50, 72 40, 80 44 C84 40, 94 44, 88 52 Z" stroke-width="1.8" fill="#153d2d" fill-opacity="0.35"/>
+  <!-- Effervescent Bubble Accents -->
+  <circle cx="94" cy="118" r="2" fill="#c4a365"/>
+  <circle cx="106" cy="116" r="1.5" fill="#c4a365"/>
+  <circle cx="98" cy="100" r="2.5" fill="#c4a365"/>
+  <circle cx="104" cy="74" r="2" fill="#c4a365"/>
+  <!-- Sparkles -->
+  <path d="M60 70 L64 74 L60 78 L56 74 Z" fill="#c4a365" fill-opacity="0.4" stroke-width="0.8"/>
+  <path d="M148 94 L151 97 L148 100 L145 97 Z" fill="#c4a365" fill-opacity="0.4" stroke-width="0.8"/>
+</svg>

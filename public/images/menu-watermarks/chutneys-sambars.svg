@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Decorative Traditional Serving Tray -->
+  <ellipse cx="100" cy="154" rx="80" ry="22" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.25"/>
+  <ellipse cx="100" cy="154" rx="70" ry="17" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <!-- Central Big Sambar Katori Bowl -->
+  <ellipse cx="100" cy="132" rx="34" ry="14" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.5"/>
+  <path d="M66 132 C66 156, 134 156, 134 132 Z" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.4"/>
+  <ellipse cx="100" cy="133" rx="28" ry="9" stroke-width="1.2" fill="#c4a365" fill-opacity="0.2"/>
+  <!-- Tadka / Thalippu Seasoning: Mustard seeds & red chilli in Sambar -->
+  <circle cx="94" cy="133" r="1.5" fill="#153d2d"/>
+  <circle cx="106" cy="134" r="1.5" fill="#153d2d"/>
+  <circle cx="101" cy="131" r="1.2" fill="#153d2d"/>
+  <path d="M96 132 C102 129, 108 135, 114 132" stroke-width="1.8"/> <!-- Dried round chilli curl -->
+  <!-- Left Chutney Bowl (Coconut Chutney) -->
+  <ellipse cx="58" cy="136" rx="24" ry="11" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.45"/>
+  <path d="M34 136 C34 154, 82 154, 82 136 Z" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.35"/>
+  <circle cx="58" cy="136" r="1.8" fill="#153d2d"/>
+  <!-- Right Chutney Bowl (Tomato / Coriander Chutney) -->
+  <ellipse cx="142" cy="136" rx="24" ry="11" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.45"/>
+  <path d="M118 136 C118 154, 166 154, 166 136 Z" stroke-width="2.2" fill="#fcf8ee" fill-opacity="0.35"/>
+  <circle cx="142" cy="136" r="1.8" fill="#c4a365"/>
+  <!-- Fresh Curry Leaf Sprig (Auspicious South Indian touch) -->
+  <path d="M100 114 C100 94, 110 74, 126 62" stroke-width="2"/>
+  <ellipse cx="108" cy="100" rx="4" ry="7" transform="rotate(-35 108 100)" stroke-width="1.6" fill="#153d2d" fill-opacity="0.4"/>
+  <ellipse cx="118" cy="88" rx="4" ry="7" transform="rotate(35 118 88)" stroke-width="1.6" fill="#153d2d" fill-opacity="0.4"/>
+  <ellipse cx="120" cy="74" rx="4" ry="7" transform="rotate(-30 120 74)" stroke-width="1.6" fill="#153d2d" fill-opacity="0.4"/>
+  <ellipse cx="128" cy="62" rx="3.5" ry="6" stroke-width="1.6" fill="#153d2d" fill-opacity="0.45"/>
+  <!-- Sambar Steam -->
+  <path d="M88 116 C84 104, 90 96, 86 84 C82 74, 88 66, 84 56" stroke-width="1.8" stroke-dasharray="3 2"/>
+  <path d="M102 110 C98 96, 104 88, 100 74" stroke-width="2"/>
+</svg>

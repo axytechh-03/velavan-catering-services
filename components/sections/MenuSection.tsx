@@ -42,6 +42,24 @@ const categoryIconMap: Record<string, LucideIcon> = {
   beveragesPan: Coffee,
 }
 
+// Subtle, elegant food-themed watermark illustrations for each menu category
+const categoryWatermarkMap: Record<string, string> = {
+  sweets: '/images/menu-watermarks/sweets.svg',
+  soups: '/images/menu-watermarks/soups.svg',
+  welcomeDrinks: '/images/menu-watermarks/welcome-drinks.svg',
+  idliBreakfast: '/images/menu-watermarks/idli-breakfast.svg',
+  dosaRoast: '/images/menu-watermarks/dosa-roast.svg',
+  biryaniPulao: '/images/menu-watermarks/biryani-pulao.svg',
+  starters: '/images/menu-watermarks/starters.svg',
+  rotisBreads: '/images/menu-watermarks/rotis-breads.svg',
+  graviesCurries: '/images/menu-watermarks/gravies-curries.svg',
+  chutneysSambars: '/images/menu-watermarks/chutneys-sambars.svg',
+  riceRasam: '/images/menu-watermarks/rice-rasam.svg',
+  payasamDesserts: '/images/menu-watermarks/payasam-desserts.svg',
+  lunchVegetables: '/images/menu-watermarks/lunch-vegetables.svg',
+  beveragesPan: '/images/menu-watermarks/beverages-pan.svg',
+}
+
 export function MenuSection() {
   const { language, t } = useLanguage()
 
@@ -298,6 +316,16 @@ export function MenuSection() {
                     onClick={() => handleSelectCategory(cat.id)}
                     aria-label={`View ${cat.nameEn} dishes`}
                   >
+                    {/* Subtle, elegant food-themed watermark in bottom-right corner */}
+                    <div className="cat-card-watermark" aria-hidden="true">
+                      <img
+                        src={categoryWatermarkMap[cat.id] || '/images/menu-watermarks/sweets.svg'}
+                        alt=""
+                        className="cat-watermark-img"
+                        loading="lazy"
+                      />
+                    </div>
+
                     <div className="cat-card-top">
                       <div className="cat-icon-bubble">
                         <IconComponent size={22} className="cat-icon" />
@@ -369,6 +397,15 @@ export function MenuSection() {
             {/* Selected Category Banner Card */}
             {selectedCategory && (
               <div className="selected-category-banner">
+                {/* Subtle, elegant food-themed watermark in banner */}
+                <div className="banner-watermark" aria-hidden="true">
+                  <img
+                    src={categoryWatermarkMap[selectedCategory.id] || '/images/menu-watermarks/sweets.svg'}
+                    alt=""
+                    className="banner-watermark-img"
+                  />
+                </div>
+
                 <div className="banner-left">
                   <div className="banner-icon-bubble">
                     {React.createElement(

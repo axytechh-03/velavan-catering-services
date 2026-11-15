@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Fresh Cut Banana Leaf (Thalaivazhai Ilai) Base -->
+  <path d="M16 142 C30 168, 170 174, 184 140 C190 114, 172 82, 94 92 C42 98, 20 120, 16 142 Z" stroke-width="2.6" fill="#153d2d" fill-opacity="0.14"/>
+  <!-- Central Leaf Spine / Midrib -->
+  <path d="M22 142 C64 148, 134 144, 180 138" stroke-width="2" stroke="#153d2d" stroke-opacity="0.6"/>
+  <!-- Diagonal Leaf Veins -->
+  <path d="M46 144 L38 128" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M72 146 L64 124" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M98 146 L92 120" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M124 144 L120 118" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M150 142 L148 116" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <!-- Bottom leaf veins -->
+  <path d="M60 146 L54 158" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M90 146 L86 162" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <path d="M120 145 L118 162" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.5"/>
+  <!-- Top Feast Placement: Portion 1 (Crispy Poriyal with grated coconut) -->
+  <ellipse cx="54" cy="120" rx="16" ry="10" stroke-width="1.8" fill="#fcf8ee" fill-opacity="0.5"/>
+  <circle cx="50" cy="118" r="1.5" fill="#c4a365"/>
+  <circle cx="58" cy="122" r="1.5" fill="#c4a365"/>
+  <circle cx="54" cy="116" r="1.2" fill="#153d2d"/>
+  <!-- Portion 2: Rich Creamy Avial with drumstick piece -->
+  <ellipse cx="94" cy="114" rx="18" ry="11" stroke-width="2" fill="#fcf8ee" fill-opacity="0.5"/>
+  <line x1="86" y1="112" x2="102" y2="116" stroke-width="2.5" stroke="#153d2d" stroke-opacity="0.5"/> <!-- Drumstick slice -->
+  <circle cx="94" cy="114" r="1.8" fill="#c4a365"/>
+  <!-- Portion 3: Chana Dal Kootu -->
+  <ellipse cx="136" cy="114" rx="17" ry="10" stroke-width="1.8" fill="#fcf8ee" fill-opacity="0.5"/>
+  <circle cx="132" cy="112" r="1.5" fill="#c4a365"/>
+  <circle cx="140" cy="116" r="1.5" fill="#c4a365"/>
+  <!-- Crispy Appalam / Papad resting on leaf edge -->
+  <circle cx="158" cy="138" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.45"/>
+  <circle cx="158" cy="138" r="12" stroke-width="1.2" stroke-dasharray="2 2"/>
+  <circle cx="155" cy="135" r="1.5" fill="#c4a365"/>
+  <circle cx="162" cy="141" r="1.5" fill="#c4a365"/>
+  <!-- Garden Fresh Vegetable Accents: Carrot & Pea Pod above -->
+  <path d="M72 74 C82 66, 102 68, 114 78 C102 82, 84 82, 72 74 Z" stroke-width="1.8" fill="#153d2d" fill-opacity="0.25"/> <!-- Pea pod -->
+  <circle cx="84" cy="74" r="2.5" fill="#153d2d"/>
+  <circle cx="94" cy="75" r="2.5" fill="#153d2d"/>
+  <circle cx="104" cy="76" r="2.5" fill="#153d2d"/>
+</svg>

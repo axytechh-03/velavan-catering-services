@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Traditional South Indian Brass Dabarah (Saucer Bowl) -->
+  <ellipse cx="82" cy="164" rx="46" ry="14" stroke-width="2.6" fill="#fcf8ee" fill-opacity="0.3"/>
+  <ellipse cx="82" cy="164" rx="38" ry="11" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <!-- Dabarah Rim -->
+  <path d="M38 152 C48 168, 116 168, 126 152" stroke-width="2.2"/>
+  <!-- Tumbler Base resting inside Dabarah -->
+  <ellipse cx="82" cy="154" rx="20" ry="6" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <!-- Tumbler Body (Tapered South Indian Coffee Cup) -->
+  <path d="M62 154 L54 94 L110 94 L102 154 Z" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.45"/>
+  <!-- Tumbler Flared Upper Rim -->
+  <ellipse cx="82" cy="94" rx="28" ry="8" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.55"/>
+  <ellipse cx="82" cy="94" rx="24" ry="6" stroke-width="1.2"/>
+  <!-- Frothy Filter Coffee Cream Head -->
+  <path d="M60 94 C64 88, 72 88, 76 94 C80 88, 88 88, 92 94 C96 88, 102 90, 104 94" stroke-width="1.8" fill="#c4a365" fill-opacity="0.2"/>
+  <circle cx="70" cy="92" r="1.5" fill="#c4a365"/>
+  <circle cx="84" cy="91" r="1.5" fill="#c4a365"/>
+  <circle cx="96" cy="92" r="1.5" fill="#c4a365"/>
+  <!-- Heart-shaped Fresh Betel / Paan Leaf (Right Side) -->
+  <path d="M142 160 C124 148, 126 120, 148 106 C170 120, 172 148, 154 160 C148 166, 146 168, 142 160 Z" stroke-width="2.5" fill="#153d2d" fill-opacity="0.2"/>
+  <!-- Paan Leaf Center Vein -->
+  <path d="M148 108 L146 162" stroke-width="1.8" stroke="#153d2d" stroke-opacity="0.7"/>
+  <path d="M148 124 L136 118" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.6"/>
+  <path d="M147 136 L134 132" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.6"/>
+  <path d="M148 124 L160 118" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.6"/>
+  <path d="M147 136 L160 132" stroke-width="1.2" stroke-dasharray="2 2" stroke="#153d2d" stroke-opacity="0.6"/>
+  <!-- Auspicious Clove (Grambu) pinned into Paan -->
+  <line x1="146" y1="130" x2="146" y2="142" stroke-width="2.2"/>
+  <circle cx="146" cy="128" r="3" fill="#c4a365"/>
+  <!-- Areca Nut / Paan fold accent -->
+  <ellipse cx="146" cy="148" rx="5" ry="3" stroke-width="1.5" fill="#c4a365" fill-opacity="0.4"/>
+  <!-- Filter Coffee Hot Steam Rising -->
+  <path d="M72 82 C68 70, 76 62, 72 48 C68 36, 74 28, 70 16" stroke-width="2" stroke-dasharray="3 2"/>
+  <path d="M88 78 C84 64, 92 54, 88 40 C84 28, 90 20, 86 8" stroke-width="2.4"/>
+  <path d="M100 82 C96 70, 104 62, 100 48" stroke-width="1.8" stroke-dasharray="2 2"/>
+</svg>

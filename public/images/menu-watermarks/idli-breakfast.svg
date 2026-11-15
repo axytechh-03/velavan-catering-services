@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Fresh Banana Leaf Base Section -->
+  <path d="M22 152 C42 168, 120 176, 178 142 C162 126, 142 110, 68 118 C46 122, 28 138, 22 152 Z" stroke-width="2.2" fill="#153d2d" fill-opacity="0.12"/>
+  <path d="M28 150 C72 156, 132 150, 174 142" stroke-width="1.5"/>
+  <!-- Leaf veins -->
+  <path d="M60 148 L48 136" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M90 150 L80 134" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M120 148 L114 132" stroke-width="1" stroke-dasharray="2 2"/>
+  <path d="M150 144 L146 130" stroke-width="1" stroke-dasharray="2 2"/>
+  <!-- Medu Vada (Crispy Donut-shaped lentil fritter) -->
+  <ellipse cx="62" cy="136" rx="24" ry="16" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.4"/>
+  <ellipse cx="62" cy="136" rx="8" ry="5.5" stroke-width="2" fill="#153d2d" fill-opacity="0.15"/>
+  <!-- Vada crisp textures -->
+  <circle cx="52" cy="132" r="1.5" fill="#c4a365"/>
+  <circle cx="72" cy="140" r="1.5" fill="#c4a365"/>
+  <circle cx="70" cy="130" r="1.2" fill="#c4a365"/>
+  <!-- Soft Steamed Idli (Back) -->
+  <ellipse cx="124" cy="120" rx="28" ry="17" stroke-width="2.4" fill="#fcf8ee" fill-opacity="0.5"/>
+  <!-- Soft Steamed Idli (Front stack) -->
+  <ellipse cx="106" cy="132" rx="30" ry="18" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.55"/>
+  <!-- Pure Ghee / Molagapodi Spot on Top Idli -->
+  <ellipse cx="106" cy="130" rx="9" ry="5" stroke-width="1.5" stroke-dasharray="2 2" fill="#c4a365" fill-opacity="0.25"/>
+  <circle cx="106" cy="130" r="2.5" fill="#c4a365"/>
+  <!-- Chutney Katori / Bowl -->
+  <ellipse cx="156" cy="116" rx="18" ry="10" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <path d="M138 116 C138 130, 174 130, 174 116 Z" stroke-width="2" fill="#fcf8ee" fill-opacity="0.3"/>
+  <circle cx="156" cy="116" r="2" fill="#153d2d" fill-opacity="0.5"/> <!-- Mustard seed / curry leaf -->
+  <!-- Steaming Vapor rising from hot idlis -->
+  <path d="M96 104 C92 92, 100 84, 96 72 C92 60, 100 52, 94 40" stroke-width="2"/>
+  <path d="M116 100 C112 88, 120 80, 116 68 C112 56, 120 48, 114 36" stroke-width="2.2"/>
+</svg>

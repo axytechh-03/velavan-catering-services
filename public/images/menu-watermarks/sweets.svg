@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" stroke="#c4a365" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Ornamental Plate / Thali Base -->
+  <ellipse cx="100" cy="145" rx="82" ry="24" stroke-width="2.5" fill="#fcf8ee" fill-opacity="0.3"/>
+  <ellipse cx="100" cy="145" rx="72" ry="20" stroke-width="1.2" stroke-dasharray="3 3"/>
+  <!-- Diamond Kaju Katli Pieces -->
+  <polygon points="52,142 66,134 80,142 66,150" stroke-width="2" fill="#c4a365" fill-opacity="0.25"/>
+  <polygon points="76,146 90,138 104,146 90,154" stroke-width="2" fill="#c4a365" fill-opacity="0.25"/>
+  <!-- Circular Laddus with Textured Motichoor Detailing -->
+  <!-- Bottom tier laddus -->
+  <circle cx="78" cy="126" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <circle cx="74" cy="122" r="1.5" fill="#c4a365"/>
+  <circle cx="82" cy="128" r="1.5" fill="#c4a365"/>
+  <circle cx="100" cy="122" r="17" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <circle cx="96" cy="118" r="1.5" fill="#c4a365"/>
+  <circle cx="104" cy="124" r="1.5" fill="#c4a365"/>
+  <circle cx="122" cy="126" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.4"/>
+  <circle cx="118" cy="122" r="1.5" fill="#c4a365"/>
+  <circle cx="126" cy="128" r="1.5" fill="#c4a365"/>
+  <!-- Middle tier laddus -->
+  <circle cx="89" cy="100" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.45"/>
+  <circle cx="111" cy="100" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.45"/>
+  <!-- Top tier laddu -->
+  <circle cx="100" cy="74" r="16" stroke-width="2" fill="#fcf8ee" fill-opacity="0.5"/>
+  <!-- Pistachio/Almond Flake Garnish on top -->
+  <ellipse cx="100" cy="62" rx="4" ry="2" stroke-width="1.5" fill="#153d2d" fill-opacity="0.4"/>
+  <ellipse cx="104" cy="64" rx="3" ry="1.5" stroke-width="1.5" fill="#c4a365" fill-opacity="0.5"/>
+  <!-- Jalebi Swirls on the side -->
+  <path d="M142 136 C138 128, 148 120, 154 126 C160 132, 154 142, 144 140 C134 138, 134 122, 146 116 C158 110, 168 122, 166 134" stroke-width="2"/>
+  <!-- Aroma & Sparkle Accents -->
+  <path d="M42 90 L46 94 L42 98 L38 94 Z" fill="#c4a365" fill-opacity="0.5" stroke-width="1"/>
+  <path d="M156 68 L160 72 L156 76 L152 72 Z" fill="#c4a365" fill-opacity="0.5" stroke-width="1"/>
+  <path d="M98 38 C98 32, 102 28, 100 22" stroke-width="1.5" stroke-dasharray="2 2"/>
+</svg>

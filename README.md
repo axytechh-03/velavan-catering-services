@@ -60,6 +60,7 @@ Showcases 6 core catering service offerings with bespoke menu highlights and ded
 #### 5. Interactive Menu
 - Complete catalog transcribed from the official prospectus across 14 comprehensive categories:
   - *Traditional Sweets, Aromatic Soups, Welcome Drinks, Idli & Morning Tiffin, Dosas & Live Roasts, Biryanis, Starters, Rotis & Breads, Rich Gravies, Chutneys & Sambars, Rice Specialties, Payasams, Feast Accompaniments, and Pickles & Beverages.*
+- Subtle, elegant food-themed vector watermarks tailored to each of the 14 categories (8% opacity, non-intrusive decorative finish).
 - Real-time global dish search across categories matching in both English and Tamil.
 - Interactive category drilldown view with visual category switching and pure vegetarian culinary tags.
 - Detailed dish cards with Tamil translations and specialty badges.
@@ -167,6 +168,7 @@ velavan-catering-services/
 │       ├── gallery/              # 9 celebration photographs (gallery-1.jpg - gallery-9.jpg)
 │       ├── hero/                 # Hero background photography
 │       ├── logo/                 # Official Velavan brand logo assets
+│       ├── menu-watermarks/      # 14 Food-themed subtle category vector watermarks
 │       └── services/             # 6 Celebration service photographs
 ├── supabase/
 │   └── migrations/               # Database schema and Row-Level Security policies

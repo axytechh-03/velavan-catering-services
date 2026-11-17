@@ -8,7 +8,16 @@ import { servicesData as seedServicesRaw } from '@/data/services'
 // Types
 // ============================================================================
 
-export type EnquiryStatus = 'new' | 'contacted' | 'confirmed' | 'completed' | 'cancelled'
+export type EnquiryStatus =
+  | 'new'
+  | 'contacted'
+  | 'follow_up'
+  | 'quotation_sent'
+  | 'confirmed'
+  | 'completed'
+  | 'cancelled'
+
+export type EnquiryPriority = 'high' | 'normal' | 'low'
 
 export interface EnquiryRecord {
   id: string
@@ -23,9 +32,124 @@ export interface EnquiryRecord {
   location: string
   special_requests?: string
   status: EnquiryStatus
+  priority?: EnquiryPriority
+  follow_up_date?: string
+  follow_up_notes?: string
   admin_notes?: string
   created_at: string
   updated_at?: string
+}
+
+export type QuotationStatus = 'draft' | 'sent' | 'accepted' | 'rejected' | 'expired'
+
+export interface QuotationItem {
+  id?: string
+  dishId?: string
+  dishName?: string
+  nameEn?: string
+  dishNameTa?: string
+  nameTa?: string
+  categoryName?: string
+  quantity: number
+  unitPrice: number
+  unit?: string
+  total?: number
+  amount?: number
+}
+
+export interface QuotationAdditionalCharge {
+  id: string
+  name?: string
+  title?: string
+  amount: number
+}
+
+export interface ProposalCustomDish {
+  id: string
+  name: string
+  nameTa?: string
+  category: string
+  description?: string
+  notes?: string
+}
+
+export interface ProposalMealSession {
+  id: string
+  name: string // e.g. "Morning Muhurtham Tiffin", "Grand Afternoon Lunch Feast", "Evening Snacks & High Tea"
+  mealType: string // "Breakfast" | "Lunch" | "Snacks" | "Dinner" | "High Tea" | string
+  servingTime?: string // e.g. "07:30 AM", "12:30 PM", "04:30 PM", "07:30 PM"
+  guestCount?: number // session-specific guest count if different from event total
+  dishes: QuotationItem[]
+  notes?: string
+}
+
+export interface QuotationRecord {
+  id: string
+  quotationNumber: string
+  quotationDate?: string
+  validUntil?: string
+  enquiryId?: string
+  customerName: string
+  customerPhone: string
+  customerEmail?: string
+  eventType: string
+  eventDate: string
+  eventLocation: string
+  guestCount: number
+  mealType?: string
+  specialRequirements?: string
+  sessions?: ProposalMealSession[]
+  items: QuotationItem[]
+  customDishes?: ProposalCustomDish[]
+  serviceInclusions?: string[]
+  serviceNotes?: string
+  packageAmount?: number
+  advanceAmount?: number
+  balanceAmount?: number
+  paymentDueDate?: string
+  paymentNotes?: string
+  subtotal?: number
+  additionalCharges?: QuotationAdditionalCharge[]
+  discountType?: 'flat' | 'percentage'
+  discountValue?: number
+  discountAmount?: number
+  taxEnabled?: boolean
+  taxPercent?: number
+  taxPercentage?: number
+  taxAmount?: number
+  grandTotal: number
+  notes?: string
+  terms?: string
+  termsAndConditions?: string
+  status: QuotationStatus
+  created_at: string
+  updated_at?: string
+}
+
+export type ProposalRecord = QuotationRecord
+
+export interface ActivityRecord {
+  id: string
+  type:
+    | 'enquiry_new'
+    | 'enquiry_status'
+    | 'enquiry_priority'
+    | 'enquiry_deleted'
+    | 'follow_up_scheduled'
+    | 'menu_add'
+    | 'menu_update'
+    | 'category_added'
+    | 'category_updated'
+    | 'dish_added'
+    | 'dish_updated'
+    | 'dish_deleted'
+    | 'quotation_created'
+    | 'quotation_status'
+    | 'system'
+    | string
+  description: string
+  timestamp: string
+  metadata?: Record<string, any>
 }
 
 export interface MenuItemRecord extends MenuItem {
@@ -158,6 +282,8 @@ export interface CMSData {
   clients: ClientRecord[]
   content: SiteContentRecord
   settings: SiteSettingsRecord
+  quotations: QuotationRecord[]
+  activities: ActivityRecord[]
 }
 
 // ============================================================================
@@ -537,6 +663,172 @@ const SEED_SETTINGS: SiteSettingsRecord = {
   updatedAt: new Date().toISOString(),
 }
 
+const SEED_QUOTATIONS: QuotationRecord[] = [
+  {
+    id: 'qt-2026-001',
+    quotationNumber: 'VCS-2026-0001',
+    enquiryId: 'enq-1',
+    customerName: 'R. Karthikeyan',
+    customerPhone: '9842211223',
+    customerEmail: 'karthik@example.com',
+    eventType: 'Wedding & Muhurtham',
+    eventDate: '2026-12-14',
+    eventLocation: 'Codissia Hall A, Coimbatore',
+    guestCount: 1200,
+    mealType: 'Muhurtham Tiffin & Grand Virundhu Lunch',
+    sessions: [
+      {
+        id: 'sess-1',
+        name: 'Morning Muhurtham Tiffin',
+        mealType: 'Breakfast',
+        servingTime: '07:30 AM - 09:30 AM',
+        guestCount: 1200,
+        notes: 'Hot live tiffin service following Muhurtham ceremony with filter coffee counter',
+        dishes: [
+          { id: 'qi-1', dishName: 'Traditional Ghee Asoka Halwa', nameEn: 'Traditional Ghee Asoka Halwa', dishNameTa: 'அசோகா அல்வா', nameTa: 'அசோகா அல்வா', categoryName: 'Traditional Sweets', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-2', dishName: 'Steamed Podi Ghee Mini Idli', nameEn: 'Steamed Podi Ghee Mini Idli', dishNameTa: 'பொடி நெய் மினி இட்லி', nameTa: 'பொடி நெய் மினி இட்லி', categoryName: 'Idli & Morning Tiffin', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-3', dishName: 'Medu Vadai with Sambar & 3 Chutneys', nameEn: 'Medu Vadai with Sambar & 3 Chutneys', dishNameTa: 'மேது வடை', nameTa: 'மேது வடை', categoryName: 'Starters', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-coffee', dishName: 'Degree Kumbakonam Filter Coffee', nameEn: 'Degree Kumbakonam Filter Coffee', dishNameTa: 'கும்பகோணம் டிகிரி காபி', nameTa: 'கும்பகோணம் டிகிரி காபி', categoryName: 'Beverages', quantity: 1, unitPrice: 0, amount: 0 },
+        ],
+      },
+      {
+        id: 'sess-2',
+        name: 'Grand Muhurtham Kalyana Virundhu',
+        mealType: 'Lunch',
+        servingTime: '12:30 PM - 03:00 PM',
+        guestCount: 1200,
+        notes: 'Traditional 24-dish plantain leaf feast served hot by uniformed captains',
+        dishes: [
+          { id: 'qi-4', dishName: 'Special Kongu Chinna Vengaya Sambar Feast Meals', nameEn: 'Special Kongu Chinna Vengaya Sambar Feast Meals', dishNameTa: 'சாம்பார் தலைவாழை விருந்து', nameTa: 'சாம்பார் தலைவாழை விருந்து', categoryName: 'Rice & Rasam', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-5', dishName: 'Tender Elaneer Payasam', nameEn: 'Tender Elaneer Payasam', dishNameTa: 'இளநீர் பாயாசம்', nameTa: 'இளநீர் பாயாசம்', categoryName: 'Payasam & Desserts', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-6', dishName: 'Crispy Urulai Roast & Aviyal', nameEn: 'Crispy Urulai Roast & Aviyal', dishNameTa: 'உருளை ரோஸ்ட் & அவியல்', nameTa: 'உருளை ரோஸ்ட் & அவியல்', categoryName: 'Side Dishes', quantity: 1, unitPrice: 0, amount: 0 },
+        ],
+      },
+    ],
+    items: [
+      { id: 'qi-1', nameEn: 'Traditional Ghee Asoka Halwa', nameTa: 'அசோகா அல்வா', categoryName: 'Traditional Sweets', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-2', nameEn: 'Steamed Podi Ghee Mini Idli', nameTa: 'பொடி நெய் மினி இட்லி', categoryName: 'Idli & Morning Tiffin', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-3', nameEn: 'Medu Vadai with Sambar & 3 Chutneys', nameTa: 'மேது வடை', categoryName: 'Starters', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-4', nameEn: 'Special Kongu Chinna Vengaya Sambar Feast Meals', nameTa: 'சாம்பார் தலைவாழை விருந்து', categoryName: 'Rice & Rasam', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-5', nameEn: 'Tender Elaneer Payasam', nameTa: 'இளநீர் பாயாசம்', categoryName: 'Payasam & Desserts', quantity: 1, unitPrice: 0, amount: 0 },
+    ],
+    serviceInclusions: [
+      'Authentic Food Preparation',
+      'Food Transportation',
+      'Buffet Arrangement',
+      'Professional Serving Staff',
+      'Vessels & Serving Equipment',
+      'Table Decoration & Frills',
+      'Traditional Banana Leaf Service',
+      'Drinking Water & Paper Cups',
+      'Dining Area Clearing & Waste Disposal',
+    ],
+    serviceNotes: '25 Uniformed serving staff, fresh organic plantain leaves, live coffee bar.',
+    packageAmount: 420000,
+    advanceAmount: 150000,
+    balanceAmount: 270000,
+    paymentDueDate: '2026-12-12',
+    paymentNotes: '50% booking advance; remaining balance prior to dining hall service.',
+    taxEnabled: false,
+    taxPercent: 5,
+    taxAmount: 0,
+    grandTotal: 420000,
+    notes: 'Pure vegetarian Kongu Nadu traditional feast served hot on fresh banana leaves.',
+    termsAndConditions: '1. 50% advance for booking confirmation. 2. Final guest count to be confirmed 48 hours prior. 3. Hall dining setup must be made available 3 hours before serving time.',
+    status: 'sent',
+    created_at: '2026-11-15T10:00:00.000Z',
+  },
+  {
+    id: 'qt-2026-002',
+    quotationNumber: 'VCS-2026-0002',
+    enquiryId: 'enq-3',
+    customerName: 'S. Balasubramaniam',
+    customerPhone: '9080311222',
+    eventType: 'Family Function (Grahapravesam)',
+    eventDate: '2026-11-25',
+    eventLocation: 'Chettipalayam, Coimbatore',
+    guestCount: 350,
+    mealType: 'Pure Satvik Grahapravesam Lunch',
+    sessions: [
+      {
+        id: 'sess-3',
+        name: 'Pure Satvik Housewarming Lunch Virundhu',
+        mealType: 'Lunch',
+        servingTime: '11:30 AM - 02:30 PM',
+        guestCount: 350,
+        notes: 'Strict satvik preparation without onion or garlic for religious ceremony',
+        dishes: [
+          { id: 'qi-21', dishName: 'Pure Ghee Badam Halwa', nameEn: 'Pure Ghee Badam Halwa', dishNameTa: 'பாதாம் அல்வா', nameTa: 'பாதாம் அல்வா', categoryName: 'Traditional Sweets', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-22', dishName: 'Special Satvik Lunch Virundhu (No Onion/Garlic)', nameEn: 'Special Satvik Lunch Virundhu (No Onion/Garlic)', dishNameTa: 'சாத்விக மதிய விருந்து', nameTa: 'சாத்விக மதிய விருந்து', categoryName: 'Rice & Rasam', quantity: 1, unitPrice: 0, amount: 0 },
+          { id: 'qi-23', dishName: 'Palada Pradhaman Payasam', nameEn: 'Palada Pradhaman Payasam', dishNameTa: 'பாலடை பிரதமன்', nameTa: 'பாலடை பிரதமன்', categoryName: 'Payasam & Desserts', quantity: 1, unitPrice: 0, amount: 0 },
+        ],
+      },
+    ],
+    items: [
+      { id: 'qi-21', nameEn: 'Pure Ghee Badam Halwa', nameTa: 'பாதாம் அல்வா', categoryName: 'Traditional Sweets', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-22', nameEn: 'Special Satvik Lunch Virundhu (No Onion/Garlic)', nameTa: 'சாத்விக மதிய விருந்து', categoryName: 'Rice & Rasam', quantity: 1, unitPrice: 0, amount: 0 },
+      { id: 'qi-23', nameEn: 'Palada Pradhaman Payasam', nameTa: 'பாலடை பிரதமன்', categoryName: 'Payasam & Desserts', quantity: 1, unitPrice: 0, amount: 0 },
+    ],
+    serviceInclusions: [
+      'Authentic Food Preparation',
+      'Food Transportation',
+      'Buffet Arrangement',
+      'Professional Serving Staff',
+      'Vessels & Serving Equipment',
+      'Traditional Banana Leaf Service',
+      'Drinking Water & Paper Cups',
+      'Dining Area Clearing & Waste Disposal',
+    ],
+    serviceNotes: 'Complete satvik dining arrangement with clean banana leaves.',
+    packageAmount: 122500,
+    advanceAmount: 50000,
+    balanceAmount: 72500,
+    paymentDueDate: '2026-11-24',
+    paymentNotes: 'Advance received; balance settlement on event day.',
+    taxEnabled: false,
+    taxPercent: 5,
+    taxAmount: 0,
+    grandTotal: 122500,
+    notes: 'Strict satvik preparation for morning housewarming rituals.',
+    termsAndConditions: '1. Advance received. 2. Service begins at 11:30 AM.',
+    status: 'accepted',
+    created_at: '2026-11-14T14:30:00.000Z',
+  },
+]
+
+const SEED_ACTIVITIES: ActivityRecord[] = [
+  {
+    id: 'act-1',
+    type: 'enquiry_new',
+    description: 'New enquiry received from R. Karthikeyan for Wedding (1,200 guests)',
+    timestamp: '2026-11-15T09:30:00.000Z',
+  },
+  {
+    id: 'act-2',
+    type: 'quotation_created',
+    description: 'Quotation #VCS-QT-2026-001 generated for R. Karthikeyan (₹4,20,000)',
+    timestamp: '2026-11-15T10:00:00.000Z',
+  },
+  {
+    id: 'act-3',
+    type: 'quotation_status',
+    description: 'Quotation #VCS-QT-2026-002 marked as accepted by S. Balasubramaniam (₹1,22,500)',
+    timestamp: '2026-11-14T17:15:00.000Z',
+  },
+  {
+    id: 'act-4',
+    type: 'enquiry_status',
+    description: 'Enquiry status for S. Balasubramaniam updated to Confirmed',
+    timestamp: '2026-11-14T17:20:00.000Z',
+  },
+  {
+    id: 'act-5',
+    type: 'menu_update',
+    description: 'Updated menu catalog items across Sweets and Morning Tiffin',
+    timestamp: '2026-11-14T11:00:00.000Z',
+  },
+]
+
 // ============================================================================
 // File Path & Thread-Safe Local Storage
 // ============================================================================
@@ -554,6 +846,8 @@ function getInitialCMSData(): CMSData {
     clients: SEED_CLIENTS,
     content: SEED_CONTENT,
     settings: SEED_SETTINGS,
+    quotations: SEED_QUOTATIONS,
+    activities: SEED_ACTIVITIES,
   }
 }
 
@@ -586,6 +880,8 @@ export function getCMSData(): CMSData {
       clients: parsed.clients || initial.clients,
       content: { ...initial.content, ...(parsed.content || {}) },
       settings: { ...initial.settings, ...(parsed.settings || {}) },
+      quotations: parsed.quotations || initial.quotations,
+      activities: parsed.activities || initial.activities,
     }
   } catch (err) {
     console.error('Error reading CMS data from JSON file, returning seed data:', err)
@@ -890,4 +1186,203 @@ export function saveSiteSettingsData(settings: Partial<SiteSettingsRecord>): Sit
   }
   saveCMSData(cms)
   return cms.settings
+}
+
+// ============================================================================
+// Quotations CRUD
+// ============================================================================
+
+export async function getQuotations(): Promise<QuotationRecord[]> {
+  const cms = getCMSData()
+  return cms.quotations || []
+}
+
+export async function getQuotationById(id: string): Promise<QuotationRecord | null> {
+  const cms = getCMSData()
+  const q = (cms.quotations || []).find((item) => item.id === id || item.quotationNumber === id)
+  return q || null
+}
+
+export async function saveQuotation(
+  data: Omit<QuotationRecord, 'id' | 'created_at'> & { id?: string }
+): Promise<QuotationRecord> {
+  const cms = getCMSData()
+  if (!cms.quotations) cms.quotations = []
+
+  let record: QuotationRecord
+
+  // Package-based calculations
+  const packageAmount = data.packageAmount !== undefined ? data.packageAmount : (data.grandTotal || 0)
+  const advanceAmount = data.advanceAmount || 0
+  const balanceAmount = Math.max(0, packageAmount - advanceAmount)
+  const grandTotal = data.taxEnabled && data.taxAmount ? packageAmount + data.taxAmount : packageAmount
+
+  if (data.id) {
+    const idx = cms.quotations.findIndex((q) => q.id === data.id)
+    if (idx !== -1) {
+      record = {
+        ...cms.quotations[idx],
+        ...data,
+        packageAmount,
+        advanceAmount,
+        balanceAmount,
+        grandTotal,
+        id: data.id,
+        updated_at: new Date().toISOString(),
+      }
+      cms.quotations[idx] = record
+      logActivity(
+        'quotation_status',
+        `Proposal #${record.quotationNumber} updated (${record.customerName}, ₹${record.grandTotal.toLocaleString('en-IN')})`,
+        { quotationId: record.id, status: record.status }
+      )
+    } else {
+      record = {
+        ...data,
+        packageAmount,
+        advanceAmount,
+        balanceAmount,
+        grandTotal,
+        id: data.id,
+        created_at: new Date().toISOString(),
+      }
+      cms.quotations.unshift(record)
+      logActivity(
+        'quotation_created',
+        `Created proposal #${record.quotationNumber} for ${record.customerName} (₹${record.grandTotal.toLocaleString('en-IN')})`,
+        { quotationId: record.id }
+      )
+    }
+  } else {
+    // Generate unique sequential proposal number format VCS-YYYY-XXXX (e.g. VCS-2026-0001)
+    const count = (cms.quotations?.length || 0) + 1
+    const pad = String(count).padStart(4, '0')
+    const pNumber = `VCS-${new Date().getFullYear()}-${pad}`
+
+    record = {
+      ...data,
+      id: `pr-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+      quotationNumber: data.quotationNumber || pNumber,
+      packageAmount,
+      advanceAmount,
+      balanceAmount,
+      grandTotal,
+      created_at: new Date().toISOString(),
+    }
+    cms.quotations.unshift(record)
+    logActivity(
+      'quotation_created',
+      `Generated catering proposal #${record.quotationNumber} for ${record.customerName} (₹${record.grandTotal.toLocaleString('en-IN')})`,
+      { quotationId: record.id }
+    )
+  }
+
+  saveCMSData(cms)
+  return record
+}
+
+export async function duplicateQuotation(id: string): Promise<QuotationRecord | null> {
+  const cms = getCMSData()
+  if (!cms.quotations) return null
+  const source = cms.quotations.find((q) => q.id === id)
+  if (!source) return null
+
+  const count = (cms.quotations.length || 0) + 1
+  const pad = String(count).padStart(4, '0')
+  const pNumber = `VCS-${new Date().getFullYear()}-${pad}`
+
+  const duplicated: QuotationRecord = {
+    ...JSON.parse(JSON.stringify(source)),
+    id: `pr-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    quotationNumber: pNumber,
+    customerName: `${source.customerName} (Copy)`,
+    status: 'draft',
+    created_at: new Date().toISOString(),
+    updated_at: undefined,
+  }
+
+  cms.quotations.unshift(duplicated)
+  logActivity(
+    'quotation_created',
+    `Duplicated proposal #${source.quotationNumber} to #${duplicated.quotationNumber} (${duplicated.customerName})`,
+    { quotationId: duplicated.id }
+  )
+  saveCMSData(cms)
+  return duplicated
+}
+
+export async function updateQuotationStatus(
+  id: string,
+  status: QuotationStatus
+): Promise<boolean> {
+  const cms = getCMSData()
+  if (!cms.quotations) return false
+  const idx = cms.quotations.findIndex((q) => q.id === id)
+  if (idx === -1) return false
+
+  cms.quotations[idx].status = status
+  cms.quotations[idx].updated_at = new Date().toISOString()
+  const q = cms.quotations[idx]
+
+  logActivity(
+    'quotation_status',
+    `Quotation #${q.quotationNumber} marked as ${status} (${q.customerName})`,
+    { quotationId: q.id, status }
+  )
+
+  // If linked to an enquiry, sync enquiry status
+  if (q.enquiryId) {
+    if (status === 'sent') {
+      await updateEnquiry(q.enquiryId, { status: 'quotation_sent' })
+    } else if (status === 'accepted') {
+      await updateEnquiry(q.enquiryId, { status: 'confirmed' })
+    }
+  }
+
+  saveCMSData(cms)
+  return true
+}
+
+export async function deleteQuotation(id: string): Promise<boolean> {
+  const cms = getCMSData()
+  if (!cms.quotations) return false
+  const filtered = cms.quotations.filter((q) => q.id !== id)
+  if (filtered.length === cms.quotations.length) return false
+  cms.quotations = filtered
+  saveCMSData(cms)
+  return true
+}
+
+// ============================================================================
+// Activity Log Helper
+// ============================================================================
+
+export function getActivities(limit: number = 10): ActivityRecord[] {
+  const cms = getCMSData()
+  return (cms.activities || []).slice(0, limit)
+}
+
+export function logActivity(
+  type: ActivityRecord['type'],
+  description: string,
+  metadata?: Record<string, any>
+): ActivityRecord {
+  const cms = getCMSData()
+  if (!cms.activities) cms.activities = []
+
+  const newActivity: ActivityRecord = {
+    id: `act-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+    type,
+    description,
+    timestamp: new Date().toISOString(),
+    metadata,
+  }
+
+  cms.activities.unshift(newActivity)
+  if (cms.activities.length > 50) {
+    cms.activities = cms.activities.slice(0, 50)
+  }
+
+  saveCMSData(cms)
+  return newActivity
 }

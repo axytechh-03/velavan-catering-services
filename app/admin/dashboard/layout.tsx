@@ -8,12 +8,6 @@ import {
   LayoutDashboard,
   MessageSquareText,
   UtensilsCrossed,
-  Sparkles,
-  Image as ImageIcon,
-  Building2,
-  FileText,
-  PhoneCall,
-  ShieldCheck,
   Settings,
   LogOut,
   UserCheck,
@@ -22,14 +16,12 @@ import {
   Menu as MenuIcon,
   X,
   Bell,
-  Calendar,
   ExternalLink,
   ChevronDown,
   User,
   CheckCircle2,
-  KeyRound,
-  Database,
-  Layers,
+  FilePlus2,
+  Files,
 } from 'lucide-react'
 
 interface AdminLayoutProps {
@@ -43,11 +35,6 @@ interface NavItem {
   icon: React.ElementType
   badge?: string
   exact?: boolean
-}
-
-interface NavGroup {
-  title: string
-  items: NavItem[]
 }
 
 export default function StandaloneAdminDashboardLayout({ children }: AdminLayoutProps) {
@@ -136,111 +123,61 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
     router.replace('/admin')
   }
 
-  // Sidebar navigation definition
-  const navigationGroups: NavGroup[] = [
+  // EXACTLY 6 PRIMARY NAVIGATION ITEMS
+  const navigationItems: NavItem[] = [
     {
-      title: 'MAIN',
-      items: [
-        {
-          id: 'dashboard',
-          label: 'Dashboard',
-          href: '/admin/dashboard',
-          icon: LayoutDashboard,
-          exact: true,
-        },
-        {
-          id: 'enquiries',
-          label: 'Enquiries',
-          href: '/admin/dashboard/enquiries',
-          icon: MessageSquareText,
-          badge: newEnquiryCount > 0 ? `${newEnquiryCount} New` : undefined,
-        },
-      ],
+      id: 'dashboard',
+      label: 'Dashboard',
+      href: '/admin/dashboard',
+      icon: LayoutDashboard,
+      exact: true,
     },
     {
-      title: 'WEBSITE MANAGEMENT',
-      items: [
-        {
-          id: 'menu',
-          label: 'Menu Management',
-          href: '/admin/dashboard/menu',
-          icon: UtensilsCrossed,
-        },
-        {
-          id: 'services',
-          label: 'Services Management',
-          href: '/admin/dashboard/services',
-          icon: Sparkles,
-        },
-        {
-          id: 'gallery',
-          label: 'Gallery Management',
-          href: '/admin/dashboard/gallery',
-          icon: ImageIcon,
-        },
-        {
-          id: 'clients',
-          label: 'Clients Management',
-          href: '/admin/dashboard/clients',
-          icon: Building2,
-        },
-        {
-          id: 'content',
-          label: 'Website Content',
-          href: '/admin/dashboard/content',
-          icon: FileText,
-        },
-        {
-          id: 'contact',
-          label: 'Contact Details',
-          href: '/admin/dashboard/contact',
-          icon: PhoneCall,
-        },
-        {
-          id: 'compliance',
-          label: 'Compliance & Food Safety',
-          href: '/admin/dashboard/compliance',
-          icon: ShieldCheck,
-        },
-      ],
+      id: 'enquiries',
+      label: 'Enquiries',
+      href: '/admin/dashboard/enquiries',
+      icon: MessageSquareText,
+      badge: newEnquiryCount > 0 ? `${newEnquiryCount} New` : undefined,
     },
     {
-      title: 'SYSTEM',
-      items: [
-        {
-          id: 'settings',
-          label: 'Admin Settings',
-          href: '/admin/dashboard/settings',
-          icon: Settings,
-        },
-      ],
+      id: 'menu',
+      label: 'Menu Management',
+      href: '/admin/dashboard/menu',
+      icon: UtensilsCrossed,
+    },
+    {
+      id: 'create-proposal',
+      label: 'Create Proposal',
+      href: '/admin/dashboard/proposals/create',
+      icon: FilePlus2,
+    },
+    {
+      id: 'saved-proposals',
+      label: 'Saved Proposals',
+      href: '/admin/dashboard/proposals',
+      icon: Files,
+      exact: true,
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      href: '/admin/dashboard/settings',
+      icon: Settings,
     },
   ]
 
   // Breadcrumb resolution
   const getBreadcrumb = () => {
     if (pathname === '/admin/dashboard') return { group: 'Main', page: 'Dashboard Overview' }
-    if (pathname.includes('/enquiries')) return { group: 'Main', page: 'Customer Enquiries' }
-    if (pathname.includes('/menu')) return { group: 'Website Management', page: 'Menu Management' }
-    if (pathname.includes('/services')) return { group: 'Website Management', page: 'Services Management' }
-    if (pathname.includes('/gallery')) return { group: 'Website Management', page: 'Gallery Management' }
-    if (pathname.includes('/clients')) return { group: 'Website Management', page: 'Clients Management' }
-    if (pathname.includes('/content')) return { group: 'Website Management', page: 'Website Content' }
-    if (pathname.includes('/contact')) return { group: 'Website Management', page: 'Contact Details' }
-    if (pathname.includes('/compliance')) return { group: 'Website Management', page: 'Compliance & Food Safety' }
-    if (pathname.includes('/settings')) return { group: 'System', page: 'Admin Settings' }
+    if (pathname.includes('/enquiries')) return { group: 'CRM', page: 'Customer Enquiries' }
+    if (pathname.includes('/menu')) return { group: 'Catalog', page: 'Menu Management' }
+    if (pathname.includes('/proposals/create')) return { group: 'Proposals', page: 'Create Catering Proposal' }
+    if (pathname.includes('/proposals')) return { group: 'Proposals', page: 'Saved Proposals' }
+    if (pathname.includes('/settings')) return { group: 'System', page: 'Settings' }
     return { group: 'Admin', page: 'Management' }
   }
 
   const breadcrumb = getBreadcrumb()
-
-  // Format today's date
-  const currentDate = new Date().toLocaleDateString('en-IN', {
-    weekday: 'short',
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  })
 
   if (authenticating) {
     return (
@@ -259,8 +196,8 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
       >
         <div
           style={{
-            width: '40px',
-            height: '40px',
+            width: '42px',
+            height: '42px',
             border: '3px solid rgba(196, 163, 101, 0.2)',
             borderTopColor: '#c4a365',
             borderRadius: '50%',
@@ -290,11 +227,10 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
         color: '#1f2f25',
         fontFamily: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         position: 'relative',
-        overflowX: 'hidden',
       }}
     >
       {/* =========================================================================
-          LEFT SIDEBAR (DESKTOP & MOBILE DRAWER)
+          LEFT SIDEBAR (FULL-HEIGHT DESKTOP FIXED & MOBILE DRAWER)
           ========================================================================= */}
       {/* Mobile Backdrop Overlay */}
       {mobileDrawerOpen && (
@@ -313,18 +249,20 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
       <aside
         className="admin-sidebar"
         style={{
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
           width: collapsed ? '78px' : '260px',
           minWidth: collapsed ? '78px' : '260px',
+          height: '100vh',
           backgroundColor: '#0d281e',
           borderRight: '1px solid rgba(196, 163, 101, 0.22)',
           display: 'flex',
           flexDirection: 'column',
-          height: '100vh',
-          position: 'sticky',
-          top: 0,
           zIndex: 999,
           transition: 'width 0.22s cubic-bezier(0.2, 0, 0, 1), transform 0.25s cubic-bezier(0.2, 0, 0, 1)',
-          boxShadow: '4px 0 20px rgba(0, 0, 0, 0.25)',
+          boxShadow: '4px 0 24px rgba(0, 0, 0, 0.22)',
         }}
       >
         {/* Sidebar Brand Header */}
@@ -411,162 +349,135 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
               cursor: 'pointer',
               padding: 0,
               flexShrink: 0,
+              transition: 'transform 0.15s ease',
             }}
           >
             {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
           </button>
         </div>
 
-        {/* Sidebar Nav Links (Scrollable) */}
+        {/* Sidebar Nav Links */}
         <div
           style={{
             flex: 1,
             overflowY: 'auto',
             overflowX: 'hidden',
-            padding: '16px 10px',
+            padding: '20px 10px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '18px',
+            gap: '8px',
           }}
         >
-          {navigationGroups.map((group) => (
-            <div key={group.title}>
-              {!collapsed && (
-                <div
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+            {navigationItems.map((item) => {
+              const Icon = item.icon
+              const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href)
+
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  title={collapsed ? item.label : undefined}
                   style={{
-                    fontSize: '0.66rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.15em',
-                    color: 'rgba(196, 163, 101, 0.7)',
-                    textTransform: 'uppercase',
-                    padding: '0 12px 6px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: collapsed ? 'center' : 'space-between',
+                    padding: collapsed ? '12px 0' : '11px 14px',
+                    borderRadius: '8px',
+                    textDecoration: 'none',
+                    color: isActive ? '#faf8f1' : 'rgba(250, 248, 241, 0.72)',
+                    background: isActive
+                      ? 'linear-gradient(90deg, #153d2d 0%, rgba(21, 61, 45, 0.85) 100%)'
+                      : 'transparent',
+                    borderLeft: isActive ? '3.5px solid #c4a365' : '3.5px solid transparent',
+                    boxShadow: isActive ? '0 3px 12px rgba(0, 0, 0, 0.22)' : 'none',
+                    transition: 'all 0.16s ease',
+                    position: 'relative',
+                  }}
+                  onMouseOver={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'rgba(21, 61, 45, 0.45)'
+                      e.currentTarget.style.color = '#faf8f1'
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                      e.currentTarget.style.color = 'rgba(250, 248, 241, 0.72)'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }
                   }}
                 >
-                  {group.title}
-                </div>
-              )}
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                {group.items.map((item) => {
-                  const Icon = item.icon
-                  const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href)
-
-                  return (
-                    <Link
-                      key={item.id}
-                      href={item.href}
-                      title={collapsed ? item.label : undefined}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <Icon
+                      size={19}
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: collapsed ? 'center' : 'space-between',
-                        padding: collapsed ? '11px 0' : '10px 14px',
-                        borderRadius: '8px',
-                        textDecoration: 'none',
-                        color: isActive ? '#faf8f1' : 'rgba(250, 248, 241, 0.72)',
-                        background: isActive ? 'linear-gradient(90deg, #153d2d 0%, rgba(21, 61, 45, 0.8) 100%)' : 'transparent',
-                        borderLeft: isActive ? '3px solid #c4a365' : '3px solid transparent',
-                        transition: 'all 0.16s ease',
-                        position: 'relative',
+                        color: isActive ? '#c4a365' : 'rgba(196, 163, 101, 0.65)',
+                        flexShrink: 0,
                       }}
-                      onMouseOver={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'rgba(21, 61, 45, 0.45)'
-                          e.currentTarget.style.color = '#faf8f1'
-                        }
-                      }}
-                      onMouseOut={(e) => {
-                        if (!isActive) {
-                          e.currentTarget.style.backgroundColor = 'transparent'
-                          e.currentTarget.style.color = 'rgba(250, 248, 241, 0.72)'
-                        }
-                      }}
-                    >
-                      <div
+                    />
+                    {!collapsed && (
+                      <span
                         style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
+                          fontSize: '0.88rem',
+                          fontWeight: isActive ? 600 : 500,
+                          whiteSpace: 'nowrap',
                           overflow: 'hidden',
+                          textOverflow: 'ellipsis',
                         }}
                       >
-                        <Icon
-                          size={19}
-                          style={{
-                            color: isActive ? '#c4a365' : 'rgba(196, 163, 101, 0.65)',
-                            flexShrink: 0,
-                          }}
-                        />
-                        {!collapsed && (
-                          <span
-                            style={{
-                              fontSize: '0.86rem',
-                              fontWeight: isActive ? 600 : 500,
-                              whiteSpace: 'nowrap',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                            }}
-                          >
-                            {item.label}
-                          </span>
-                        )}
-                      </div>
+                        {item.label}
+                      </span>
+                    )}
+                  </div>
 
-                      {!collapsed && item.badge && (
-                        <span
-                          style={{
-                            backgroundColor: '#c4a365',
-                            color: '#0d281e',
-                            fontSize: '0.68rem',
-                            fontWeight: 700,
-                            padding: '2px 7px',
-                            borderRadius: '10px',
-                            letterSpacing: '0.04em',
-                            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
-                          }}
-                        >
-                          {item.badge}
-                        </span>
-                      )}
+                  {!collapsed && item.badge && (
+                    <span
+                      style={{
+                        backgroundColor: '#c4a365',
+                        color: '#0d281e',
+                        fontSize: '0.68rem',
+                        fontWeight: 700,
+                        padding: '2px 7px',
+                        borderRadius: '10px',
+                        letterSpacing: '0.04em',
+                        boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+                      }}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
 
-                      {/* Small badge dot if collapsed */}
-                      {collapsed && item.badge && (
-                        <span
-                          style={{
-                            position: 'absolute',
-                            top: '8px',
-                            right: '18px',
-                            width: '8px',
-                            height: '8px',
-                            borderRadius: '50%',
-                            backgroundColor: '#c4a365',
-                          }}
-                        />
-                      )}
-                    </Link>
-                  )
-                })}
-              </div>
-            </div>
-          ))}
+                  {/* Dot indicator if collapsed */}
+                  {collapsed && item.badge && (
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        right: '18px',
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        backgroundColor: '#c4a365',
+                        boxShadow: '0 0 6px #c4a365',
+                      }}
+                    />
+                  )}
+                </Link>
+              )
+            })}
+          </div>
 
-          {/* SYSTEM: Profile and Logout Direct Buttons */}
-          <div style={{ marginTop: 'auto', paddingTop: '12px', borderTop: '1px solid rgba(196, 163, 101, 0.15)' }}>
-            {!collapsed && (
-              <div
-                style={{
-                  fontSize: '0.66rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.15em',
-                  color: 'rgba(196, 163, 101, 0.7)',
-                  textTransform: 'uppercase',
-                  padding: '0 12px 6px',
-                }}
-              >
-                ACCOUNT
-              </div>
-            )}
-
+          {/* Account & Profile Actions anchored cleanly at bottom */}
+          <div style={{ marginTop: 'auto', paddingTop: '16px', borderTop: '1px solid rgba(196, 163, 101, 0.15)' }}>
             <button
               onClick={() => setShowProfileModal(true)}
               title={collapsed ? 'Administrator Profile' : undefined}
@@ -637,7 +548,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           style={{
             padding: collapsed ? '14px 6px' : '14px 16px',
             borderTop: '1px solid rgba(196, 163, 101, 0.18)',
-            backgroundColor: 'rgba(9, 31, 23, 0.7)',
+            backgroundColor: 'rgba(9, 31, 23, 0.85)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'space-between',
@@ -682,15 +593,19 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           MAIN CONTENT AREA + TOP TOOLBAR
           ========================================================================= */}
       <div
+        className="admin-main-wrapper"
         style={{
-          flex: 1,
+          marginLeft: collapsed ? '78px' : '260px',
+          width: collapsed ? 'calc(100% - 78px)' : 'calc(100% - 260px)',
+          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
           backgroundColor: '#faf8f1',
+          transition: 'margin-left 0.22s cubic-bezier(0.2, 0, 0, 1), width 0.22s cubic-bezier(0.2, 0, 0, 1)',
         }}
       >
-        {/* Top Admin Toolbar */}
+        {/* Top Admin Toolbar - MANDATE: NO DATE DISPLAYED */}
         <header
           style={{
             height: '68px',
@@ -703,7 +618,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
             position: 'sticky',
             top: 0,
             zIndex: 900,
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.03)',
+            boxShadow: '0 4px 16px -2px rgba(21, 61, 45, 0.05)',
           }}
         >
           {/* Left: Mobile Drawer Trigger + Breadcrumb + Title */}
@@ -764,28 +679,8 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
             </div>
           </div>
 
-          {/* Right: Date, Live Website Link, Notifications & Profile Avatar */}
+          {/* Right: Live Website Link, Notifications & Profile Avatar (NO DATE) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            {/* Current Date Badge */}
-            <div
-              className="toolbar-date-badge"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '7px',
-                padding: '6px 12px',
-                background: '#faf8f1',
-                border: '1px solid #e3dcce',
-                borderRadius: '20px',
-                fontSize: '0.8rem',
-                color: '#153d2d',
-                fontWeight: 500,
-              }}
-            >
-              <Calendar size={14} style={{ color: '#c4a365' }} />
-              <span>{currentDate}</span>
-            </div>
-
             {/* View Live Website Button */}
             <Link
               href="/"
@@ -803,10 +698,17 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                 textDecoration: 'none',
                 fontSize: '0.82rem',
                 fontWeight: 600,
-                transition: 'background 0.15s',
+                boxShadow: '0 2px 5px rgba(21, 61, 45, 0.04)',
+                transition: 'all 0.15s ease',
               }}
-              onMouseOver={(e) => (e.currentTarget.style.background = 'rgba(21, 61, 45, 0.12)')}
-              onMouseOut={(e) => (e.currentTarget.style.background = 'rgba(21, 61, 45, 0.06)')}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = 'rgba(21, 61, 45, 0.12)'
+                e.currentTarget.style.transform = 'translateY(-1px)'
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = 'rgba(21, 61, 45, 0.06)'
+                e.currentTarget.style.transform = 'translateY(0)'
+              }}
             >
               <ExternalLink size={14} style={{ color: '#c4a365' }} />
               <span className="view-site-text">View Public Site</span>
@@ -829,7 +731,11 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                   justifyContent: 'center',
                   cursor: 'pointer',
                   position: 'relative',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  transition: 'transform 0.15s ease',
                 }}
+                onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+                onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
               >
                 <Bell size={18} />
                 {newEnquiryCount > 0 && (
@@ -867,7 +773,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                     background: '#ffffff',
                     border: '1px solid #e3dcce',
                     borderRadius: '12px',
-                    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.15)',
+                    boxShadow: '0 12px 32px rgba(21, 61, 45, 0.12)',
                     padding: '16px',
                     zIndex: 999,
                   }}
@@ -916,6 +822,15 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                             borderRadius: '8px',
                             textDecoration: 'none',
                             border: '1px solid #e3dcce',
+                            transition: 'all 0.15s ease',
+                          }}
+                          onMouseOver={(e) => {
+                            e.currentTarget.style.borderColor = '#c4a365'
+                            e.currentTarget.style.transform = 'translateY(-1px)'
+                          }}
+                          onMouseOut={(e) => {
+                            e.currentTarget.style.borderColor = '#e3dcce'
+                            e.currentTarget.style.transform = 'translateY(0)'
                           }}
                         >
                           <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#153d2d' }}>
@@ -929,12 +844,19 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                     </div>
                   )}
 
-                  <div style={{ marginTop: '14px', paddingTop: '10px', borderTop: '1px solid #f3efe5', textAlign: 'center' }}>
+                  <div
+                    style={{
+                      marginTop: '14px',
+                      paddingTop: '10px',
+                      borderTop: '1px solid #f3efe5',
+                      textAlign: 'center',
+                    }}
+                  >
                     <Link
                       href="/admin/dashboard/enquiries"
                       style={{
                         fontSize: '0.82rem',
-                        color: '#c4a365',
+                        color: '#9e7f41',
                         fontWeight: 600,
                         textDecoration: 'none',
                       }}
@@ -959,7 +881,11 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                   borderRadius: '24px',
                   padding: '4px 10px 4px 5px',
                   cursor: 'pointer',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+                  transition: 'transform 0.15s ease',
                 }}
+                onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+                onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
               >
                 <div
                   style={{
@@ -994,7 +920,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                     background: '#ffffff',
                     border: '1px solid #e3dcce',
                     borderRadius: '10px',
-                    boxShadow: '0 12px 30px rgba(0, 0, 0, 0.12)',
+                    boxShadow: '0 12px 30px rgba(21, 61, 45, 0.12)',
                     padding: '8px',
                     zIndex: 999,
                   }}
@@ -1086,7 +1012,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           </div>
         </header>
 
-        {/* Dashboard Main Scrollable Viewport */}
+        {/* Dashboard Main Viewport */}
         <main
           style={{
             flex: 1,
@@ -1313,7 +1239,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
         </div>
       )}
 
-      {/* Global CSS overrides for the standalone admin layout */}
+      {/* Responsive layout styles */}
       <style jsx global>{`
         @media (max-width: 1024px) {
           .admin-sidebar {
@@ -1325,6 +1251,10 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
             width: 260px !important;
             min-width: 260px !important;
           }
+          .admin-main-wrapper {
+            margin-left: 0 !important;
+            width: 100% !important;
+          }
           .mobile-drawer-toggle {
             display: flex !important;
           }
@@ -1333,9 +1263,6 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           }
         }
         @media (max-width: 768px) {
-          .toolbar-date-badge {
-            display: none !important;
-          }
           .view-site-text {
             display: none !important;
           }

@@ -145,7 +145,7 @@ export default function SettingsManagementPage() {
       })
 
       if (res.ok) {
-        setToastMessage('System settings saved!')
+        setToastMessage('System settings saved successfully!')
       }
     } catch (e) {
       console.error(e)
@@ -178,7 +178,7 @@ export default function SettingsManagementPage() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '26px' }}>
       {/* Toast Notification */}
       {toastMessage && (
         <div
@@ -189,17 +189,17 @@ export default function SettingsManagementPage() {
             background: 'linear-gradient(135deg, #153d2d 0%, #0d281e 100%)',
             border: '1.5px solid #c4a365',
             color: '#faf8f1',
-            padding: '14px 20px',
+            padding: '12px 18px',
             borderRadius: '10px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
-            zIndex: 100,
-            fontSize: '0.88rem',
+            zIndex: 10000,
+            fontSize: '0.86rem',
           }}
         >
-          <Check size={18} style={{ color: '#10b981' }} />
+          <Check size={16} style={{ color: '#10b981' }} />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -209,15 +209,16 @@ export default function SettingsManagementPage() {
         <div>
           <h1
             style={{
-              fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontSize: '2rem',
-              margin: '0 0 6px',
-              color: '#faf8f1',
+              margin: '0 0 4px',
+              color: '#153d2d',
+              fontWeight: 700,
             }}
           >
             System Settings & Administration
           </h1>
-          <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(250, 248, 241, 0.7)' }}>
+          <p style={{ margin: 0, fontSize: '0.88rem', color: '#6b756e' }}>
             Configure access security, verify database storage health, manage backups, and monitor system performance.
           </p>
         </div>
@@ -228,32 +229,36 @@ export default function SettingsManagementPage() {
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            background: 'rgba(196, 163, 101, 0.15)',
-            border: '1px solid rgba(196, 163, 101, 0.3)',
-            color: '#faf8f1',
+            background: '#ffffff',
+            border: '1px solid #d1c7b7',
+            color: '#153d2d',
             padding: '10px 14px',
             borderRadius: '8px',
             fontSize: '0.84rem',
             fontWeight: 600,
             cursor: 'pointer',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
+            transition: 'transform 0.15s ease',
           }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+          onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
         >
           <RefreshCw size={15} style={{ color: '#c4a365' }} />
           <span>Refresh</span>
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px' }}>
         {/* ========================================================================= */}
-        {/* CARD 1: SECURITY & PASSWORD CHANGE */}
+        {/* CARD 1: SECURITY & PASSWORD CHANGE (WHITE 3D SURFACE) */}
         {/* ========================================================================= */}
         <div
           style={{
-            background: 'rgba(21, 61, 45, 0.75)',
-            border: '1.5px solid rgba(196, 163, 101, 0.25)',
+            background: '#ffffff',
+            border: '1px solid #e3dcce',
             borderRadius: '14px',
             padding: '24px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+            boxShadow: '0 4px 20px -2px rgba(21, 61, 45, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             gap: '18px',
@@ -262,11 +267,11 @@ export default function SettingsManagementPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '8px',
                 background: 'rgba(196, 163, 101, 0.15)',
-                color: '#c4a365',
+                color: '#9e7f41',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -275,8 +280,10 @@ export default function SettingsManagementPage() {
               <KeyRound size={20} />
             </div>
             <div>
-              <h3 style={{ margin: 0, color: '#faf8f1', fontSize: '1.15rem' }}>Administrator Credentials</h3>
-              <span style={{ fontSize: '0.78rem', color: 'rgba(250, 248, 241, 0.6)' }}>
+              <h3 style={{ margin: 0, color: '#153d2d', fontSize: '1.15rem', fontWeight: 700 }}>
+                Administrator Credentials
+              </h3>
+              <span style={{ fontSize: '0.78rem', color: '#6b756e' }}>
                 Update your login password
               </span>
             </div>
@@ -285,11 +292,11 @@ export default function SettingsManagementPage() {
           {passwordError && (
             <div
               style={{
-                background: 'rgba(239, 68, 68, 0.15)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
+                background: '#fef2f2',
+                border: '1px solid #fecaca',
                 padding: '10px 12px',
                 borderRadius: '8px',
-                color: '#fca5a5',
+                color: '#b91c1c',
                 fontSize: '0.82rem',
                 display: 'flex',
                 alignItems: 'center',
@@ -304,11 +311,11 @@ export default function SettingsManagementPage() {
           {passwordSuccess && (
             <div
               style={{
-                background: 'rgba(16, 185, 129, 0.15)',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
+                background: '#ecfdf5',
+                border: '1px solid #a7f3d0',
                 padding: '10px 12px',
                 borderRadius: '8px',
-                color: '#6ee7b7',
+                color: '#065f46',
                 fontSize: '0.82rem',
                 display: 'flex',
                 alignItems: 'center',
@@ -322,22 +329,22 @@ export default function SettingsManagementPage() {
 
           <form onSubmit={handleUpdatePassword} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                 New Admin Password
               </label>
               <input
                 type="password"
                 required
-                placeholder="Enter new password"
+                placeholder="Enter new password (min. 6 characters)"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
                 style={{
                   width: '100%',
                   padding: '10px 12px',
-                  background: 'rgba(10, 35, 25, 0.65)',
-                  border: '1px solid rgba(196, 163, 101, 0.3)',
+                  background: '#ffffff',
+                  border: '1px solid #d1c7b7',
                   borderRadius: '8px',
-                  color: '#ffffff',
+                  color: '#1f2f25',
                   fontSize: '0.88rem',
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -346,7 +353,7 @@ export default function SettingsManagementPage() {
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                 Confirm New Password
               </label>
               <input
@@ -358,10 +365,10 @@ export default function SettingsManagementPage() {
                 style={{
                   width: '100%',
                   padding: '10px 12px',
-                  background: 'rgba(10, 35, 25, 0.65)',
-                  border: '1px solid rgba(196, 163, 101, 0.3)',
+                  background: '#ffffff',
+                  border: '1px solid #d1c7b7',
                   borderRadius: '8px',
-                  color: '#ffffff',
+                  color: '#1f2f25',
                   fontSize: '0.88rem',
                   outline: 'none',
                   boxSizing: 'border-box',
@@ -373,8 +380,8 @@ export default function SettingsManagementPage() {
               type="submit"
               disabled={updatingPassword}
               style={{
-                marginTop: '6px',
-                padding: '10px 18px',
+                marginTop: '4px',
+                padding: '11px 18px',
                 background: 'linear-gradient(135deg, #c4a365 0%, #b38f4d 100%)',
                 border: 'none',
                 borderRadius: '8px',
@@ -382,7 +389,11 @@ export default function SettingsManagementPage() {
                 fontSize: '0.86rem',
                 fontWeight: 700,
                 cursor: updatingPassword ? 'not-allowed' : 'pointer',
+                boxShadow: '0 3px 10px rgba(196, 163, 101, 0.3)',
+                transition: 'transform 0.15s ease',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+              onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
             >
               {updatingPassword ? 'Updating...' : 'Update Password'}
             </button>
@@ -390,15 +401,15 @@ export default function SettingsManagementPage() {
         </div>
 
         {/* ========================================================================= */}
-        {/* CARD 2: STORAGE & ENVIRONMENT HEALTH */}
+        {/* CARD 2: STORAGE & ENVIRONMENT HEALTH (WHITE 3D SURFACE) */}
         {/* ========================================================================= */}
         <div
           style={{
-            background: 'rgba(21, 61, 45, 0.75)',
-            border: '1.5px solid rgba(196, 163, 101, 0.25)',
+            background: '#ffffff',
+            border: '1px solid #e3dcce',
             borderRadius: '14px',
             padding: '24px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+            boxShadow: '0 4px 20px -2px rgba(21, 61, 45, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
@@ -407,11 +418,11 @@ export default function SettingsManagementPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '8px',
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: '#10b981',
+                background: '#ecfdf5',
+                color: '#065f46',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -420,19 +431,21 @@ export default function SettingsManagementPage() {
               <Database size={20} />
             </div>
             <div>
-              <h3 style={{ margin: 0, color: '#faf8f1', fontSize: '1.15rem' }}>Storage & Environment Health</h3>
-              <span style={{ fontSize: '0.78rem', color: '#10b981', fontWeight: 600 }}>
-                ● 100% Operational
+              <h3 style={{ margin: 0, color: '#153d2d', fontSize: '1.15rem', fontWeight: 700 }}>
+                Storage & Environment Health
+              </h3>
+              <span style={{ fontSize: '0.78rem', color: '#059669', fontWeight: 700 }}>
+                ● 100% Operational Status
               </span>
             </div>
           </div>
 
           <div
             style={{
-              background: 'rgba(10, 35, 25, 0.5)',
-              padding: '14px',
+              background: '#faf8f1',
+              padding: '14px 16px',
               borderRadius: '8px',
-              border: '1px solid rgba(196, 163, 101, 0.2)',
+              border: '1px solid #e3dcce',
               display: 'flex',
               flexDirection: 'column',
               gap: '10px',
@@ -440,38 +453,38 @@ export default function SettingsManagementPage() {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'rgba(250, 248, 241, 0.65)' }}>Database Mode</span>
-              <strong style={{ color: '#c4a365' }}>{systemInfo?.databaseMode || 'Local High-Speed JSON Store'}</strong>
+              <span style={{ color: '#6b756e' }}>Database Engine</span>
+              <strong style={{ color: '#153d2d' }}>{systemInfo?.databaseMode || 'Local High-Speed JSON Store'}</strong>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'rgba(250, 248, 241, 0.65)' }}>Active Storage Path</span>
-              <code style={{ color: '#faf8f1', background: 'rgba(0,0,0,0.3)', padding: '2px 6px', borderRadius: '4px' }}>
+              <span style={{ color: '#6b756e' }}>Active Storage Path</span>
+              <code style={{ color: '#153d2d', background: '#ffffff', border: '1px solid #e3dcce', padding: '2px 6px', borderRadius: '4px' }}>
                 {systemInfo?.storagePath || 'data/cms-data.json'}
               </code>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'rgba(250, 248, 241, 0.65)' }}>Framework & Runtime</span>
-              <span style={{ color: '#faf8f1' }}>Next.js 14 · Node {systemInfo?.nodeVersion || 'v20'}</span>
+              <span style={{ color: '#6b756e' }}>Framework & Runtime</span>
+              <span style={{ color: '#153d2d', fontWeight: 600 }}>Next.js 14 · Node {systemInfo?.nodeVersion || 'v20'}</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'rgba(250, 248, 241, 0.65)' }}>Platform OS</span>
-              <span style={{ color: '#faf8f1', textTransform: 'capitalize' }}>{systemInfo?.platform || 'Windows'}</span>
+              <span style={{ color: '#6b756e' }}>Platform OS</span>
+              <span style={{ color: '#153d2d', textTransform: 'capitalize', fontWeight: 600 }}>{systemInfo?.platform || 'Windows'}</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'rgba(250, 248, 241, 0.65)' }}>Server Time</span>
-              <span style={{ color: 'rgba(250, 248, 241, 0.85)' }}>
-                {systemInfo?.serverTime ? new Date(systemInfo.serverTime).toLocaleString() : '...'}
+              <span style={{ color: '#6b756e' }}>Server Timestamp</span>
+              <span style={{ color: '#153d2d' }}>
+                {systemInfo?.serverTime ? new Date(systemInfo.serverTime).toLocaleString() : 'Active'}
               </span>
             </div>
           </div>
 
           {/* Record summary */}
           <div>
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               Stored Catalog Entries
             </span>
             <div
@@ -483,38 +496,38 @@ export default function SettingsManagementPage() {
                 textAlign: 'center',
               }}
             >
-              <div style={{ padding: '8px', background: 'rgba(10, 35, 25, 0.5)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>
-                  {systemInfo?.totalRecords.dishes ?? 240}
+              <div style={{ padding: '10px 8px', background: '#faf8f1', border: '1px solid #e3dcce', borderRadius: '6px' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#153d2d' }}>
+                  {systemInfo?.totalRecords.dishes ?? 151}
                 </div>
-                <div style={{ fontSize: '0.68rem', color: 'rgba(250,248,241,0.6)' }}>Dishes</div>
+                <div style={{ fontSize: '0.7rem', color: '#6b756e' }}>Dishes</div>
               </div>
-              <div style={{ padding: '8px', background: 'rgba(10, 35, 25, 0.5)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#c4a365' }}>
+              <div style={{ padding: '10px 8px', background: '#faf8f1', border: '1px solid #e3dcce', borderRadius: '6px' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#9e7f41' }}>
                   {systemInfo?.totalRecords.categories ?? 14}
                 </div>
-                <div style={{ fontSize: '0.68rem', color: 'rgba(250,248,241,0.6)' }}>Categories</div>
+                <div style={{ fontSize: '0.7rem', color: '#6b756e' }}>Categories</div>
               </div>
-              <div style={{ padding: '8px', background: 'rgba(10, 35, 25, 0.5)', borderRadius: '6px' }}>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#10b981' }}>
+              <div style={{ padding: '10px 8px', background: '#faf8f1', border: '1px solid #e3dcce', borderRadius: '6px' }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: 700, color: '#065f46' }}>
                   {systemInfo?.totalRecords.enquiries ?? 0}
                 </div>
-                <div style={{ fontSize: '0.68rem', color: 'rgba(250,248,241,0.6)' }}>Enquiries</div>
+                <div style={{ fontSize: '0.7rem', color: '#6b756e' }}>Enquiries</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* CARD 3: MAINTENANCE & DATA EXPORT */}
+        {/* CARD 3: MAINTENANCE & DATA EXPORT (WHITE 3D SURFACE) */}
         {/* ========================================================================= */}
         <div
           style={{
-            background: 'rgba(21, 61, 45, 0.75)',
-            border: '1.5px solid rgba(196, 163, 101, 0.25)',
+            background: '#ffffff',
+            border: '1px solid #e3dcce',
             borderRadius: '14px',
             padding: '24px',
-            boxShadow: '0 10px 25px rgba(0,0,0,0.25)',
+            boxShadow: '0 4px 20px -2px rgba(21, 61, 45, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
             display: 'flex',
             flexDirection: 'column',
             gap: '16px',
@@ -523,11 +536,11 @@ export default function SettingsManagementPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div
               style={{
-                width: '36px',
-                height: '36px',
+                width: '38px',
+                height: '38px',
                 borderRadius: '8px',
                 background: 'rgba(196, 163, 101, 0.15)',
-                color: '#c4a365',
+                color: '#9e7f41',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -536,14 +549,16 @@ export default function SettingsManagementPage() {
               <HardDrive size={20} />
             </div>
             <div>
-              <h3 style={{ margin: 0, color: '#faf8f1', fontSize: '1.15rem' }}>Maintenance & Backups</h3>
-              <span style={{ fontSize: '0.78rem', color: 'rgba(250, 248, 241, 0.6)' }}>
+              <h3 style={{ margin: 0, color: '#153d2d', fontSize: '1.15rem', fontWeight: 700 }}>
+                Maintenance & Backups
+              </h3>
+              <span style={{ fontSize: '0.78rem', color: '#6b756e' }}>
                 Cache revalidation and full site data export
               </span>
             </div>
           </div>
 
-          <p style={{ margin: 0, fontSize: '0.84rem', color: 'rgba(250, 248, 241, 0.75)', lineHeight: 1.5 }}>
+          <p style={{ margin: 0, fontSize: '0.84rem', color: '#6b756e', lineHeight: 1.5 }}>
             Download complete snapshots of all dishes, services, photography, customer enquiries, and website settings in JSON format.
           </p>
 
@@ -563,7 +578,11 @@ export default function SettingsManagementPage() {
                 fontSize: '0.86rem',
                 fontWeight: 700,
                 cursor: 'pointer',
+                boxShadow: '0 3px 10px rgba(196, 163, 101, 0.25)',
+                transition: 'transform 0.15s ease',
               }}
+              onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+              onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
             >
               <Download size={16} />
               <span>Download Full CMS Backup (JSON)</span>
@@ -577,13 +596,24 @@ export default function SettingsManagementPage() {
                 justifyContent: 'center',
                 gap: '8px',
                 padding: '12px',
-                background: 'rgba(196, 163, 101, 0.15)',
-                border: '1px solid rgba(196, 163, 101, 0.35)',
+                background: '#faf8f1',
+                border: '1px solid #d1c7b7',
                 borderRadius: '8px',
-                color: '#faf8f1',
+                color: '#153d2d',
                 fontSize: '0.86rem',
                 fontWeight: 600,
                 cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.background = '#ffffff'
+                e.currentTarget.style.borderColor = '#c4a365'
+                e.currentTarget.style.transform = 'translateY(-1px)'
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.background = '#faf8f1'
+                e.currentTarget.style.borderColor = '#d1c7b7'
+                e.currentTarget.style.transform = 'translateY(0)'
               }}
             >
               <RefreshCw size={15} style={{ color: '#c4a365' }} />

@@ -2347,5 +2347,802 @@
     "whatsappPhone": "+91 90803 09584",
     "emailNotifications": true,
     "updatedAt": "2026-11-15T16:13:29.396Z"
-  }
+  },
+  "quotations": [
+    {
+      "quotationNumber": "VCS-2026-0005",
+      "quotationDate": "2026-11-17",
+      "validUntil": "2026-12-02",
+      "customerName": "Bhavatarini (Copy)",
+      "customerPhone": "6789456789",
+      "customerEmail": "bhavatariniselvan@gmail.com",
+      "eventType": "Wedding Feast",
+      "eventDate": "2026-11-06",
+      "eventLocation": "",
+      "guestCount": 500,
+      "mealType": "Grand South Indian Kalyana Virundhu",
+      "sessions": [
+        {
+          "id": "sess-1",
+          "name": "Morning Muhurtham Tiffin",
+          "mealType": "Muhurtham Tiffin",
+          "servingTime": "07:30 AM - 09:30 AM",
+          "guestCount": 500,
+          "notes": "Live tiffin counter, piping hot ghee sweets, filter coffee",
+          "dishes": [
+            {
+              "dishId": "sw-2",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Kaju Watermelon Sweet",
+              "nameEn": "Kaju Watermelon Sweet",
+              "dishNameTa": "காஜூ வாட்டர் மெலன்",
+              "nameTa": "காஜூ வாட்டர் மெலன்",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "sw-3",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Traditional Kaju Katli",
+              "nameEn": "Traditional Kaju Katli",
+              "dishNameTa": "காஜூ கத்லி",
+              "nameTa": "காஜூ கத்லி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        },
+        {
+          "id": "sess-2",
+          "name": "Grand Kalyana Virundhu Lunch",
+          "mealType": "Lunch Feast",
+          "servingTime": "12:30 PM - 03:00 PM",
+          "guestCount": 500,
+          "notes": "Full banana leaf traditional multi-course feast with special payasam",
+          "dishes": [
+            {
+              "dishId": "sw-4",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Crispy Apple Jalebi",
+              "nameEn": "Crispy Apple Jalebi",
+              "dishNameTa": "ஆப்பிள் ஜிலேபி",
+              "nameTa": "ஆப்பிள் ஜிலேபி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "wd-3",
+              "categoryName": "Welcome Coolers & Shakes",
+              "dishName": "Black Grape Nectar",
+              "nameEn": "Black Grape Nectar",
+              "dishNameTa": "கிரேப் ஜூஸ்",
+              "nameTa": "கிரேப் ஜூஸ்",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "id-2",
+              "categoryName": "Idli & Morning Tiffin",
+              "dishName": "Malli Poo Steamed Idli",
+              "nameEn": "Malli Poo Steamed Idli",
+              "dishNameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+              "nameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "cs-3",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Spicy Country Tomato Kara Chutney",
+              "nameEn": "Spicy Country Tomato Kara Chutney",
+              "dishNameTa": "தக்காளி காரச் சட்னி",
+              "nameTa": "தக்காளி காரச் சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        },
+        {
+          "id": "sess-1794902285961",
+          "name": "Session 3: Dinner Feast",
+          "mealType": "Dinner Buffet",
+          "servingTime": "07:30 PM - 10:00 PM",
+          "guestCount": 500,
+          "notes": "Evening dinner buffet with live dosa and sweet counter",
+          "dishes": [
+            {
+              "dishId": "cs-4",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Fresh Coriander (Malli) Chutney",
+              "nameEn": "Fresh Coriander (Malli) Chutney",
+              "dishNameTa": "மல்லி சட்னி",
+              "nameTa": "மல்லி சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "cs-5",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Yellow Pumpkin (Arasanikkai) Chutney",
+              "nameEn": "Yellow Pumpkin (Arasanikkai) Chutney",
+              "dishNameTa": "அரசானிக்காய் சட்னி",
+              "nameTa": "அரசானிக்காய் சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "dishId": "sw-2",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Kaju Watermelon Sweet",
+          "nameEn": "Kaju Watermelon Sweet",
+          "dishNameTa": "காஜூ வாட்டர் மெலன்",
+          "nameTa": "காஜூ வாட்டர் மெலன்",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "sw-3",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Traditional Kaju Katli",
+          "nameEn": "Traditional Kaju Katli",
+          "dishNameTa": "காஜூ கத்லி",
+          "nameTa": "காஜூ கத்லி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "sw-4",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Crispy Apple Jalebi",
+          "nameEn": "Crispy Apple Jalebi",
+          "dishNameTa": "ஆப்பிள் ஜிலேபி",
+          "nameTa": "ஆப்பிள் ஜிலேபி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "wd-3",
+          "categoryName": "Welcome Coolers & Shakes",
+          "dishName": "Black Grape Nectar",
+          "nameEn": "Black Grape Nectar",
+          "dishNameTa": "கிரேப் ஜூஸ்",
+          "nameTa": "கிரேப் ஜூஸ்",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "id-2",
+          "categoryName": "Idli & Morning Tiffin",
+          "dishName": "Malli Poo Steamed Idli",
+          "nameEn": "Malli Poo Steamed Idli",
+          "dishNameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+          "nameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-3",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Spicy Country Tomato Kara Chutney",
+          "nameEn": "Spicy Country Tomato Kara Chutney",
+          "dishNameTa": "தக்காளி காரச் சட்னி",
+          "nameTa": "தக்காளி காரச் சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-4",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Fresh Coriander (Malli) Chutney",
+          "nameEn": "Fresh Coriander (Malli) Chutney",
+          "dishNameTa": "மல்லி சட்னி",
+          "nameTa": "மல்லி சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-5",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Yellow Pumpkin (Arasanikkai) Chutney",
+          "nameEn": "Yellow Pumpkin (Arasanikkai) Chutney",
+          "dishNameTa": "அரசானிக்காய் சட்னி",
+          "nameTa": "அரசானிக்காய் சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        }
+      ],
+      "serviceInclusions": [
+        "Authentic Food Preparation",
+        "Food Transportation",
+        "Buffet Table Arrangement",
+        "Professional Serving Staff",
+        "Vessels & Serving Equipment",
+        "Table Decoration & Frills",
+        "Traditional Banana Leaf Service",
+        "Drinking Water & Paper Cups",
+        "Dining Area Clearing & Waste Disposal"
+      ],
+      "serviceNotes": "25 Uniformed serving staff, fresh organic plantain leaves, live coffee bar.",
+      "packageAmount": 250000,
+      "advanceAmount": 75000,
+      "balanceAmount": 175000,
+      "paymentNotes": "30% booking advance to lock the auspicious date; 50% 3 days before event; remaining balance on event day.",
+      "subtotal": 250000,
+      "taxEnabled": false,
+      "taxPercent": 5,
+      "taxPercentage": 5,
+      "taxAmount": 0,
+      "grandTotal": 250000,
+      "notes": "Velavan Catering Services is committed to delivering a royal, authentic, and hygienic feast for your auspicious celebration.",
+      "terms": "• Advance booking amount is required to reserve the catering date slot.\n• Final confirmed guest count must be intimated at least 48 hours prior to the event.\n• Authentic South Indian ingredients, pure ghee, and fresh vegetables guaranteed.\n• Balance settlement must be cleared on the event day prior to banquet completion.",
+      "termsAndConditions": "• Advance booking amount is required to reserve the catering date slot.\n• Final confirmed guest count must be intimated at least 48 hours prior to the event.\n• Authentic South Indian ingredients, pure ghee, and fresh vegetables guaranteed.\n• Balance settlement must be cleared on the event day prior to banquet completion.",
+      "status": "draft",
+      "id": "pr-1794902515569-15djdj",
+      "created_at": "2026-11-17T08:01:55.569Z"
+    },
+    {
+      "quotationNumber": "VCS-2026-0427",
+      "quotationDate": "2026-11-17",
+      "validUntil": "2026-12-02",
+      "customerName": "Bhavatarini",
+      "customerPhone": "6789456789",
+      "customerEmail": "bhavatariniselvan@gmail.com",
+      "eventType": "Wedding Feast",
+      "eventDate": "2026-11-06",
+      "eventLocation": "",
+      "guestCount": 500,
+      "mealType": "Grand South Indian Kalyana Virundhu",
+      "sessions": [
+        {
+          "id": "sess-1",
+          "name": "Morning Muhurtham Tiffin",
+          "mealType": "Muhurtham Tiffin",
+          "servingTime": "07:30 AM - 09:30 AM",
+          "guestCount": 500,
+          "notes": "Live tiffin counter, piping hot ghee sweets, filter coffee",
+          "dishes": [
+            {
+              "dishId": "sw-2",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Kaju Watermelon Sweet",
+              "nameEn": "Kaju Watermelon Sweet",
+              "dishNameTa": "காஜூ வாட்டர் மெலன்",
+              "nameTa": "காஜூ வாட்டர் மெலன்",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "sw-3",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Traditional Kaju Katli",
+              "nameEn": "Traditional Kaju Katli",
+              "dishNameTa": "காஜூ கத்லி",
+              "nameTa": "காஜூ கத்லி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        },
+        {
+          "id": "sess-2",
+          "name": "Grand Kalyana Virundhu Lunch",
+          "mealType": "Lunch Feast",
+          "servingTime": "12:30 PM - 03:00 PM",
+          "guestCount": 500,
+          "notes": "Full banana leaf traditional multi-course feast with special payasam",
+          "dishes": [
+            {
+              "dishId": "sw-4",
+              "categoryName": "Traditional Sweets",
+              "dishName": "Crispy Apple Jalebi",
+              "nameEn": "Crispy Apple Jalebi",
+              "dishNameTa": "ஆப்பிள் ஜிலேபி",
+              "nameTa": "ஆப்பிள் ஜிலேபி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "wd-3",
+              "categoryName": "Welcome Coolers & Shakes",
+              "dishName": "Black Grape Nectar",
+              "nameEn": "Black Grape Nectar",
+              "dishNameTa": "கிரேப் ஜூஸ்",
+              "nameTa": "கிரேப் ஜூஸ்",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "id-2",
+              "categoryName": "Idli & Morning Tiffin",
+              "dishName": "Malli Poo Steamed Idli",
+              "nameEn": "Malli Poo Steamed Idli",
+              "dishNameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+              "nameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "cs-3",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Spicy Country Tomato Kara Chutney",
+              "nameEn": "Spicy Country Tomato Kara Chutney",
+              "dishNameTa": "தக்காளி காரச் சட்னி",
+              "nameTa": "தக்காளி காரச் சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        },
+        {
+          "id": "sess-1794902285961",
+          "name": "Session 3: Dinner Feast",
+          "mealType": "Dinner Buffet",
+          "servingTime": "07:30 PM - 10:00 PM",
+          "guestCount": 500,
+          "notes": "Evening dinner buffet with live dosa and sweet counter",
+          "dishes": [
+            {
+              "dishId": "cs-4",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Fresh Coriander (Malli) Chutney",
+              "nameEn": "Fresh Coriander (Malli) Chutney",
+              "dishNameTa": "மல்லி சட்னி",
+              "nameTa": "மல்லி சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            },
+            {
+              "dishId": "cs-5",
+              "categoryName": "Chutneys & Kuzhambus",
+              "dishName": "Yellow Pumpkin (Arasanikkai) Chutney",
+              "nameEn": "Yellow Pumpkin (Arasanikkai) Chutney",
+              "dishNameTa": "அரசானிக்காய் சட்னி",
+              "nameTa": "அரசானிக்காய் சட்னி",
+              "quantity": 1,
+              "unitPrice": 0,
+              "total": 0,
+              "amount": 0
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "dishId": "sw-2",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Kaju Watermelon Sweet",
+          "nameEn": "Kaju Watermelon Sweet",
+          "dishNameTa": "காஜூ வாட்டர் மெலன்",
+          "nameTa": "காஜூ வாட்டர் மெலன்",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "sw-3",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Traditional Kaju Katli",
+          "nameEn": "Traditional Kaju Katli",
+          "dishNameTa": "காஜூ கத்லி",
+          "nameTa": "காஜூ கத்லி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "sw-4",
+          "categoryName": "Traditional Sweets",
+          "dishName": "Crispy Apple Jalebi",
+          "nameEn": "Crispy Apple Jalebi",
+          "dishNameTa": "ஆப்பிள் ஜிலேபி",
+          "nameTa": "ஆப்பிள் ஜிலேபி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "wd-3",
+          "categoryName": "Welcome Coolers & Shakes",
+          "dishName": "Black Grape Nectar",
+          "nameEn": "Black Grape Nectar",
+          "dishNameTa": "கிரேப் ஜூஸ்",
+          "nameTa": "கிரேப் ஜூஸ்",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "id-2",
+          "categoryName": "Idli & Morning Tiffin",
+          "dishName": "Malli Poo Steamed Idli",
+          "nameEn": "Malli Poo Steamed Idli",
+          "dishNameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+          "nameTa": "இட்லி (மல்லிப்பூ இட்லி)",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-3",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Spicy Country Tomato Kara Chutney",
+          "nameEn": "Spicy Country Tomato Kara Chutney",
+          "dishNameTa": "தக்காளி காரச் சட்னி",
+          "nameTa": "தக்காளி காரச் சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-4",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Fresh Coriander (Malli) Chutney",
+          "nameEn": "Fresh Coriander (Malli) Chutney",
+          "dishNameTa": "மல்லி சட்னி",
+          "nameTa": "மல்லி சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        },
+        {
+          "dishId": "cs-5",
+          "categoryName": "Chutneys & Kuzhambus",
+          "dishName": "Yellow Pumpkin (Arasanikkai) Chutney",
+          "nameEn": "Yellow Pumpkin (Arasanikkai) Chutney",
+          "dishNameTa": "அரசானிக்காய் சட்னி",
+          "nameTa": "அரசானிக்காய் சட்னி",
+          "quantity": 1,
+          "unitPrice": 0,
+          "total": 0,
+          "amount": 0
+        }
+      ],
+      "serviceInclusions": [
+        "Authentic Food Preparation",
+        "Food Transportation",
+        "Buffet Table Arrangement",
+        "Professional Serving Staff",
+        "Vessels & Serving Equipment",
+        "Table Decoration & Frills",
+        "Traditional Banana Leaf Service",
+        "Drinking Water & Paper Cups",
+        "Dining Area Clearing & Waste Disposal"
+      ],
+      "serviceNotes": "25 Uniformed serving staff, fresh organic plantain leaves, live coffee bar.",
+      "packageAmount": 250000,
+      "advanceAmount": 75000,
+      "balanceAmount": 175000,
+      "paymentNotes": "30% booking advance to lock the auspicious date; 50% 3 days before event; remaining balance on event day.",
+      "subtotal": 250000,
+      "taxEnabled": false,
+      "taxPercent": 5,
+      "taxPercentage": 5,
+      "taxAmount": 0,
+      "grandTotal": 250000,
+      "notes": "Velavan Catering Services is committed to delivering a royal, authentic, and hygienic feast for your auspicious celebration.",
+      "terms": "• Advance booking amount is required to reserve the catering date slot.\n• Final confirmed guest count must be intimated at least 48 hours prior to the event.\n• Authentic South Indian ingredients, pure ghee, and fresh vegetables guaranteed.\n• Balance settlement must be cleared on the event day prior to banquet completion.",
+      "termsAndConditions": "• Advance booking amount is required to reserve the catering date slot.\n• Final confirmed guest count must be intimated at least 48 hours prior to the event.\n• Authentic South Indian ingredients, pure ghee, and fresh vegetables guaranteed.\n• Balance settlement must be cleared on the event day prior to banquet completion.",
+      "status": "draft",
+      "id": "pr-1794902353633-3ye7kk",
+      "created_at": "2026-11-17T07:59:13.634Z"
+    },
+    {
+      "quotationNumber": "VCS-QT-2026-197",
+      "quotationDate": "2026-11-16",
+      "validUntil": "2026-12-01",
+      "customerName": "Anand Natarajan",
+      "customerPhone": "9840123456",
+      "customerEmail": "",
+      "eventType": "Wedding Reception",
+      "eventDate": "",
+      "eventLocation": "",
+      "guestCount": 250,
+      "items": [
+        {
+          "dishId": "br-1",
+          "categoryName": "Dum Biryanis & Pulaos",
+          "dishName": "Special Veg Mutton Dum Biryani",
+          "dishNameTa": "வெஜ் மட்டன் பிரியாணி",
+          "unitPrice": 120,
+          "quantity": 250,
+          "unit": "plate",
+          "total": 30000
+        },
+        {
+          "dishId": "py-1",
+          "categoryName": "Payasam & Royal Desserts",
+          "dishName": "Tender Coconut & Nungu Payasam",
+          "dishNameTa": "ஸ்பெஷல் இளநீர் நுங்கு பாயாசம்",
+          "unitPrice": 120,
+          "quantity": 250,
+          "unit": "plate",
+          "total": 30000
+        },
+        {
+          "dishId": "py-3",
+          "categoryName": "Payasam & Royal Desserts",
+          "dishName": "Moong Dal (Pasi Paruppu) Payasam",
+          "dishNameTa": "பாசிப்பருப்பு பாயாசம்",
+          "unitPrice": 120,
+          "quantity": 250,
+          "unit": "plate",
+          "total": 30000
+        }
+      ],
+      "subtotal": 90000,
+      "additionalCharges": [],
+      "discountType": "flat",
+      "discountValue": 0,
+      "discountAmount": 0,
+      "taxEnabled": true,
+      "taxPercentage": 5,
+      "taxAmount": 4500,
+      "grandTotal": 94500,
+      "terms": "• 50% advance booking deposit required to confirm event slot.\n• Final guest count must be finalized 48 hours prior to the event.\n• Complete balance settlement on the event day.\n• Authentic traditional South Indian recipes prepared with fresh ingredients.",
+      "notes": "Thank you for choosing Velavan Catering Services!",
+      "status": "draft",
+      "id": "qt-1794840392451-0l94eu",
+      "created_at": "2026-11-16T14:46:32.451Z"
+    },
+    {
+      "id": "qt-2026-001",
+      "quotationNumber": "VCS-QT-2026-001",
+      "enquiryId": "enq-1",
+      "customerName": "R. Karthikeyan",
+      "customerPhone": "9842211223",
+      "customerEmail": "karthik@example.com",
+      "eventType": "Wedding & Muhurtham",
+      "eventDate": "2026-12-14",
+      "eventLocation": "Codissia Hall A, Coimbatore",
+      "guestCount": 1200,
+      "items": [
+        {
+          "id": "qi-1",
+          "nameEn": "Traditional Ghee Asoka Halwa",
+          "nameTa": "அசோகா அல்வா",
+          "categoryName": "Traditional Sweets",
+          "quantity": 1200,
+          "unitPrice": 45,
+          "amount": 54000
+        },
+        {
+          "id": "qi-2",
+          "nameEn": "Steamed Podi Ghee Mini Idli",
+          "nameTa": "பொடி நெய் மினி இட்லி",
+          "categoryName": "Idli & Morning Tiffin",
+          "quantity": 1200,
+          "unitPrice": 35,
+          "amount": 42000
+        },
+        {
+          "id": "qi-3",
+          "nameEn": "Medu Vadai with Sambar & 3 Chutneys",
+          "nameTa": "மேது வடை",
+          "categoryName": "Starters",
+          "quantity": 1200,
+          "unitPrice": 30,
+          "amount": 36000
+        },
+        {
+          "id": "qi-4",
+          "nameEn": "Special Kongu Chinna Vengaya Sambar Feast Meals",
+          "nameTa": "சாம்பார் தலைவாழை விருந்து",
+          "categoryName": "Rice & Rasam",
+          "quantity": 1200,
+          "unitPrice": 180,
+          "amount": 216000
+        },
+        {
+          "id": "qi-5",
+          "nameEn": "Tender Elaneer Payasam",
+          "nameTa": "இளநீர் பாயாசம்",
+          "categoryName": "Payasam & Desserts",
+          "quantity": 1200,
+          "unitPrice": 50,
+          "amount": 60000
+        }
+      ],
+      "subtotal": 408000,
+      "additionalCharges": [
+        {
+          "id": "ac-1",
+          "title": "Uniformed Traditional Serving Staff (25 personnel)",
+          "amount": 15000
+        },
+        {
+          "id": "ac-2",
+          "title": "Fresh Clean Plantain Leaves & Brass Uruli Setup",
+          "amount": 8000
+        }
+      ],
+      "discountAmount": 11000,
+      "taxEnabled": false,
+      "taxPercent": 5,
+      "taxAmount": 0,
+      "grandTotal": 420000,
+      "notes": "Pure vegetarian Kongu Nadu traditional feast served hot on fresh banana leaves.",
+      "termsAndConditions": "1. 50% advance for booking confirmation. 2. Final guest count to be confirmed 48 hours prior. 3. Hall dining setup must be made available 3 hours before serving time.",
+      "status": "sent",
+      "created_at": "2026-11-15T10:00:00.000Z"
+    },
+    {
+      "id": "qt-2026-002",
+      "quotationNumber": "VCS-QT-2026-002",
+      "enquiryId": "enq-3",
+      "customerName": "S. Balasubramaniam",
+      "customerPhone": "9080311222",
+      "eventType": "Family Function (Grahapravesam)",
+      "eventDate": "2026-11-25",
+      "eventLocation": "Chettipalayam, Coimbatore",
+      "guestCount": 350,
+      "items": [
+        {
+          "id": "qi-21",
+          "nameEn": "Pure Ghee Badam Halwa",
+          "nameTa": "பாதாம் அல்வா",
+          "categoryName": "Traditional Sweets",
+          "quantity": 350,
+          "unitPrice": 60,
+          "amount": 21000
+        },
+        {
+          "id": "qi-22",
+          "nameEn": "Special Satvik Lunch Virundhu (No Onion/Garlic)",
+          "nameTa": "சாத்விக மதிய விருந்து",
+          "categoryName": "Rice & Rasam",
+          "quantity": 350,
+          "unitPrice": 220,
+          "amount": 77000
+        },
+        {
+          "id": "qi-23",
+          "nameEn": "Palada Pradhaman Payasam",
+          "nameTa": "பாலடை பிரதமன்",
+          "categoryName": "Payasam & Desserts",
+          "quantity": 350,
+          "unitPrice": 55,
+          "amount": 19250
+        }
+      ],
+      "subtotal": 117250,
+      "additionalCharges": [
+        {
+          "id": "ac-21",
+          "title": "Plantain Leaves & Serving Utensils Logistics",
+          "amount": 5250
+        }
+      ],
+      "discountAmount": 0,
+      "taxEnabled": false,
+      "taxPercent": 5,
+      "taxAmount": 0,
+      "grandTotal": 122500,
+      "notes": "Strict satvik preparation for morning housewarming rituals.",
+      "termsAndConditions": "1. Advance received. 2. Service begins at 11:30 AM.",
+      "status": "accepted",
+      "created_at": "2026-11-14T14:30:00.000Z"
+    }
+  ],
+  "activities": [
+    {
+      "id": "act-1794840580912-s7ejv",
+      "type": "dish_updated",
+      "description": "Menu dish \"Karipala (Raw Jackfruit) Biryani\" updated",
+      "timestamp": "2026-11-16T14:49:40.912Z"
+    },
+    {
+      "id": "act-1794840580588-zjnuk",
+      "type": "dish_updated",
+      "description": "Menu dish \"Special Veg Mutton Dum Biryani\" updated",
+      "timestamp": "2026-11-16T14:49:40.588Z"
+    },
+    {
+      "id": "act-1794840566469-69qxx",
+      "type": "dish_updated",
+      "description": "Menu dish \"Karipala (Raw Jackfruit) Biryani\" updated",
+      "timestamp": "2026-11-16T14:49:26.470Z"
+    },
+    {
+      "id": "act-1794840565783-vjjxe",
+      "type": "dish_updated",
+      "description": "Menu dish \"Special Veg Mutton Dum Biryani\" updated",
+      "timestamp": "2026-11-16T14:49:25.783Z"
+    },
+    {
+      "id": "act-1794840392464-hpulq",
+      "type": "quotation_created",
+      "description": "Generated quotation #VCS-QT-2026-197 for Anand Natarajan (₹94,500)",
+      "timestamp": "2026-11-16T14:46:32.464Z",
+      "metadata": {
+        "quotationId": "qt-1794840392451-0l94eu"
+      }
+    },
+    {
+      "id": "act-1",
+      "type": "enquiry_new",
+      "description": "New enquiry received from R. Karthikeyan for Wedding (1,200 guests)",
+      "timestamp": "2026-11-15T09:30:00.000Z"
+    },
+    {
+      "id": "act-2",
+      "type": "quotation_created",
+      "description": "Quotation #VCS-QT-2026-001 generated for R. Karthikeyan (₹4,20,000)",
+      "timestamp": "2026-11-15T10:00:00.000Z"
+    },
+    {
+      "id": "act-3",
+      "type": "quotation_status",
+      "description": "Quotation #VCS-QT-2026-002 marked as accepted by S. Balasubramaniam (₹1,22,500)",
+      "timestamp": "2026-11-14T17:15:00.000Z"
+    },
+    {
+      "id": "act-4",
+      "type": "enquiry_status",
+      "description": "Enquiry status for S. Balasubramaniam updated to Confirmed",
+      "timestamp": "2026-11-14T17:20:00.000Z"
+    },
+    {
+      "id": "act-5",
+      "type": "menu_update",
+      "description": "Updated menu catalog items across Sweets and Morning Tiffin",
+      "timestamp": "2026-11-14T11:00:00.000Z"
+    }
+  ]
 }

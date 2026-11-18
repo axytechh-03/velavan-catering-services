@@ -5,7 +5,7 @@ import { getServicesData, saveServicesData, saveServiceItem } from '@/lib/cms-st
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -18,7 +18,7 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 

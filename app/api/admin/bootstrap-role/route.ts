@@ -70,6 +70,13 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  if (!user.email_confirmed_at) {
+    return NextResponse.json(
+      { success: false, error: 'The administrator email must be confirmed before role assignment.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   const { data: updated, error: updateError } =
     await supabaseAdmin.auth.admin.updateUserById(user.id, {
       app_metadata: { ...user.app_metadata, role: 'admin' },

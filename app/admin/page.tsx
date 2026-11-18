@@ -21,7 +21,7 @@ import {
 
 export default function StandaloneAdminLoginPage() {
   const router = useRouter()
-  const [emailOrUsername, setEmailOrUsername] = useState('admin')
+  const [emailOrUsername, setEmailOrUsername] = useState('axy.techh@gmail.com')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -298,7 +298,7 @@ export default function StandaloneAdminLoginPage() {
                 type="text"
                 value={emailOrUsername}
                 onChange={(e) => setEmailOrUsername(e.target.value)}
-                placeholder="admin or admin@velavancatering.com"
+                placeholder="axy.techh@gmail.com"
                 required
                 style={{
                   width: '100%',

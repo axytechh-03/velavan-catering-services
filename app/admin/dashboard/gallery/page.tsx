@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   Image as ImageIcon,
   Plus,
@@ -15,6 +15,10 @@ import {
   AlertTriangle,
 } from 'lucide-react'
 import { GalleryRecord } from '@/lib/cms-store'
+import MediaUploader, {
+  isSupabaseStorageUrl,
+  safelyDeleteStorageImage,
+} from '@/components/admin/MediaUploader'
 
 export default function GalleryManagementPage() {
   const [gallery, setGallery] = useState<GalleryRecord[]>([])
@@ -29,6 +33,8 @@ export default function GalleryManagementPage() {
   const [itemToDelete, setItemToDelete] = useState<GalleryRecord | null>(null)
   const [toastMessage, setToastMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
+
+  const originalUrlRef = useRef<string>('')
 
   // Form State
   const [formData, setFormData] = useState<GalleryRecord>({
@@ -74,13 +80,14 @@ export default function GalleryManagementPage() {
   }, [toastMessage])
 
   const openAddModal = () => {
+    originalUrlRef.current = ''
     setFormData({
       id: `gal-${Date.now()}`,
       titleEn: '',
       titleTa: '',
       categoryEn: 'Wedding Virundhu',
       categoryTa: 'திருமண விருந்து',
-      url: `/images/gallery/gallery-${(gallery.length % 9) + 1}.jpg`,
+      url: '',
       captionEn: '',
       captionTa: '',
       objectPosition: 'center center',
@@ -91,12 +98,19 @@ export default function GalleryManagementPage() {
   }
 
   const openEditModal = (item: GalleryRecord) => {
+    originalUrlRef.current = item.url
     setEditingItem(item)
     setFormData({ ...item })
   }
 
   const handleSaveItem = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!formData.url.trim()) {
+      setToastMessage('Please upload or specify a photograph image.')
+      return
+    }
+
     setSubmitting(true)
 
     try {
@@ -109,13 +123,29 @@ export default function GalleryManagementPage() {
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.item) {
+          const oldUrl = originalUrlRef.current
+          const newUrl = formData.url
+
           if (isAddModal) {
             setGallery((prev) => [data.item, ...prev])
             setToastMessage(`Photograph "${formData.titleEn}" added to gallery!`)
           } else {
             setGallery((prev) => prev.map((g) => (g.id === formData.id ? data.item : g)))
             setToastMessage(`Photograph "${formData.titleEn}" updated!`)
+
+            // Safe replacement rule:
+            // Only after database update succeeded:
+            if (oldUrl && oldUrl !== newUrl && isSupabaseStorageUrl(oldUrl)) {
+              const isReferencedElsewhere = gallery.some(
+                (g) => g.id !== formData.id && g.url === oldUrl
+              )
+              const isBaseline = /gallery-[1-9]\.jpg/.test(oldUrl)
+              if (!isReferencedElsewhere && !isBaseline) {
+                safelyDeleteStorageImage(oldUrl)
+              }
+            }
           }
+          originalUrlRef.current = ''
           setIsAddModal(false)
           setEditingItem(null)
         }
@@ -130,12 +160,28 @@ export default function GalleryManagementPage() {
   const handleDeleteItem = async () => {
     if (!itemToDelete) return
     setSubmitting(true)
+
+    const deletedUrl = itemToDelete.url
+    const deletedId = itemToDelete.id
+
     try {
-      const res = await fetch(`/api/admin/gallery?id=${itemToDelete.id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/admin/gallery?id=${deletedId}`, { method: 'DELETE' })
       if (res.ok) {
-        setGallery((prev) => prev.filter((g) => g.id !== itemToDelete.id))
+        setGallery((prev) => prev.filter((g) => g.id !== deletedId))
         setToastMessage('Photograph removed from gallery.')
         setItemToDelete(null)
+
+        // Safe deletion rule:
+        // Only after database deletion succeeded:
+        if (deletedUrl && isSupabaseStorageUrl(deletedUrl)) {
+          const isReferencedElsewhere = gallery.some(
+            (g) => g.id !== deletedId && g.url === deletedUrl
+          )
+          const isBaseline = /gallery-[1-9]\.jpg/.test(deletedUrl)
+          if (!isReferencedElsewhere && !isBaseline) {
+            safelyDeleteStorageImage(deletedUrl)
+          }
+        }
       }
     } catch (err) {
       console.error(err)
@@ -639,29 +685,14 @@ export default function GalleryManagementPage() {
                 </div>
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  Image Path / URL *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.url}
-                  onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                  placeholder="/images/gallery/gallery-1.jpg"
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
-                    borderRadius: '8px',
-                    color: '#ffffff',
-                    fontSize: '0.88rem',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
+              <MediaUploader
+                folder="gallery"
+                currentUrl={formData.url}
+                onChange={(url) => setFormData({ ...formData, url })}
+                label="Photograph Image"
+                required
+                helpText="Upload JPEG, PNG, WebP or SVG up to 5 MB. Stored securely in Supabase Storage."
+              />
 
               <div>
                 <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>

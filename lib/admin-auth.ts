@@ -36,12 +36,15 @@ export async function verifyAdminAuth(): Promise<boolean> {
     if (data.user.email?.toLowerCase() !== ADMIN_EMAIL ||
         data.user.app_metadata?.role !== 'admin') return false
 
+    const isHttps = process.env.NEXT_PUBLIC_SITE_URL?.startsWith('https') === true
+    const secure = process.env.NODE_ENV === 'production' && isHttps
+
     cookieStore.set('velavan_access_token', data.session.access_token, {
-      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      httpOnly: true, secure,
       sameSite: 'lax', path: '/', maxAge: data.session.expires_in,
     })
     cookieStore.set('velavan_refresh_token', data.session.refresh_token, {
-      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      httpOnly: true, secure,
       sameSite: 'lax', path: '/', maxAge: 60 * 60 * 24 * 30,
     })
     return true
@@ -54,6 +57,7 @@ export function clearAdminSession() {
   const cookieStore = cookies()
   cookieStore.delete('velavan_access_token')
   cookieStore.delete('velavan_refresh_token')
+  cookieStore.delete('velavan_recovery_token')
   // Clear the old forgeable cookie so it cannot be reused.
   cookieStore.delete('velavan_admin_token')
 }

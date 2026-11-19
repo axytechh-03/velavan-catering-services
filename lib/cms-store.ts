@@ -1,11 +1,30 @@
-import fs from 'fs'
-import path from 'path'
-import { supabase, isSupabaseConfigured, EnquirySubmission } from '@/lib/supabase'
-import { menuCategories as seedCategories, menuItems as seedItems, MenuItem, MenuCategory } from '@/data/menu'
-import { servicesData as seedServicesRaw } from '@/data/services'
+import { getSupabaseServerClient } from './supabase-server'
+import {
+  toEnquiryRecord,
+  toEnquiryDbRow,
+  toMenuCategoryRecord,
+  toMenuCategoryDbRow,
+  toMenuItemRecord,
+  toMenuItemDbRow,
+  toServiceRecord,
+  toServiceDbRow,
+  toGalleryRecord,
+  toGalleryDbRow,
+  toClientRecord,
+  toClientDbRow,
+  toSiteContentRecord,
+  toSiteContentDbRows,
+  toSiteSettingsRecord,
+  toSiteSettingsDbRow,
+  toProposalRecord,
+  toProposalDbRow,
+  toActivityRecord,
+  toActivityDbRow,
+  isUUID,
+} from './cms-mappers'
+import { menuCategories as seedCategories, menuItems as seedItems, MenuItem, MenuCategory } from '../data/menu'
+import { servicesData as seedServicesRaw } from '../data/services'
 
-// ============================================================================
-// Types
 // ============================================================================
 
 export type EnquiryStatus =
@@ -89,6 +108,8 @@ export interface QuotationRecord {
   quotationDate?: string
   validUntil?: string
   enquiryId?: string
+  enquiryUuid?: string
+  legacyEnquiryId?: string
   customerName: string
   customerPhone: string
   customerEmail?: string
@@ -830,386 +851,283 @@ const SEED_ACTIVITIES: ActivityRecord[] = [
 ]
 
 // ============================================================================
-// File Path & Thread-Safe Local Storage
-// ============================================================================
-
-const DATA_DIR = path.join(process.cwd(), 'data')
-const CMS_FILE_PATH = path.join(DATA_DIR, 'cms-data.json')
-
-function getInitialCMSData(): CMSData {
-  return {
-    enquiries: SEED_ENQUIRIES,
-    menuCategories: seedCategories.map((c, i) => ({ ...c, active: true, order: i + 1 })),
-    menuItems: seedItems.map((item, i) => ({ ...item, isVeg: true, active: true, order: i + 1 })),
-    services: SEED_SERVICES,
-    gallery: SEED_GALLERY,
-    clients: SEED_CLIENTS,
-    content: SEED_CONTENT,
-    settings: SEED_SETTINGS,
-    quotations: SEED_QUOTATIONS,
-    activities: SEED_ACTIVITIES,
-  }
-}
-
-/**
- * Loads CMS data synchronously from JSON file with automatic seed creation
- */
-export function getCMSData(): CMSData {
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true })
-    }
-
-    if (!fs.existsSync(CMS_FILE_PATH)) {
-      const initial = getInitialCMSData()
-      fs.writeFileSync(CMS_FILE_PATH, JSON.stringify(initial, null, 2), 'utf-8')
-      return initial
-    }
-
-    const raw = fs.readFileSync(CMS_FILE_PATH, 'utf-8')
-    const parsed = JSON.parse(raw) as Partial<CMSData>
-
-    // Ensure all entities are present
-    const initial = getInitialCMSData()
-    return {
-      enquiries: parsed.enquiries || initial.enquiries,
-      menuCategories: parsed.menuCategories || initial.menuCategories,
-      menuItems: parsed.menuItems || initial.menuItems,
-      services: parsed.services || initial.services,
-      gallery: parsed.gallery || initial.gallery,
-      clients: parsed.clients || initial.clients,
-      content: { ...initial.content, ...(parsed.content || {}) },
-      settings: { ...initial.settings, ...(parsed.settings || {}) },
-      quotations: parsed.quotations || initial.quotations,
-      activities: parsed.activities || initial.activities,
-    }
-  } catch (err) {
-    console.error('Error reading CMS data from JSON file, returning seed data:', err)
-    return getInitialCMSData()
-  }
-}
-
-/**
- * Writes CMS data atomically to JSON file
- */
-export function saveCMSData(data: CMSData): boolean {
-  try {
-    if (!fs.existsSync(DATA_DIR)) {
-      fs.mkdirSync(DATA_DIR, { recursive: true })
-    }
-
-    const tempPath = `${CMS_FILE_PATH}.tmp`
-    fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf-8')
-    fs.renameSync(tempPath, CMS_FILE_PATH)
-    return true
-  } catch (err) {
-    console.error('Error saving CMS data to JSON file:', err)
-    return false
-  }
-}
 
 // ============================================================================
-// Entity CRUD Helpers
+// File Path & Local Storage Fallback
 // ============================================================================
 
-// Enquiries
+
+// ============================================================================
+// 1. ENQUIRIES — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
 export async function getEnquiries(): Promise<EnquiryRecord[]> {
-  // If Supabase is configured, attempt fetch from Supabase
-  if (isSupabaseConfigured && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('enquiries')
-        .select('*')
-        .order('created_at', { ascending: false })
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('enquiries')
+    .select('*')
+    .order('created_at', { ascending: false })
 
-      if (!error && data && data.length > 0) {
-        return data as EnquiryRecord[]
-      }
-    } catch (e) {
-      console.warn('Supabase fetch failed, falling back to local file:', e)
-    }
+  if (error) {
+    console.error('[cms-store] Supabase getEnquiries error:', error.message)
+    throw new Error(`Failed to fetch enquiries from Supabase: ${error.message}`)
   }
 
-  const cms = getCMSData()
-  return cms.enquiries
+  return (data || []).map(toEnquiryRecord)
 }
 
-export async function addEnquiry(enquiry: Omit<EnquiryRecord, 'id' | 'created_at'>): Promise<EnquiryRecord> {
-  const newRecord: EnquiryRecord = {
+export async function addEnquiry(
+  enquiry: Omit<EnquiryRecord, 'id' | 'created_at'>
+): Promise<EnquiryRecord> {
+  const legacyId = `enq-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
+  const recordToInsert: EnquiryRecord = {
     ...enquiry,
-    id: `enq-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    id: legacyId,
     status: enquiry.status || 'new',
     created_at: new Date().toISOString(),
   }
 
-  // 1. Save to Supabase if configured
-  if (isSupabaseConfigured && supabase) {
-    try {
-      await supabase.from('enquiries').insert([newRecord])
-    } catch (e) {
-      console.error('Failed to sync enquiry to Supabase:', e)
-    }
+  const sb = getSupabaseServerClient()
+  const dbRow = toEnquiryDbRow(recordToInsert)
+  dbRow.legacy_id = legacyId
+
+  const { data, error } = await sb
+    .from('enquiries')
+    .insert(dbRow)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('[cms-store] Supabase addEnquiry error:', error.message)
+    throw new Error(`Failed to create enquiry in Supabase: ${error.message}`)
   }
 
-  // 2. Always persist to local CMS Store
-  const cms = getCMSData()
-  cms.enquiries.unshift(newRecord)
-  saveCMSData(cms)
+  const saved = toEnquiryRecord(data)
 
-  return newRecord
+  // Log activity
+  try {
+    await logActivity(
+      'enquiry_new',
+      `New enquiry received from ${saved.name} for ${saved.event_type} (${saved.guest_count} guests)`,
+      { enquiryId: saved.id, legacyId: saved.id }
+    )
+  } catch (actErr) {
+    console.warn('[cms-store] logActivity for enquiry_new failed:', actErr)
+  }
+
+  return saved
 }
 
 export async function updateEnquiry(
   id: string,
   updates: Partial<EnquiryRecord>
 ): Promise<EnquiryRecord | null> {
-  // Sync to Supabase
-  if (isSupabaseConfigured && supabase && !id.startsWith('enq-')) {
-    try {
-      await supabase.from('enquiries').update(updates).eq('id', id)
-    } catch (e) {
-      console.error('Failed to update enquiry in Supabase:', e)
-    }
+  const sb = getSupabaseServerClient()
+
+  // Find enquiry by UUID or legacy_id
+  const findQuery = isUUID(id)
+    ? sb.from('enquiries').select('*').eq('id', id).maybeSingle()
+    : sb.from('enquiries').select('*').eq('legacy_id', id).maybeSingle()
+
+  const { data: existing, error: findError } = await findQuery
+  if (findError || !existing) {
+    console.warn(`[cms-store] Enquiry ${id} not found for update`)
+    return null
   }
 
-  const cms = getCMSData()
-  const idx = cms.enquiries.findIndex((e) => e.id === id)
-  if (idx === -1) return null
-
-  cms.enquiries[idx] = {
-    ...cms.enquiries[idx],
+  const existingRecord = toEnquiryRecord(existing)
+  const merged: EnquiryRecord = {
+    ...existingRecord,
     ...updates,
     updated_at: new Date().toISOString(),
   }
 
-  saveCMSData(cms)
-  return cms.enquiries[idx]
+  const dbRow = toEnquiryDbRow(merged)
+  delete dbRow.id
+  delete dbRow.legacy_id
+
+  const { data: updated, error: updateError } = await sb
+    .from('enquiries')
+    .update(dbRow)
+    .eq('id', existing.id)
+    .select()
+    .single()
+
+  if (updateError) {
+    console.error('[cms-store] Supabase updateEnquiry error:', updateError.message)
+    throw new Error(`Failed to update enquiry in Supabase: ${updateError.message}`)
+  }
+
+  return toEnquiryRecord(updated)
 }
 
 export async function deleteEnquiry(id: string): Promise<boolean> {
-  if (isSupabaseConfigured && supabase && !id.startsWith('enq-')) {
-    try {
-      await supabase.from('enquiries').delete().eq('id', id)
-    } catch (e) {
-      console.error('Failed to delete enquiry from Supabase:', e)
+  const sb = getSupabaseServerClient()
+
+  // Find enquiry to resolve primary UUID and legacy ID
+  const findQuery = isUUID(id)
+    ? sb.from('enquiries').select('id, legacy_id').eq('id', id).maybeSingle()
+    : sb.from('enquiries').select('id, legacy_id').eq('legacy_id', id).maybeSingle()
+
+  const { data: existing, error: findError } = await findQuery
+  if (findError || !existing) {
+    return false
+  }
+
+  const enquiryUuid = existing.id
+  const legacyId = existing.legacy_id || id
+
+  // Requirement 8: Safely detach linked proposals by setting enquiry_id = NULL, while preserving legacy_enquiry_id
+  const { error: detachError } = await sb
+    .from('proposals')
+    .update({ enquiry_id: null, updated_at: new Date().toISOString() })
+    .or(`enquiry_id.eq.${enquiryUuid},legacy_enquiry_id.eq.${legacyId}`)
+
+  if (detachError) {
+    console.error('[cms-store] Failed to detach linked proposals:', detachError.message)
+    throw new Error(`Failed to detach proposals linked to enquiry: ${detachError.message}`)
+  }
+
+  // Delete enquiry
+  const { error: deleteError } = await sb
+    .from('enquiries')
+    .delete()
+    .eq('id', enquiryUuid)
+
+  if (deleteError) {
+    console.error('[cms-store] Supabase deleteEnquiry error:', deleteError.message)
+    throw new Error(`Failed to delete enquiry: ${deleteError.message}`)
+  }
+
+  return true
+}
+
+// ============================================================================
+// 2. PROPOSALS / QUOTATIONS — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+/**
+ * Observation 3: Safe quotation-number generator with collision check.
+ * Generates numbers in format VCS-YYYY-XXXX without colliding with existing rows.
+ */
+export async function generateUniqueQuotationNumber(): Promise<string> {
+  const sb = getSupabaseServerClient()
+  const year = new Date().getFullYear()
+  const prefix = `VCS-${year}-`
+
+  const { data: rows, error } = await sb
+    .from('proposals')
+    .select('quotation_number')
+    .like('quotation_number', `${prefix}%`)
+
+  if (error) {
+    console.warn('[cms-store] Warning checking existing quotation numbers:', error.message)
+  }
+
+  const existingSet = new Set<string>()
+  let maxSeq = 0
+
+  for (const r of rows || []) {
+    if (r.quotation_number) {
+      existingSet.add(r.quotation_number)
+      const match = r.quotation_number.match(/^VCS-\d{4}-(\d+)$/)
+      if (match) {
+        const seq = parseInt(match[1], 10)
+        if (!isNaN(seq) && seq > maxSeq) {
+          maxSeq = seq
+        }
+      }
     }
   }
 
-  const cms = getCMSData()
-  const filtered = cms.enquiries.filter((e) => e.id !== id)
-  if (filtered.length === cms.enquiries.length) return false
+  let nextSeq = Math.max(maxSeq + 1, (rows?.length || 0) + 1)
+  let candidate = `${prefix}${String(nextSeq).padStart(4, '0')}`
 
-  cms.enquiries = filtered
-  saveCMSData(cms)
-  return true
-}
-
-// Menu Items
-export function getMenuData() {
-  const cms = getCMSData()
-  return {
-    categories: cms.menuCategories,
-    items: cms.menuItems,
+  while (existingSet.has(candidate)) {
+    nextSeq++
+    candidate = `${prefix}${String(nextSeq).padStart(4, '0')}`
   }
+
+  return candidate
 }
 
-export function saveMenuItem(item: MenuItemRecord): MenuItemRecord {
-  const cms = getCMSData()
-  const existingIdx = cms.menuItems.findIndex((i) => i.id === item.id)
+/**
+ * Observation 4: Allow quotation filtering by either enquiry legacy ID or database UUID.
+ */
+export async function getQuotations(filter?: { enquiryId?: string }): Promise<QuotationRecord[]> {
+  const sb = getSupabaseServerClient()
+  let query = sb.from('proposals').select('*').order('created_at', { ascending: false })
 
-  if (existingIdx >= 0) {
-    cms.menuItems[existingIdx] = { ...cms.menuItems[existingIdx], ...item }
-  } else {
-    cms.menuItems.unshift({
-      ...item,
-      id: item.id || `dish-${Date.now()}`,
-      order: cms.menuItems.length + 1,
-      active: item.active !== false,
+  let targetUuid: string | undefined = undefined
+  let targetLegacyId: string | undefined = undefined
+
+  if (filter?.enquiryId) {
+    const rawEnquiryId = filter.enquiryId.trim()
+
+    if (isUUID(rawEnquiryId)) {
+      targetUuid = rawEnquiryId
+      const { data: enq } = await sb.from('enquiries').select('legacy_id').eq('id', rawEnquiryId).maybeSingle()
+      if (enq?.legacy_id) targetLegacyId = enq.legacy_id
+    } else {
+      targetLegacyId = rawEnquiryId
+      const { data: enq } = await sb.from('enquiries').select('id').eq('legacy_id', rawEnquiryId).maybeSingle()
+      if (enq?.id) targetUuid = enq.id
+    }
+
+    if (targetUuid && targetLegacyId) {
+      query = query.or(`enquiry_id.eq.${targetUuid},legacy_enquiry_id.eq.${targetLegacyId}`)
+    } else if (targetUuid) {
+      query = query.eq('enquiry_id', targetUuid)
+    } else if (targetLegacyId) {
+      query = query.eq('legacy_enquiry_id', targetLegacyId)
+    }
+  }
+
+  const { data, error } = await query
+
+  if (error) {
+    console.error('[cms-store] Supabase getQuotations error:', error.message)
+    throw new Error(`Failed to fetch proposals: ${error.message}`)
+  }
+
+  const list = (data || []).map(toProposalRecord)
+
+  if (filter?.enquiryId) {
+    const raw = filter.enquiryId.trim()
+    return list.filter((q) => {
+      return (
+        q.enquiryId === raw ||
+        q.enquiryUuid === raw ||
+        q.legacyEnquiryId === raw ||
+        (targetUuid && (q.enquiryId === targetUuid || q.enquiryUuid === targetUuid)) ||
+        (targetLegacyId && (q.enquiryId === targetLegacyId || q.legacyEnquiryId === targetLegacyId))
+      )
     })
   }
 
-  saveCMSData(cms)
-  return item
-}
-
-export function deleteMenuItem(id: string): boolean {
-  const cms = getCMSData()
-  const filtered = cms.menuItems.filter((i) => i.id !== id)
-  if (filtered.length === cms.menuItems.length) return false
-  cms.menuItems = filtered
-  saveCMSData(cms)
-  return true
-}
-
-export function saveMenuCategory(category: MenuCategoryRecord): MenuCategoryRecord {
-  const cms = getCMSData()
-  const existingIdx = cms.menuCategories.findIndex((c) => c.id === category.id)
-
-  if (existingIdx >= 0) {
-    cms.menuCategories[existingIdx] = { ...cms.menuCategories[existingIdx], ...category }
-  } else {
-    cms.menuCategories.push({
-      ...category,
-      id: category.id || `cat-${Date.now()}`,
-      order: cms.menuCategories.length + 1,
-      active: true,
-    })
-  }
-
-  saveCMSData(cms)
-  return category
-}
-
-// Services
-export function getServicesData(): ServiceRecord[] {
-  return getCMSData().services
-}
-
-export function saveServicesData(services: ServiceRecord[]): boolean {
-  const cms = getCMSData()
-  cms.services = services
-  return saveCMSData(cms)
-}
-
-export function saveServiceItem(service: ServiceRecord): ServiceRecord {
-  const cms = getCMSData()
-  const idx = cms.services.findIndex((s) => s.id === service.id)
-  if (idx >= 0) {
-    cms.services[idx] = { ...cms.services[idx], ...service }
-  } else {
-    cms.services.push(service)
-  }
-  saveCMSData(cms)
-  return service
-}
-
-// Gallery
-export function getGalleryData(): GalleryRecord[] {
-  return getCMSData().gallery
-}
-
-export function saveGalleryData(gallery: GalleryRecord[]): boolean {
-  const cms = getCMSData()
-  cms.gallery = gallery
-  return saveCMSData(cms)
-}
-
-export function saveGalleryItem(item: GalleryRecord): GalleryRecord {
-  const cms = getCMSData()
-  const idx = cms.gallery.findIndex((g) => g.id === item.id)
-  if (idx >= 0) {
-    cms.gallery[idx] = { ...cms.gallery[idx], ...item }
-  } else {
-    cms.gallery.unshift({
-      ...item,
-      id: item.id || `gal-${Date.now()}`,
-      order: cms.gallery.length + 1,
-      active: item.active !== false,
-    })
-  }
-  saveCMSData(cms)
-  return item
-}
-
-export function deleteGalleryItem(id: string): boolean {
-  const cms = getCMSData()
-  const filtered = cms.gallery.filter((g) => g.id !== id)
-  if (filtered.length === cms.gallery.length) return false
-  cms.gallery = filtered
-  saveCMSData(cms)
-  return true
-}
-
-// Clients
-export function getClientsData(): ClientRecord[] {
-  return getCMSData().clients
-}
-
-export function saveClientsData(clients: ClientRecord[]): boolean {
-  const cms = getCMSData()
-  cms.clients = clients
-  return saveCMSData(cms)
-}
-
-export function saveClientItem(client: ClientRecord): ClientRecord {
-  const cms = getCMSData()
-  const idx = cms.clients.findIndex((c) => c.id === client.id)
-  if (idx >= 0) {
-    cms.clients[idx] = { ...cms.clients[idx], ...client }
-  } else {
-    cms.clients.push({
-      ...client,
-      id: client.id || `c-${Date.now()}`,
-      order: cms.clients.length + 1,
-      active: client.active !== false,
-    })
-  }
-  saveCMSData(cms)
-  return client
-}
-
-export function deleteClientItem(id: string): boolean {
-  const cms = getCMSData()
-  const filtered = cms.clients.filter((c) => c.id !== id)
-  if (filtered.length === cms.clients.length) return false
-  cms.clients = filtered
-  saveCMSData(cms)
-  return true
-}
-
-// Content
-export function getSiteContentData(): SiteContentRecord {
-  return getCMSData().content
-}
-
-export function saveSiteContentData(content: Partial<SiteContentRecord>): SiteContentRecord {
-  const cms = getCMSData()
-  cms.content = {
-    ...cms.content,
-    ...content,
-  }
-  saveCMSData(cms)
-  return cms.content
-}
-
-// Settings
-export function getSiteSettingsData(): SiteSettingsRecord {
-  return getCMSData().settings
-}
-
-export function saveSiteSettingsData(settings: Partial<SiteSettingsRecord>): SiteSettingsRecord {
-  const cms = getCMSData()
-  cms.settings = {
-    ...cms.settings,
-    ...settings,
-    updatedAt: new Date().toISOString(),
-  }
-  saveCMSData(cms)
-  return cms.settings
-}
-
-// ============================================================================
-// Quotations CRUD
-// ============================================================================
-
-export async function getQuotations(): Promise<QuotationRecord[]> {
-  const cms = getCMSData()
-  return cms.quotations || []
+  return list
 }
 
 export async function getQuotationById(id: string): Promise<QuotationRecord | null> {
-  const cms = getCMSData()
-  const q = (cms.quotations || []).find((item) => item.id === id || item.quotationNumber === id)
-  return q || null
+  const sb = getSupabaseServerClient()
+
+  const query = isUUID(id)
+    ? sb.from('proposals').select('*').eq('id', id).maybeSingle()
+    : sb.from('proposals').select('*').or(`legacy_id.eq.${id},quotation_number.eq.${id}`).maybeSingle()
+
+  const { data, error } = await query
+  if (error) {
+    console.error('[cms-store] getQuotationById error:', error.message)
+    return null
+  }
+
+  return data ? toProposalRecord(data) : null
 }
 
 export async function saveQuotation(
   data: Omit<QuotationRecord, 'id' | 'created_at'> & { id?: string }
 ): Promise<QuotationRecord> {
-  const cms = getCMSData()
-  if (!cms.quotations) cms.quotations = []
-
-  let record: QuotationRecord
+  const sb = getSupabaseServerClient()
 
   // Package-based calculations
   const packageAmount = data.packageAmount !== undefined ? data.packageAmount : (data.grandTotal || 0)
@@ -1217,83 +1135,131 @@ export async function saveQuotation(
   const balanceAmount = Math.max(0, packageAmount - advanceAmount)
   const grandTotal = data.taxEnabled && data.taxAmount ? packageAmount + data.taxAmount : packageAmount
 
-  if (data.id) {
-    const idx = cms.quotations.findIndex((q) => q.id === data.id)
-    if (idx !== -1) {
-      record = {
-        ...cms.quotations[idx],
-        ...data,
-        packageAmount,
-        advanceAmount,
-        balanceAmount,
-        grandTotal,
-        id: data.id,
-        updated_at: new Date().toISOString(),
-      }
-      cms.quotations[idx] = record
-      logActivity(
-        'quotation_status',
-        `Proposal #${record.quotationNumber} updated (${record.customerName}, ₹${record.grandTotal.toLocaleString('en-IN')})`,
-        { quotationId: record.id, status: record.status }
-      )
+  // Resolve enquiry UUID if linked
+  let resolvedEnquiryUuid: string | undefined = undefined
+  if (data.enquiryId) {
+    if (isUUID(data.enquiryId)) {
+      resolvedEnquiryUuid = data.enquiryId
     } else {
-      record = {
-        ...data,
-        packageAmount,
-        advanceAmount,
-        balanceAmount,
-        grandTotal,
-        id: data.id,
-        created_at: new Date().toISOString(),
+      const { data: enqRow } = await sb
+        .from('enquiries')
+        .select('id')
+        .eq('legacy_id', data.enquiryId)
+        .maybeSingle()
+      if (enqRow) {
+        resolvedEnquiryUuid = enqRow.id
       }
-      cms.quotations.unshift(record)
-      logActivity(
-        'quotation_created',
-        `Created proposal #${record.quotationNumber} for ${record.customerName} (₹${record.grandTotal.toLocaleString('en-IN')})`,
-        { quotationId: record.id }
-      )
     }
-  } else {
-    // Generate unique sequential proposal number format VCS-YYYY-XXXX (e.g. VCS-2026-0001)
-    const count = (cms.quotations?.length || 0) + 1
-    const pad = String(count).padStart(4, '0')
-    const pNumber = `VCS-${new Date().getFullYear()}-${pad}`
-
-    record = {
-      ...data,
-      id: `pr-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
-      quotationNumber: data.quotationNumber || pNumber,
-      packageAmount,
-      advanceAmount,
-      balanceAmount,
-      grandTotal,
-      created_at: new Date().toISOString(),
-    }
-    cms.quotations.unshift(record)
-    logActivity(
-      'quotation_created',
-      `Generated catering proposal #${record.quotationNumber} for ${record.customerName} (₹${record.grandTotal.toLocaleString('en-IN')})`,
-      { quotationId: record.id }
-    )
   }
 
-  saveCMSData(cms)
+  let record: QuotationRecord
+
+  // Observation 1: Update existing proposals using their actual database UUID primary key
+  if (data.id) {
+    const findQuery = isUUID(data.id)
+      ? sb.from('proposals').select('*').eq('id', data.id).maybeSingle()
+      : sb.from('proposals').select('*').or(`legacy_id.eq.${data.id},quotation_number.eq.${data.id}`).maybeSingle()
+
+    const { data: existingDbRow, error: findError } = await findQuery
+    if (findError) {
+      console.error('[cms-store] saveQuotation find error:', findError.message)
+      throw new Error(`Failed to find proposal: ${findError.message}`)
+    }
+
+    if (existingDbRow) {
+      const actualDbUuid = existingDbRow.id
+      const existing = toProposalRecord(existingDbRow)
+
+      record = {
+        ...existing,
+        ...data,
+        packageAmount,
+        advanceAmount,
+        balanceAmount,
+        grandTotal,
+        id: existing.id,
+        updated_at: new Date().toISOString(),
+      }
+
+      const dbRow = toProposalDbRow(record, resolvedEnquiryUuid)
+      // Never mutate the primary key UUID during an update
+      delete dbRow.id
+
+      // Update strictly using the proposal's actual database UUID primary key
+      const { data: savedRow, error: saveErr } = await sb
+        .from('proposals')
+        .update(dbRow)
+        .eq('id', actualDbUuid)
+        .select()
+        .single()
+
+      if (saveErr) {
+        console.error('[cms-store] Supabase update quotation error:', saveErr.message)
+        throw new Error(`Failed to update proposal in Supabase: ${saveErr.message}`)
+      }
+
+      record = toProposalRecord(savedRow)
+
+      await logActivity(
+        'quotation_status',
+        `Proposal #${record.quotationNumber} updated (${record.customerName}, ₹${record.grandTotal.toLocaleString('en-IN')})`,
+        { quotationId: record.id, proposalUuid: actualDbUuid, status: record.status }
+      ).catch(() => {})
+
+      return record
+    }
+  }
+
+  // Observation 3: Safe quotation-number collision check for new proposals
+  const pNumber = data.quotationNumber || (await generateUniqueQuotationNumber())
+
+  const newId = data.id || `pr-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
+  record = {
+    ...data,
+    id: newId,
+    quotationNumber: pNumber,
+    packageAmount,
+    advanceAmount,
+    balanceAmount,
+    grandTotal,
+    created_at: new Date().toISOString(),
+  }
+
+  const dbRow = toProposalDbRow(record, resolvedEnquiryUuid)
+  const { data: insertedRow, error: insertErr } = await sb
+    .from('proposals')
+    .insert(dbRow)
+    .select()
+    .single()
+
+  if (insertErr) {
+    console.error('[cms-store] Supabase insert quotation error:', insertErr.message)
+    throw new Error(`Failed to create proposal in Supabase: ${insertErr.message}`)
+  }
+
+  record = toProposalRecord(insertedRow)
+
+  await logActivity(
+    'quotation_created',
+    `Generated catering proposal #${record.quotationNumber} for ${record.customerName} (₹${record.grandTotal.toLocaleString('en-IN')})`,
+    { quotationId: record.id }
+  ).catch(() => {})
+
   return record
 }
 
 export async function duplicateQuotation(id: string): Promise<QuotationRecord | null> {
-  const cms = getCMSData()
-  if (!cms.quotations) return null
-  const source = cms.quotations.find((q) => q.id === id)
+  const source = await getQuotationById(id)
   if (!source) return null
 
-  const count = (cms.quotations.length || 0) + 1
-  const pad = String(count).padStart(4, '0')
-  const pNumber = `VCS-${new Date().getFullYear()}-${pad}`
+  const sb = getSupabaseServerClient()
+  // Observation 3: Safe quotation number collision check for duplicated proposals
+  const pNumber = await generateUniqueQuotationNumber()
 
+  const newId = `pr-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`
   const duplicated: QuotationRecord = {
     ...JSON.parse(JSON.stringify(source)),
-    id: `pr-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`,
+    id: newId,
     quotationNumber: pNumber,
     customerName: `${source.customerName} (Copy)`,
     status: 'draft',
@@ -1301,88 +1267,510 @@ export async function duplicateQuotation(id: string): Promise<QuotationRecord | 
     updated_at: undefined,
   }
 
-  cms.quotations.unshift(duplicated)
-  logActivity(
+  let resolvedEnquiryUuid: string | undefined = undefined
+  if (duplicated.enquiryId) {
+    if (isUUID(duplicated.enquiryId)) {
+      resolvedEnquiryUuid = duplicated.enquiryId
+    } else {
+      const { data: enqRow } = await sb
+        .from('enquiries')
+        .select('id')
+        .eq('legacy_id', duplicated.enquiryId)
+        .maybeSingle()
+      if (enqRow) resolvedEnquiryUuid = enqRow.id
+    }
+  }
+
+  const dbRow = toProposalDbRow(duplicated, resolvedEnquiryUuid)
+  const { data: inserted, error: insertErr } = await sb
+    .from('proposals')
+    .insert(dbRow)
+    .select()
+    .single()
+
+  if (insertErr) {
+    console.error('[cms-store] Supabase duplicate proposal error:', insertErr.message)
+    throw new Error(`Failed to duplicate proposal in Supabase: ${insertErr.message}`)
+  }
+
+  const result = toProposalRecord(inserted)
+
+  await logActivity(
     'quotation_created',
-    `Duplicated proposal #${source.quotationNumber} to #${duplicated.quotationNumber} (${duplicated.customerName})`,
-    { quotationId: duplicated.id }
-  )
-  saveCMSData(cms)
-  return duplicated
+    `Duplicated proposal #${source.quotationNumber} to #${result.quotationNumber} (${result.customerName})`,
+    { quotationId: result.id }
+  ).catch(() => {})
+
+  return result
 }
 
 export async function updateQuotationStatus(
   id: string,
   status: QuotationStatus
 ): Promise<boolean> {
-  const cms = getCMSData()
-  if (!cms.quotations) return false
-  const idx = cms.quotations.findIndex((q) => q.id === id)
-  if (idx === -1) return false
+  const sb = getSupabaseServerClient()
 
-  cms.quotations[idx].status = status
-  cms.quotations[idx].updated_at = new Date().toISOString()
-  const q = cms.quotations[idx]
+  // Observation 1: Resolve the actual database UUID primary key for status update
+  const findQuery = isUUID(id)
+    ? sb.from('proposals').select('*').eq('id', id).maybeSingle()
+    : sb.from('proposals').select('*').or(`legacy_id.eq.${id},quotation_number.eq.${id}`).maybeSingle()
 
-  logActivity(
+  const { data: existingDbRow, error: findError } = await findQuery
+  if (findError || !existingDbRow) return false
+
+  const actualDbUuid = existingDbRow.id
+  const existing = toProposalRecord(existingDbRow)
+
+  existing.status = status
+  existing.updated_at = new Date().toISOString()
+
+  const dbRow = toProposalDbRow(existing)
+  delete dbRow.id
+  delete dbRow.legacy_id
+
+  // Update strictly using the proposal's actual database UUID primary key
+  const { error } = await sb
+    .from('proposals')
+    .update(dbRow)
+    .eq('id', actualDbUuid)
+
+  if (error) {
+    console.error('[cms-store] updateQuotationStatus error:', error.message)
+    throw new Error(`Failed to update proposal status: ${error.message}`)
+  }
+
+  await logActivity(
     'quotation_status',
-    `Quotation #${q.quotationNumber} marked as ${status} (${q.customerName})`,
-    { quotationId: q.id, status }
-  )
+    `Quotation #${existing.quotationNumber} marked as ${status} (${existing.customerName})`,
+    { quotationId: existing.id, proposalUuid: actualDbUuid, status }
+  ).catch(() => {})
 
-  // If linked to an enquiry, sync enquiry status
-  if (q.enquiryId) {
+  if (existing.enquiryId) {
     if (status === 'sent') {
-      await updateEnquiry(q.enquiryId, { status: 'quotation_sent' })
+      await updateEnquiry(existing.enquiryId, { status: 'quotation_sent' }).catch(() => null)
     } else if (status === 'accepted') {
-      await updateEnquiry(q.enquiryId, { status: 'confirmed' })
+      await updateEnquiry(existing.enquiryId, { status: 'confirmed' }).catch(() => null)
     }
   }
 
-  saveCMSData(cms)
   return true
 }
 
 export async function deleteQuotation(id: string): Promise<boolean> {
-  const cms = getCMSData()
-  if (!cms.quotations) return false
-  const filtered = cms.quotations.filter((q) => q.id !== id)
-  if (filtered.length === cms.quotations.length) return false
-  cms.quotations = filtered
-  saveCMSData(cms)
+  const sb = getSupabaseServerClient()
+
+  // Observation 1: Find existing proposal to resolve primary key UUID
+  const findQuery = isUUID(id)
+    ? sb.from('proposals').select('id, quotation_number').eq('id', id).maybeSingle()
+    : sb.from('proposals').select('id, quotation_number').or(`legacy_id.eq.${id},quotation_number.eq.${id}`).maybeSingle()
+
+  const { data: existing, error: findError } = await findQuery
+  if (findError || !existing) return false
+
+  // Delete strictly using the proposal's actual database UUID primary key
+  const { error } = await sb
+    .from('proposals')
+    .delete()
+    .eq('id', existing.id)
+
+  if (error) {
+    console.error('[cms-store] deleteQuotation error:', error.message)
+    throw new Error(`Failed to delete proposal: ${error.message}`)
+  }
+
   return true
 }
 
 // ============================================================================
-// Activity Log Helper
+// 3. MENU DATA — SUPABASE ASYNCHRONOUS DATA ACCESS
 // ============================================================================
 
-export function getActivities(limit: number = 10): ActivityRecord[] {
-  const cms = getCMSData()
-  return (cms.activities || []).slice(0, limit)
-}
+export async function getMenuData(): Promise<{ categories: MenuCategoryRecord[]; items: MenuItemRecord[] }> {
+  const sb = getSupabaseServerClient()
+  const [catsRes, itemsRes] = await Promise.all([
+    sb.from('menu_categories').select('*').order('display_order', { ascending: true }),
+    sb.from('menu_items').select('*').order('display_order', { ascending: true }),
+  ])
 
-export function logActivity(
+  if (catsRes.error) throw new Error(`Failed to fetch categories: ${catsRes.error.message}`)
+  if (itemsRes.error) throw new Error(`Failed to fetch menu items: ${itemsRes.error.message}`)
+
+  return {
+    categories: (catsRes.data || []).map(toMenuCategoryRecord),
+    items: (itemsRes.data || []).map(toMenuItemRecord),
+  }
+}
+export const getMenuDataAsync = getMenuData
+
+export async function saveMenuItem(item: MenuItemRecord): Promise<MenuItemRecord> {
+  const sb = getSupabaseServerClient()
+  const dbRow = toMenuItemDbRow(item)
+  const { data, error } = await sb
+    .from('menu_items')
+    .upsert(dbRow, { onConflict: 'id' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save menu item in Supabase: ${error.message}`)
+  return toMenuItemRecord(data)
+}
+export const saveMenuItemAsync = saveMenuItem
+
+export async function deleteMenuItem(id: string): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const { error } = await sb.from('menu_items').delete().eq('id', id)
+  if (error) throw new Error(`Failed to delete menu item from Supabase: ${error.message}`)
+  return true
+}
+export const deleteMenuItemAsync = deleteMenuItem
+
+export async function saveMenuCategory(category: MenuCategoryRecord): Promise<MenuCategoryRecord> {
+  const sb = getSupabaseServerClient()
+  const dbRow = toMenuCategoryDbRow(category)
+  const { data, error } = await sb
+    .from('menu_categories')
+    .upsert(dbRow, { onConflict: 'id' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save menu category in Supabase: ${error.message}`)
+  return toMenuCategoryRecord(data)
+}
+export const saveMenuCategoryAsync = saveMenuCategory
+
+// ============================================================================
+// 4. SERVICES — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getServicesData(): Promise<ServiceRecord[]> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('services')
+    .select('*')
+    .order('display_order', { ascending: true })
+
+  if (error) throw new Error(`Failed to fetch services: ${error.message}`)
+  return (data || []).map(toServiceRecord)
+}
+export const getServicesDataAsync = getServicesData
+
+export async function saveServicesData(services: ServiceRecord[]): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const rows = services.map(toServiceDbRow)
+  const { error } = await sb
+    .from('services')
+    .upsert(rows, { onConflict: 'id' })
+
+  if (error) throw new Error(`Failed to save services array: ${error.message}`)
+  return true
+}
+export const saveServicesDataAsync = saveServicesData
+
+export async function saveServiceItem(service: ServiceRecord): Promise<ServiceRecord> {
+  const sb = getSupabaseServerClient()
+  const dbRow = toServiceDbRow(service)
+  const { data, error } = await sb
+    .from('services')
+    .upsert(dbRow, { onConflict: 'id' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save service item: ${error.message}`)
+  return toServiceRecord(data)
+}
+export const saveServiceItemAsync = saveServiceItem
+
+// ============================================================================
+// 5. GALLERY — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getGalleryData(): Promise<GalleryRecord[]> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('gallery_items')
+    .select('*')
+    .order('display_order', { ascending: true })
+
+  if (error) throw new Error(`Failed to fetch gallery items: ${error.message}`)
+  return (data || []).map(toGalleryRecord)
+}
+export const getGalleryDataAsync = getGalleryData
+
+export async function saveGalleryData(gallery: GalleryRecord[]): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const rows = gallery.map(toGalleryDbRow)
+  const { error } = await sb
+    .from('gallery_items')
+    .upsert(rows, { onConflict: 'id' })
+
+  if (error) throw new Error(`Failed to save gallery array: ${error.message}`)
+  return true
+}
+export const saveGalleryDataAsync = saveGalleryData
+
+export async function saveGalleryItem(item: GalleryRecord): Promise<GalleryRecord> {
+  const sb = getSupabaseServerClient()
+  const dbRow = toGalleryDbRow(item)
+  const { data, error } = await sb
+    .from('gallery_items')
+    .upsert(dbRow, { onConflict: 'id' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save gallery item: ${error.message}`)
+  return toGalleryRecord(data)
+}
+export const saveGalleryItemAsync = saveGalleryItem
+
+export async function deleteGalleryItem(id: string): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const { error } = await sb.from('gallery_items').delete().eq('id', id)
+  if (error) throw new Error(`Failed to delete gallery item: ${error.message}`)
+  return true
+}
+export const deleteGalleryItemAsync = deleteGalleryItem
+
+// ============================================================================
+// 6. CLIENTS — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getClientsData(): Promise<ClientRecord[]> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('clients')
+    .select('*')
+    .order('display_order', { ascending: true })
+
+  if (error) throw new Error(`Failed to fetch clients: ${error.message}`)
+  return (data || []).map(toClientRecord)
+}
+export const getClientsDataAsync = getClientsData
+
+export async function saveClientsData(clients: ClientRecord[]): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const rows = clients.map(toClientDbRow)
+  const { error } = await sb.from('clients').upsert(rows, { onConflict: 'id' })
+  if (error) throw new Error(`Failed to save clients array: ${error.message}`)
+  return true
+}
+export const saveClientsDataAsync = saveClientsData
+
+export async function saveClientItem(client: ClientRecord): Promise<ClientRecord> {
+  const sb = getSupabaseServerClient()
+  const dbRow = toClientDbRow(client)
+  const { data, error } = await sb
+    .from('clients')
+    .upsert(dbRow, { onConflict: 'id' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save client item: ${error.message}`)
+  return toClientRecord(data)
+}
+export const saveClientItemAsync = saveClientItem
+
+export async function deleteClientItem(id: string): Promise<boolean> {
+  const sb = getSupabaseServerClient()
+  const { error } = await sb.from('clients').delete().eq('id', id)
+  if (error) throw new Error(`Failed to delete client: ${error.message}`)
+  return true
+}
+export const deleteClientItemAsync = deleteClientItem
+
+// ============================================================================
+// 7. SITE CONTENT — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getSiteContentData(): Promise<SiteContentRecord> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb.from('site_content').select('*')
+  if (error) throw new Error(`Failed to fetch site content: ${error.message}`)
+  return toSiteContentRecord(data || [])
+}
+export const getSiteContentDataAsync = getSiteContentData
+
+export async function saveSiteContentData(
+  content: Partial<SiteContentRecord>
+): Promise<SiteContentRecord> {
+  const sb = getSupabaseServerClient()
+
+  // Observation 2: Fetch current content to merge with existing JSONB data instead of replacing entire section
+  const { data: existingRows, error: fetchErr } = await sb.from('site_content').select('*')
+  if (fetchErr) {
+    console.error('[cms-store] saveSiteContentData fetch error:', fetchErr.message)
+    throw new Error(`Failed to fetch current site content for merge: ${fetchErr.message}`)
+  }
+
+  const existingMap = new Map((existingRows || []).map((r) => [r.key, r.data]))
+  const now = new Date().toISOString()
+  const rowsToUpsert: Array<{ key: string; section: string; data: any; updated_at: string }> = []
+
+  const sectionKeys: Array<keyof SiteContentRecord> = ['hero', 'story', 'tribute', 'contact', 'registrations']
+
+  for (const section of sectionKeys) {
+    if (content[section]) {
+      const incoming = content[section]
+      const existingData = existingMap.get(section) || {}
+
+      // Deep/shallow merge existing JSONB object with incoming partial data
+      const mergedData =
+        typeof existingData === 'object' &&
+        existingData !== null &&
+        typeof incoming === 'object' &&
+        incoming !== null &&
+        !Array.isArray(incoming)
+          ? { ...existingData, ...incoming }
+          : incoming
+
+      rowsToUpsert.push({
+        key: section,
+        section,
+        data: mergedData,
+        updated_at: now,
+      })
+    }
+  }
+
+  if (rowsToUpsert.length > 0) {
+    const { error: upsertErr } = await sb.from('site_content').upsert(rowsToUpsert, { onConflict: 'key' })
+    if (upsertErr) {
+      console.error('[cms-store] saveSiteContentData upsert error:', upsertErr.message)
+      throw new Error(`Failed to save site content: ${upsertErr.message}`)
+    }
+  }
+
+  return getSiteContentData()
+}
+export const saveSiteContentDataAsync = saveSiteContentData
+
+// ============================================================================
+// 8. SITE SETTINGS — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getSiteSettingsData(): Promise<SiteSettingsRecord> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('admin_settings')
+    .select('*')
+    .eq('key', 'general')
+    .maybeSingle()
+
+  if (error) {
+    console.error('[cms-store] getSiteSettingsData error:', error.message)
+  }
+
+  return toSiteSettingsRecord(data)
+}
+export const getSiteSettingsDataAsync = getSiteSettingsData
+
+export async function saveSiteSettingsData(
+  settings: Partial<SiteSettingsRecord>
+): Promise<SiteSettingsRecord> {
+  const sb = getSupabaseServerClient()
+  const row = toSiteSettingsDbRow(settings, 'general')
+  const { data, error } = await sb
+    .from('admin_settings')
+    .upsert(row, { onConflict: 'key' })
+    .select()
+    .single()
+
+  if (error) throw new Error(`Failed to save site settings: ${error.message}`)
+  return toSiteSettingsRecord(data)
+}
+export const saveSiteSettingsDataAsync = saveSiteSettingsData
+
+// ============================================================================
+// 9. ACTIVITIES — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getActivities(limit: number = 10): Promise<ActivityRecord[]> {
+  const sb = getSupabaseServerClient()
+  const { data, error } = await sb
+    .from('activities')
+    .select('*')
+    .order('occurred_at', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    console.error('[cms-store] getActivities error:', error.message)
+    return []
+  }
+
+  return (data || []).map(toActivityRecord)
+}
+export const getActivitiesAsync = getActivities
+
+export async function logActivity(
   type: ActivityRecord['type'],
   description: string,
-  metadata?: Record<string, any>
-): ActivityRecord {
-  const cms = getCMSData()
-  if (!cms.activities) cms.activities = []
+  metadata?: any
+): Promise<void> {
+  try {
+    const sb = getSupabaseServerClient()
+    const dbRow = toActivityDbRow({
+      type,
+      description,
+      metadata,
+      timestamp: new Date().toISOString(),
+    })
 
-  const newActivity: ActivityRecord = {
-    id: `act-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
-    type,
-    description,
-    timestamp: new Date().toISOString(),
-    metadata,
+    await sb.from('activities').insert(dbRow)
+  } catch (err) {
+    console.warn('[cms-store] Failed to log activity in Supabase:', err)
   }
-
-  cms.activities.unshift(newActivity)
-  if (cms.activities.length > 50) {
-    cms.activities = cms.activities.slice(0, 50)
-  }
-
-  saveCMSData(cms)
-  return newActivity
 }
+export const logActivityAsync = logActivity
+
+// ============================================================================
+// 10. COMPOSITE CMS BUNDLE — SUPABASE ASYNCHRONOUS DATA ACCESS
+// ============================================================================
+
+export async function getCMSData(): Promise<CMSData> {
+  const [
+    enquiries,
+    menu,
+    services,
+    gallery,
+    clients,
+    content,
+    settings,
+    quotations,
+    activities,
+  ] = await Promise.all([
+    getEnquiries(),
+    getMenuData(),
+    getServicesData(),
+    getGalleryData(),
+    getClientsData(),
+    getSiteContentData(),
+    getSiteSettingsData(),
+    getQuotations(),
+    getActivities(50),
+  ])
+
+  return {
+    enquiries,
+    menuCategories: menu.categories,
+    menuItems: menu.items,
+    services,
+    gallery,
+    clients,
+    content,
+    settings,
+    quotations,
+    activities,
+  }
+}
+export const getCMSDataAsync = getCMSData
+
+export async function saveCMSData(data: CMSData): Promise<boolean> {
+  await Promise.all([
+    saveServicesData(data.services),
+    saveGalleryData(data.gallery),
+    saveClientsData(data.clients),
+    saveSiteContentData(data.content),
+    saveSiteSettingsData(data.settings),
+  ])
+  return true
+}
+export const saveCMSDataAsync = saveCMSData

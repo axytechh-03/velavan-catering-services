@@ -37,11 +37,15 @@ export async function POST(request: Request) {
       )
     }
 
+    const isHttps =
+      new URL(request.url).protocol === 'https:' ||
+      request.headers.get('x-forwarded-proto') === 'https'
+    const secure = process.env.NODE_ENV === 'production' && isHttps
+
     const response = NextResponse.json({
       success: true,
       user: { email: ADMIN_EMAIL, role: 'Administrator' },
     })
-    const secure = process.env.NODE_ENV === 'production'
     response.cookies.set('velavan_access_token', data.session.access_token, {
       httpOnly: true, secure, sameSite: 'lax', path: '/',
       maxAge: data.session.expires_in,
@@ -63,11 +67,16 @@ export async function POST(request: Request) {
   }
 }
 
-export async function DELETE() {
+export async function DELETE(request: Request) {
+  const isHttps =
+    new URL(request.url).protocol === 'https:' ||
+    request.headers.get('x-forwarded-proto') === 'https'
+  const secure = process.env.NODE_ENV === 'production' && isHttps
+
   const response = NextResponse.json({ success: true })
   for (const name of ['velavan_access_token', 'velavan_refresh_token', 'velavan_admin_token']) {
     response.cookies.set(name, '', {
-      httpOnly: true, secure: process.env.NODE_ENV === 'production',
+      httpOnly: true, secure,
       sameSite: 'lax', path: '/', maxAge: 0,
     })
   }

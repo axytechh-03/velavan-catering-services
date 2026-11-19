@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
-import { supabase, isSupabaseConfigured, EnquirySubmission } from '@/lib/supabase'
 
 export function Enquiry() {
   const { language, t } = useLanguage()
@@ -18,6 +17,7 @@ export function Enquiry() {
     food: 'Vegetarian',
     location: '',
     notes: '',
+    _hp: '',
   })
 
   const [errorMsg, setErrorMsg] = useState('')
@@ -67,7 +67,7 @@ export function Enquiry() {
 
     setSubmitting(true)
 
-    const payload: EnquirySubmission = {
+    const payload = {
       name: formData.name.trim(),
       phone: formData.phone.trim(),
       email: formData.email.trim() || undefined,
@@ -77,17 +77,26 @@ export function Enquiry() {
       event_date: formData.date,
       location: formData.location.trim(),
       special_requests: `Food: ${formData.food}. Notes: ${formData.notes}`.trim(),
-      status: 'new',
-      created_at: new Date().toISOString(),
+      _hp: formData._hp,
     }
 
     try {
-      if (isSupabaseConfigured && supabase) {
-        await supabase.from('enquiries').insert([payload])
+      const res = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok || data.error) {
+        setErrorMsg(data.error || 'Failed to submit enquiry. Please try again.')
+        return
       }
+
       // Backup to localStorage
       const existing = JSON.parse(localStorage.getItem('velavan_enquiries') || '[]')
-      localStorage.setItem('velavan_enquiries', JSON.stringify([payload, ...existing]))
+      localStorage.setItem('velavan_enquiries', JSON.stringify([data.data || payload, ...existing]))
       setSuccessMsg(t.formSuccess)
       setFormData({
         name: '',
@@ -100,10 +109,11 @@ export function Enquiry() {
         food: 'Vegetarian',
         location: '',
         notes: '',
+        _hp: '',
       })
-    } catch (err) {
-      console.error(err)
-      setSuccessMsg(t.formSuccess)
+    } catch (err: any) {
+      console.error('[Enquiry] Submission error:', err)
+      setErrorMsg('An unexpected error occurred while submitting. Please call or WhatsApp us directly.')
     } finally {
       setSubmitting(false)
     }
@@ -175,6 +185,32 @@ export function Enquiry() {
 
         {/* Right: 9-Field Validated Enquiry Form + Conditional Other Field */}
         <form className="form-card reveal-right" id="enquiryForm" onSubmit={handleSubmit} noValidate>
+          {/* Anti-spam honeypot (off-screen, inaccessible to humans and assistive tech) */}
+          <div
+            style={{
+              opacity: 0,
+              position: 'absolute',
+              top: 0,
+              left: '-9999px',
+              height: 0,
+              width: 0,
+              zIndex: -1,
+              overflow: 'hidden',
+            }}
+            aria-hidden="true"
+          >
+            <label htmlFor="website_field">Leave this empty</label>
+            <input
+              id="website_field"
+              name="_hp"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData._hp}
+              onChange={(e) => setFormData({ ...formData, _hp: e.target.value })}
+            />
+          </div>
+
           <h3>{t.formTitle}</h3>
           <div className="form-grid">
             {/* 1. Customer Name */}

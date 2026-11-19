@@ -31,11 +31,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ success: true, quotation })
     }
 
-    let quotations = await getQuotations()
-
-    if (enquiryId) {
-      quotations = quotations.filter((q) => q.enquiryId === enquiryId)
-    }
+    // Observation 4: Filter quotations by either enquiry legacy ID or database UUID
+    const quotations = enquiryId
+      ? await getQuotations({ enquiryId })
+      : await getQuotations()
 
     return NextResponse.json({ success: true, quotations })
   } catch (err: any) {

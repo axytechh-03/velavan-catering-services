@@ -9,9 +9,10 @@ export async function POST(request: Request) {
     const email = String(body.email || body.username || '').trim().toLowerCase()
     const password = String(body.password || '')
 
-    if (email !== ADMIN_EMAIL || !password) {
+    // Case A: Missing credentials
+    if (!email || !password) {
       return NextResponse.json(
-        { success: false, message: 'Invalid administrator credentials.' },
+        { success: false, message: 'Invalid email or password. Please check your credentials and try again.' },
         { status: 401 }
       )
     }
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     if (!url || !anonKey) {
       return NextResponse.json(
-        { success: false, message: 'Authentication is not configured.' },
+        { success: false, message: 'Unable to sign in right now. Please try again later.' },
         { status: 503 }
       )
     }
@@ -30,9 +31,18 @@ export async function POST(request: Request) {
     })
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
-    if (error || !data.session || data.user.app_metadata?.role !== 'admin') {
+    // Case A: Authentication failure (bad password, non-existent user, invalid format, etc.)
+    if (error || !data.session || !data.user) {
       return NextResponse.json(
-        { success: false, message: 'This account does not have administrator access.' },
+        { success: false, message: 'Invalid email or password. Please check your credentials and try again.' },
+        { status: 401 }
+      )
+    }
+
+    // Case B: Authenticated in Supabase, but not an administrator
+    if (data.user.email?.toLowerCase() !== ADMIN_EMAIL || data.user.app_metadata?.role !== 'admin') {
+      return NextResponse.json(
+        { success: false, message: 'This account does not have administrator access. Please contact the system administrator.' },
         { status: 403 }
       )
     }
@@ -44,7 +54,12 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json({
       success: true,
-      user: { email: ADMIN_EMAIL, role: 'Administrator' },
+      user: {
+        email: ADMIN_EMAIL,
+        name: 'Velavan Catering Admin',
+        username: 'Velavan Admin',
+        role: 'Administrator',
+      },
     })
     response.cookies.set('velavan_access_token', data.session.access_token, {
       httpOnly: true, secure, sameSite: 'lax', path: '/',
@@ -61,7 +76,7 @@ export async function POST(request: Request) {
     return response
   } catch {
     return NextResponse.json(
-      { success: false, message: 'Unable to authenticate. Please try again.' },
+      { success: false, message: 'Unable to sign in right now. Please try again later.' },
       { status: 500 }
     )
   }

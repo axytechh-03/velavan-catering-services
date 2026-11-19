@@ -120,10 +120,10 @@ export default function StandaloneAdminLoginPage() {
         // Redirect cleanly to dashboard
         router.replace('/admin/dashboard')
       } else {
-        setErrorMessage(data.message || 'Invalid administrator credentials. Access denied.')
+        setErrorMessage(data.message || 'Invalid email or password. Please check your credentials and try again.')
       }
-    } catch (err: any) {
-      setErrorMessage('Authentication gateway error. Please verify server connection.')
+    } catch {
+      setErrorMessage('Unable to sign in right now. Please try again later.')
     } finally {
       setLoading(false)
     }

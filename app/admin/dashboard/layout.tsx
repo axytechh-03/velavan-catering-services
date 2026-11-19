@@ -52,6 +52,12 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
   const [authenticating, setAuthenticating] = useState(true)
   const [newEnquiryCount, setNewEnquiryCount] = useState(0)
   const [recentNotifications, setRecentNotifications] = useState<any[]>([])
+  const [adminUser, setAdminUser] = useState({
+    name: 'Velavan Catering Admin',
+    username: 'Velavan Admin',
+    email: 'axy.techh@gmail.com',
+    initials: 'VC',
+  })
 
   const dropdownRef = useRef<HTMLDivElement>(null)
   const notifRef = useRef<HTMLDivElement>(null)
@@ -65,6 +71,15 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
         if (!data.authenticated) {
           router.replace('/admin')
           return
+        }
+
+        if (data.user) {
+          setAdminUser({
+            name: data.user.name || 'Velavan Catering Admin',
+            username: data.user.username || 'Velavan Admin',
+            email: data.user.email || 'axy.techh@gmail.com',
+            initials: data.user.initials || 'VC',
+          })
         }
 
         // Fetch KPI stats for badges & notification drawer
@@ -587,7 +602,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                 flexShrink: 0,
               }}
             >
-              VK
+              {adminUser.initials}
             </div>
 
             {!collapsed && (
@@ -917,10 +932,10 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                     fontSize: '0.82rem',
                   }}
                 >
-                  VK
+                  {adminUser.initials}
                 </div>
                 <span className="profile-btn-label" style={{ fontSize: '0.84rem', fontWeight: 600, color: '#153d2d' }}>
-                  Admin
+                  {adminUser.username}
                 </span>
                 <ChevronDown size={14} style={{ color: '#6b756e' }} />
               </button>
@@ -948,8 +963,8 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                       marginBottom: '6px',
                     }}
                   >
-                    <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#153d2d' }}>Administrator</div>
-                    <div style={{ fontSize: '0.72rem', color: '#6b756e' }}>admin@velavancatering.com</div>
+                    <div style={{ fontSize: '0.84rem', fontWeight: 700, color: '#153d2d' }}>{adminUser.name}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#6b756e' }}>{adminUser.email}</div>
                   </div>
 
                   <button
@@ -1114,7 +1129,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                     fontWeight: 700,
                   }}
                 >
-                  VK
+                  {adminUser.initials}
                 </div>
                 <div>
                   <h3
@@ -1125,7 +1140,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                       color: '#faf8f1',
                     }}
                   >
-                    Velavan Administrator
+                    {adminUser.name}
                   </h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span
@@ -1163,7 +1178,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                   }}
                 >
                   <span style={{ color: '#6b756e' }}>Username ID:</span>
-                  <span style={{ fontWeight: 600, color: '#153d2d' }}>admin</span>
+                  <span style={{ fontWeight: 600, color: '#153d2d' }}>{adminUser.username}</span>
                 </div>
 
                 <div
@@ -1177,7 +1192,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                   }}
                 >
                   <span style={{ color: '#6b756e' }}>Official Email:</span>
-                  <span style={{ fontWeight: 600, color: '#153d2d' }}>admin@velavancatering.com</span>
+                  <span style={{ fontWeight: 600, color: '#153d2d' }}>{adminUser.email}</span>
                 </div>
 
                 <div

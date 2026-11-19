@@ -5,7 +5,24 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   const authenticated = await verifyAdminAuth()
-  return NextResponse.json({ authenticated }, {
-    headers: { 'Cache-Control': 'no-store' },
-  })
+  if (!authenticated) {
+    return NextResponse.json(
+      { authenticated: false },
+      { headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
+  return NextResponse.json(
+    {
+      authenticated: true,
+      user: {
+        email: 'axy.techh@gmail.com',
+        name: 'Velavan Catering Admin',
+        username: 'Velavan Admin',
+        initials: 'VC',
+        role: 'Administrator',
+      },
+    },
+    { headers: { 'Cache-Control': 'no-store' } }
+  )
 }

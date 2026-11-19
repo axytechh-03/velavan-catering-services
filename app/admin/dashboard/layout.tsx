@@ -22,6 +22,8 @@ import {
   CheckCircle2,
   FilePlus2,
   Files,
+  Image as ImageIcon,
+  Sparkles,
 } from 'lucide-react'
 
 interface AdminLayoutProps {
@@ -146,6 +148,18 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
       icon: UtensilsCrossed,
     },
     {
+      id: 'services',
+      label: 'Services Management',
+      href: '/admin/dashboard/services',
+      icon: Sparkles,
+    },
+    {
+      id: 'gallery',
+      label: 'Gallery Management',
+      href: '/admin/dashboard/gallery',
+      icon: ImageIcon,
+    },
+    {
       id: 'create-proposal',
       label: 'Create Proposal',
       href: '/admin/dashboard/proposals/create',
@@ -171,6 +185,8 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
     if (pathname === '/admin/dashboard') return { group: 'Main', page: 'Dashboard Overview' }
     if (pathname.includes('/enquiries')) return { group: 'CRM', page: 'Customer Enquiries' }
     if (pathname.includes('/menu')) return { group: 'Catalog', page: 'Menu Management' }
+    if (pathname.includes('/gallery')) return { group: 'Catalog', page: 'Moments Gallery' }
+    if (pathname.includes('/services')) return { group: 'Catalog', page: 'Catering Services' }
     if (pathname.includes('/proposals/create')) return { group: 'Proposals', page: 'Create Catering Proposal' }
     if (pathname.includes('/proposals')) return { group: 'Proposals', page: 'Saved Proposals' }
     if (pathname.includes('/settings')) return { group: 'System', page: 'Settings' }

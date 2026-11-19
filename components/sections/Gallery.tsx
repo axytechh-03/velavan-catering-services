@@ -129,7 +129,7 @@ export function Gallery() {
         const res = await fetch('/api/content?section=gallery')
         if (res.ok) {
           const json = await res.json()
-          if (json.success && json.data && json.data.length > 0) {
+          if (json.success && Array.isArray(json.data)) {
             setGalleryList(json.data)
           }
         }
@@ -327,9 +327,44 @@ export function Gallery() {
           <p>{t.galleryDesc}</p>
         </div>
 
-        {/* =========================================================================
-            FINITE ANIMATED HORIZONTAL IMAGE CAROUSEL
-           ========================================================================= */}
+        {galleryList.length === 0 ? (
+          <div
+            className="reveal-up"
+            style={{
+              padding: '60px 24px',
+              textAlign: 'center',
+              background: 'rgba(21, 61, 45, 0.4)',
+              border: '1px solid rgba(196, 163, 101, 0.25)',
+              borderRadius: '16px',
+              maxWidth: '600px',
+              margin: '30px auto 0',
+            }}
+          >
+            <p
+              style={{
+                fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
+                fontSize: '1.35rem',
+                color: '#faf8f1',
+                margin: '0 0 8px',
+              }}
+            >
+              {language === 'ta'
+                ? 'புகைப்படங்கள் விரைவில் வெளியிடப்படும்'
+                : 'Celebration Moments Coming Soon'}
+            </p>
+            <p
+              style={{
+                fontSize: '0.88rem',
+                color: 'rgba(250, 248, 241, 0.7)',
+                margin: 0,
+              }}
+            >
+              {language === 'ta'
+                ? 'எங்கள் நிகழ்வு புகைப்படத் தொகுப்பு விரைவில் புதுப்பிக்கப்படும்.'
+                : 'Our event gallery is currently being curated with fresh photographs.'}
+            </p>
+          </div>
+        ) : (
         <div
           className="carousel-container reveal-up"
           onMouseEnter={() => setIsHovered(true)}
@@ -456,6 +491,7 @@ export function Gallery() {
             </div>
           </div>
         </div>
+        )}
 
         {/* Gallery Note */}
         <p className="menu-note reveal-up" style={{ transitionDelay: '0.25s' }}>

@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS public.rate_limits (
   key TEXT PRIMARY KEY,
   points INT NOT NULL DEFAULT 1,
   expire_at TIMESTAMPTZ NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT pg_catalog.timezone('utc'::pg_catalog.text, pg_catalog.now()) NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT pg_catalog.timezone('utc'::pg_catalog.text, pg_catalog.now()) NOT NULL
+  created_at TIMESTAMPTZ DEFAULT pg_catalog.now() NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT pg_catalog.now() NOT NULL
 );
 
 -- 2. CREATE INDEX FOR EXPIRATION CLEANUP
@@ -44,7 +44,7 @@ SECURITY DEFINER
 SET search_path = ''
 AS $$
 DECLARE
-  v_now TIMESTAMPTZ := pg_catalog.timezone('utc'::pg_catalog.text, pg_catalog.now());
+  v_now TIMESTAMPTZ := pg_catalog.now();
   v_record public.rate_limits%ROWTYPE;
   v_retry_after INT := 0;
 BEGIN
@@ -98,10 +98,10 @@ BEGIN
   RETURNING * INTO v_record;
 
   IF v_record.points > p_max_points THEN
-    v_retry_after := pg_catalog.greatest(1, EXTRACT(EPOCH FROM (v_record.expire_at - v_now))::INT);
+    v_retry_after := GREATEST(1, EXTRACT(EPOCH FROM (v_record.expire_at - v_now))::INT);
     RETURN QUERY SELECT FALSE, v_record.points, 0, v_retry_after;
   ELSE
-    RETURN QUERY SELECT TRUE, v_record.points, pg_catalog.greatest(0, p_max_points - v_record.points), 0;
+    RETURN QUERY SELECT TRUE, v_record.points, GREATEST(0, p_max_points - v_record.points), 0;
   END IF;
 END;
 $$;
@@ -133,8 +133,8 @@ SET search_path = ''
 AS $$
 DECLARE
   v_deleted INT := 0;
-  v_now TIMESTAMPTZ := pg_catalog.timezone('utc'::pg_catalog.text, pg_catalog.now());
-  v_limit INT := pg_catalog.least(pg_catalog.greatest(1, pg_catalog.coalesce(p_max_delete, 500)), 5000);
+  v_now TIMESTAMPTZ := pg_catalog.now();
+  v_limit INT := LEAST(GREATEST(1, COALESCE(p_max_delete, 500)), 5000);
 BEGIN
   DELETE FROM public.rate_limits
   WHERE key IN (

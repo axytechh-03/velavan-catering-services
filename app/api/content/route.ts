@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
 import {
-  getCMSData,
-  getServicesData,
-  getGalleryData,
-  getMenuData,
-  getClientsData,
-  getSiteContentData,
+  getServicesDataAsync,
+  getGalleryDataAsync,
+  getMenuDataAsync,
+  getClientsDataAsync,
+  getSiteContentDataAsync,
 } from '@/lib/cms-store'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+export const fetchCache = 'force-no-store'
 
 export async function GET(request: Request) {
   try {
@@ -16,13 +17,23 @@ export async function GET(request: Request) {
     const section = searchParams.get('section')
 
     if (section === 'services') {
-      return NextResponse.json({ success: true, data: getServicesData().filter((s) => s.active) })
+      const services = await getServicesDataAsync()
+      return NextResponse.json({
+        success: true,
+        data: services.filter((s) => s.active),
+      })
     }
+
     if (section === 'gallery') {
-      return NextResponse.json({ success: true, data: getGalleryData().filter((g) => g.active) })
+      const gallery = await getGalleryDataAsync()
+      return NextResponse.json({
+        success: true,
+        data: gallery.filter((g) => g.active),
+      })
     }
+
     if (section === 'menu') {
-      const menu = getMenuData()
+      const menu = await getMenuDataAsync()
       return NextResponse.json({
         success: true,
         data: {
@@ -31,28 +42,45 @@ export async function GET(request: Request) {
         },
       })
     }
+
     if (section === 'clients') {
-      return NextResponse.json({ success: true, data: getClientsData().filter((c) => c.active) })
-    }
-    if (section === 'content') {
-      return NextResponse.json({ success: true, data: getSiteContentData() })
+      const clients = await getClientsDataAsync()
+      return NextResponse.json({
+        success: true,
+        data: clients.filter((c) => c.active),
+      })
     }
 
-    // Return complete public CMS bundle
-    const cms = getCMSData()
+    if (section === 'content') {
+      const content = await getSiteContentDataAsync()
+      return NextResponse.json({
+        success: true,
+        data: content,
+      })
+    }
+
+    // Return complete public CMS bundle (strictly public content only)
+    const [services, gallery, menu, clients, content] = await Promise.all([
+      getServicesDataAsync(),
+      getGalleryDataAsync(),
+      getMenuDataAsync(),
+      getClientsDataAsync(),
+      getSiteContentDataAsync(),
+    ])
+
     return NextResponse.json({
       success: true,
       data: {
-        services: cms.services.filter((s) => s.active),
-        gallery: cms.gallery.filter((g) => g.active),
-        menuCategories: cms.menuCategories.filter((c) => c.active !== false),
-        menuItems: cms.menuItems.filter((i) => i.active !== false),
-        clients: cms.clients.filter((c) => c.active),
-        content: cms.content,
+        services: services.filter((s) => s.active),
+        gallery: gallery.filter((g) => g.active),
+        menuCategories: menu.categories.filter((c) => c.active !== false),
+        menuItems: menu.items.filter((i) => i.active !== false),
+        clients: clients.filter((c) => c.active),
+        content,
       },
     })
   } catch (err: any) {
-    console.error('Error fetching public content:', err)
+    console.error('Error fetching public content from Supabase:', err)
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
   }
 }

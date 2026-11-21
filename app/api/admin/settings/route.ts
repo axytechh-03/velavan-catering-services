@@ -1,27 +1,31 @@
 import { NextResponse } from 'next/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
-import { getSiteSettingsData, saveSiteSettingsData, getCMSData } from '@/lib/cms-store'
+import {
+  getSiteSettingsDataAsync,
+  saveSiteSettingsDataAsync,
+  getCMSDataAsync,
+} from '@/lib/cms-store'
 import { isSupabaseConfigured } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const settings = getSiteSettingsData()
-    const cms = getCMSData()
+    const settings = await getSiteSettingsDataAsync()
+    const cms = await getCMSDataAsync()
 
     const systemInfo = {
       nodeVersion: process.version,
       platform: process.platform,
       nextVersion: '14.2.23',
       environment: process.env.NODE_ENV || 'production',
-      databaseMode: isSupabaseConfigured ? 'Supabase Managed Cloud' : 'Local High-Speed JSON Store',
+      databaseMode: 'Supabase Managed Cloud',
       isSupabaseConnected: isSupabaseConfigured,
-      storagePath: 'data/cms-data.json',
+      storagePath: 'Supabase PostgreSQL (velavan-catering)',
       totalRecords: {
         enquiries: cms.enquiries.length,
         dishes: cms.menuItems.length,
@@ -50,13 +54,13 @@ export async function GET() {
 }
 
 export async function PUT(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     const body = await request.json()
-    const updated = saveSiteSettingsData(body)
+    const updated = await saveSiteSettingsDataAsync(body)
     return NextResponse.json({ success: true, settings: updated })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })

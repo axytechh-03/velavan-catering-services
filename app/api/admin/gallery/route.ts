@@ -1,16 +1,21 @@
 import { NextResponse } from 'next/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
-import { getGalleryData, saveGalleryData, saveGalleryItem, deleteGalleryItem } from '@/lib/cms-store'
+import {
+  getGalleryDataAsync,
+  saveGalleryDataAsync,
+  saveGalleryItemAsync,
+  deleteGalleryItemAsync,
+} from '@/lib/cms-store'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const gallery = getGalleryData()
+    const gallery = await getGalleryDataAsync()
     return NextResponse.json({ success: true, gallery })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
@@ -18,13 +23,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     const body = await request.json()
-    const saved = saveGalleryItem(body)
+    const saved = await saveGalleryItemAsync(body)
     return NextResponse.json({ success: true, item: saved })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
@@ -32,7 +37,7 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -40,11 +45,11 @@ export async function PUT(request: Request) {
     const body = await request.json()
 
     if (Array.isArray(body)) {
-      saveGalleryData(body)
+      await saveGalleryDataAsync(body)
       return NextResponse.json({ success: true, gallery: body })
     }
 
-    const saved = saveGalleryItem(body)
+    const saved = await saveGalleryItemAsync(body)
     return NextResponse.json({ success: true, item: saved })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
@@ -52,7 +57,7 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -64,7 +69,7 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ success: false, error: 'Missing ID' }, { status: 400 })
     }
 
-    const ok = deleteGalleryItem(id)
+    const ok = await deleteGalleryItemAsync(id)
     return NextResponse.json({ success: ok })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })

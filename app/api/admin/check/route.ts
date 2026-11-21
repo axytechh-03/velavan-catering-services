@@ -1,13 +1,28 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { verifyAdminAuth } from '@/lib/admin-auth'
+
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const cookieStore = cookies()
-  const token = cookieStore.get('velavan_admin_token')
-
-  if (token && token.value === 'authenticated') {
-    return NextResponse.json({ authenticated: true })
+  const authenticated = await verifyAdminAuth()
+  if (!authenticated) {
+    return NextResponse.json(
+      { authenticated: false },
+      { headers: { 'Cache-Control': 'no-store' } }
+    )
   }
 
-  return NextResponse.json({ authenticated: false })
+  return NextResponse.json(
+    {
+      authenticated: true,
+      user: {
+        email: 'axy.techh@gmail.com',
+        name: 'Velavan Catering Admin',
+        username: 'Velavan Admin',
+        initials: 'VC',
+        role: 'Administrator',
+      },
+    },
+    { headers: { 'Cache-Control': 'no-store' } }
+  )
 }

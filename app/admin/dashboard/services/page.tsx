@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import {
   Sparkles,
@@ -16,6 +16,10 @@ import {
   Save,
 } from 'lucide-react'
 import { ServiceRecord } from '@/lib/cms-store'
+import MediaUploader, {
+  isSupabaseStorageUrl,
+  safelyDeleteStorageImage,
+} from '@/components/admin/MediaUploader'
 
 export default function ServicesManagementPage() {
   const [services, setServices] = useState<ServiceRecord[]>([])
@@ -23,6 +27,8 @@ export default function ServicesManagementPage() {
   const [editingService, setEditingService] = useState<ServiceRecord | null>(null)
   const [toastMessage, setToastMessage] = useState('')
   const [saving, setSaving] = useState(false)
+
+  const originalImageRef = useRef<string>('')
 
   // Form State
   const [formData, setFormData] = useState<ServiceRecord | null>(null)
@@ -58,6 +64,7 @@ export default function ServicesManagementPage() {
   }, [toastMessage])
 
   const openEditModal = (svc: ServiceRecord) => {
+    originalImageRef.current = svc.image
     setEditingService(svc)
     setFormData({ ...svc })
     setFeaturedEnText((svc.featuredDishes?.en || []).join(', '))
@@ -67,6 +74,12 @@ export default function ServicesManagementPage() {
   const handleSaveService = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData) return
+
+    if (!formData.image.trim()) {
+      setToastMessage('Please upload or specify a service banner image.')
+      return
+    }
+
     setSaving(true)
 
     const updated: ServiceRecord = {
@@ -85,9 +98,32 @@ export default function ServicesManagementPage() {
       })
 
       if (res.ok) {
+        const oldImage = originalImageRef.current
+        const newImage = updated.image
+
         setServices((prev) => prev.map((s) => (s.id === updated.id ? updated : s)))
         setToastMessage(`Service "${updated.titleEn}" updated and published!`)
         setEditingService(null)
+
+        // Safe replacement rule:
+        // Only after database update succeeded:
+        if (oldImage && oldImage !== newImage && isSupabaseStorageUrl(oldImage)) {
+          const isReferencedElsewhere = services.some(
+            (s) => s.id !== updated.id && s.image === oldImage
+          )
+          const isBaseline = [
+            'wedding-muhurtham.jpg',
+            'reception-catering.jpg',
+            'engagement-catering.jpg',
+            'corporate-events.jpg',
+            'birthday-family-functions.jpg',
+            'special-events-occasions.jpg',
+          ].some((seed) => oldImage.includes(seed))
+          if (!isReferencedElsewhere && !isBaseline) {
+            safelyDeleteStorageImage(oldImage)
+          }
+        }
+        originalImageRef.current = ''
       }
     } catch (err) {
       console.error(err)
@@ -636,28 +672,14 @@ export default function ServicesManagementPage() {
                 </div>
               </div>
 
-              <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
-                  Image URL / Path
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
-                    borderRadius: '8px',
-                    color: '#ffffff',
-                    fontSize: '0.88rem',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
+              <MediaUploader
+                folder="services"
+                currentUrl={formData.image}
+                onChange={(image) => setFormData({ ...formData, image })}
+                label="Service Banner Image"
+                required
+                helpText="Upload JPEG, PNG, WebP or SVG up to 5 MB for this catering celebration tier."
+              />
 
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', paddingTop: '6px' }}>
                 <input

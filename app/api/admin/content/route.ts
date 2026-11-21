@@ -1,16 +1,19 @@
 import { NextResponse } from 'next/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
-import { getSiteContentData, saveSiteContentData } from '@/lib/cms-store'
+import {
+  getSiteContentDataAsync,
+  saveSiteContentDataAsync,
+} from '@/lib/cms-store'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const content = getSiteContentData()
+    const content = await getSiteContentDataAsync()
     return NextResponse.json({ success: true, content })
   } catch (err: any) {
     console.error('ERROR IN ADMIN CONTENT GET:', err)
@@ -19,13 +22,13 @@ export async function GET(request: Request) {
 }
 
 export async function PUT(request: Request) {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
     const body = await request.json()
-    const updated = saveSiteContentData(body)
+    const updated = await saveSiteContentDataAsync(body)
     return NextResponse.json({ success: true, content: updated })
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })

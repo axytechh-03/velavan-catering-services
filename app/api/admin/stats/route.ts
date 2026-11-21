@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server'
 import { verifyAdminAuth } from '@/lib/admin-auth'
-import { getCMSData, getActivities, EnquiryRecord } from '@/lib/cms-store'
+import { getCMSDataAsync, getActivitiesAsync, EnquiryRecord } from '@/lib/cms-store'
 import { isSupabaseConfigured } from '@/lib/supabase'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  if (!verifyAdminAuth()) {
+  if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
 
   try {
-    const cms = getCMSData()
+    const cms = await getCMSDataAsync()
     const enquiries = cms.enquiries || []
     const menuItems = cms.menuItems || []
     const menuCategories = cms.menuCategories || []
@@ -166,7 +166,7 @@ export async function GET() {
     }
 
     // Recent administrative activities
-    const activities = getActivities(15)
+    const activities = await getActivitiesAsync(15)
 
     return NextResponse.json({
       success: true,
@@ -199,7 +199,7 @@ export async function GET() {
           thisYear: thisYearMonths,
         },
         activities,
-        storageMode: isSupabaseConfigured ? 'Supabase Database' : 'Local Persistent JSON Store',
+        storageMode: 'Supabase Database',
         isSupabase: isSupabaseConfigured,
       },
     })

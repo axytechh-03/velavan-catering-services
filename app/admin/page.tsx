@@ -17,17 +17,67 @@ import {
   HelpCircle,
   X,
   KeyRound,
+  Clock,
+  RefreshCw,
 } from 'lucide-react'
 
 export default function StandaloneAdminLoginPage() {
   const router = useRouter()
-  const [emailOrUsername, setEmailOrUsername] = useState('admin')
+  const [emailOrUsername, setEmailOrUsername] = useState('axy.techh@gmail.com')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [verifyingSession, setVerifyingSession] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const [showHelpModal, setShowHelpModal] = useState(false)
+  const [recoveryLoading, setRecoveryLoading] = useState(false)
+  const [recoverySuccess, setRecoverySuccess] = useState('')
+  const [recoveryError, setRecoveryError] = useState('')
+  const [recoveryCooldown, setRecoveryCooldown] = useState(0)
+
+  // Recovery cooldown countdown timer
+  useEffect(() => {
+    if (recoveryCooldown <= 0) return
+    const timer = setInterval(() => {
+      setRecoveryCooldown((prev) => (prev > 0 ? prev - 1 : 0))
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [recoveryCooldown])
+
+  const handleSendRecoveryLink = async () => {
+    if (recoveryLoading || recoveryCooldown > 0) return
+
+    setRecoveryLoading(true)
+    setRecoveryError('')
+    setRecoverySuccess('')
+
+    try {
+      const res = await fetch('/api/admin/recover', { method: 'POST' })
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        setRecoverySuccess(
+          data.message ||
+            'Password recovery instructions have been dispatched to axy.techh@gmail.com.'
+        )
+        setRecoveryCooldown(60) // Enforce 60-second cooldown
+      } else {
+        const errorText = data.message || 'Could not dispatch recovery email.'
+        if (errorText.toLowerCase().includes('rate limit')) {
+          setRecoveryError(
+            'Supabase email rate limit reached. Please check your existing inbox or wait a short while before requesting another link.'
+          )
+          setRecoveryCooldown(60)
+        } else {
+          setRecoveryError(errorText)
+        }
+      }
+    } catch {
+      setRecoveryError('Network error while requesting recovery. Please verify server connection.')
+    } finally {
+      setRecoveryLoading(false)
+    }
+  }
 
   // Verify whether an active admin session already exists
   useEffect(() => {
@@ -70,10 +120,10 @@ export default function StandaloneAdminLoginPage() {
         // Redirect cleanly to dashboard
         router.replace('/admin/dashboard')
       } else {
-        setErrorMessage(data.message || 'Invalid administrator credentials. Access denied.')
+        setErrorMessage(data.message || 'Invalid email or password. Please check your credentials and try again.')
       }
-    } catch (err: any) {
-      setErrorMessage('Authentication gateway error. Please verify server connection.')
+    } catch {
+      setErrorMessage('Unable to sign in right now. Please try again later.')
     } finally {
       setLoading(false)
     }
@@ -298,7 +348,7 @@ export default function StandaloneAdminLoginPage() {
                 type="text"
                 value={emailOrUsername}
                 onChange={(e) => setEmailOrUsername(e.target.value)}
-                placeholder="admin or admin@velavancatering.com"
+                placeholder="axy.techh@gmail.com"
                 required
                 style={{
                   width: '100%',
@@ -512,7 +562,7 @@ export default function StandaloneAdminLoginPage() {
         </div>
       </div>
 
-      {/* Forgot Credentials Modal */}
+      {/* Password Recovery Modal */}
       {showHelpModal && (
         <div
           style={{
@@ -526,7 +576,13 @@ export default function StandaloneAdminLoginPage() {
             padding: '20px',
             zIndex: 9999,
           }}
-          onClick={() => setShowHelpModal(false)}
+          onClick={() => {
+            if (!recoveryLoading) {
+              setShowHelpModal(false)
+              setRecoveryError('')
+              setRecoverySuccess('')
+            }
+          }}
         >
           <div
             style={{
@@ -543,7 +599,12 @@ export default function StandaloneAdminLoginPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              onClick={() => setShowHelpModal(false)}
+              onClick={() => {
+                setShowHelpModal(false)
+                setRecoveryError('')
+                setRecoverySuccess('')
+              }}
+              disabled={recoveryLoading}
               style={{
                 position: 'absolute',
                 top: '16px',
@@ -551,9 +612,10 @@ export default function StandaloneAdminLoginPage() {
                 background: 'none',
                 border: 'none',
                 color: 'rgba(250, 248, 241, 0.6)',
-                cursor: 'pointer',
+                cursor: recoveryLoading ? 'not-allowed' : 'pointer',
                 padding: '4px',
               }}
+              aria-label="Close recovery modal"
             >
               <X size={20} />
             </button>
@@ -581,52 +643,163 @@ export default function StandaloneAdminLoginPage() {
                   color: '#c4a365',
                 }}
               >
-                Administrator Access Credentials
+                Administrator Password Recovery
               </h3>
             </div>
 
             <div style={{ fontSize: '0.88rem', lineHeight: '1.6', color: 'rgba(250, 248, 241, 0.85)' }}>
-              <p style={{ margin: '0 0 12px' }}>
-                For security reasons, administrator account registration is strictly closed to the general public.
+              <p style={{ margin: '0 0 14px' }}>
+                Password recovery instructions will be dispatched to the verified administrator account registered with Supabase Authentication.
               </p>
+
               <div
                 style={{
-                  background: 'rgba(13, 40, 30, 0.8)',
-                  border: '1px solid rgba(196, 163, 101, 0.25)',
-                  padding: '14px',
+                  background: 'rgba(13, 40, 30, 0.85)',
+                  border: '1px solid rgba(196, 163, 101, 0.3)',
+                  padding: '14px 16px',
                   borderRadius: '8px',
                   marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
                 }}
               >
-                <div style={{ fontSize: '0.8rem', color: '#c4a365', fontWeight: 600, marginBottom: '6px' }}>
-                  DEFAULT INITIAL CREDENTIALS:
+                <Mail size={18} style={{ color: '#c4a365', flexShrink: 0 }} />
+                <div>
+                  <div style={{ fontSize: '0.75rem', color: '#c4a365', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>
+                    Registered Administrator Email
+                  </div>
+                  <div style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.92rem', marginTop: '2px' }}>
+                    axy.techh@gmail.com
+                  </div>
                 </div>
-                <div>Username: <strong style={{ color: '#fff' }}>admin</strong></div>
-                <div>Default Password: <strong style={{ color: '#fff' }}>velavan2026</strong></div>
               </div>
-              <p style={{ margin: 0, fontSize: '0.82rem', color: 'rgba(250, 248, 241, 0.65)' }}>
-                To modify or rotate the administrator password, sign in and navigate to{' '}
-                <strong style={{ color: '#c4a365' }}>Admin Settings</strong> in the sidebar, or update the{' '}
-                <code>ADMIN_PASSWORD</code> environment variable in your hosting dashboard.
+
+              {/* Success Feedback Banner */}
+              {recoverySuccess && (
+                <div
+                  style={{
+                    background: 'rgba(21, 61, 45, 0.95)',
+                    border: '1px solid #c4a365',
+                    borderRadius: '8px',
+                    padding: '12px 14px',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px',
+                    color: '#faf8f1',
+                    fontSize: '0.85rem',
+                  }}
+                >
+                  <CheckCircle2 size={18} style={{ color: '#c4a365', flexShrink: 0, marginTop: '2px' }} />
+                  <div>
+                    <div>{recoverySuccess}</div>
+                    <div style={{ fontSize: '0.78rem', color: 'rgba(250, 248, 241, 0.7)', marginTop: '4px' }}>
+                      Please check your inbox and spam folder. Click the link in the email to set a new password.
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Error Feedback Banner */}
+              {recoveryError && (
+                <div
+                  style={{
+                    background: 'rgba(180, 40, 40, 0.15)',
+                    border: '1px solid rgba(239, 68, 68, 0.5)',
+                    borderRadius: '8px',
+                    padding: '12px 14px',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '10px',
+                    color: '#fca5a5',
+                    fontSize: '0.85rem',
+                  }}
+                >
+                  <AlertCircle size={18} style={{ color: '#ef4444', flexShrink: 0, marginTop: '2px' }} />
+                  <div>{recoveryError}</div>
+                </div>
+              )}
+
+              <p style={{ margin: '0 0 16px', fontSize: '0.82rem', color: 'rgba(250, 248, 241, 0.65)' }}>
+                For security, password reset links expire in 30 minutes. If you already have a recovery token or code, you can proceed directly to the reset portal.
               </p>
             </div>
 
-            <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'flex-end' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '20px' }}>
               <button
-                onClick={() => setShowHelpModal(false)}
+                type="button"
+                onClick={handleSendRecoveryLink}
+                disabled={recoveryLoading || recoveryCooldown > 0}
                 style={{
-                  padding: '8px 18px',
-                  background: '#c4a365',
-                  color: '#0d281e',
+                  width: '100%',
+                  padding: '12px 20px',
+                  background: recoveryCooldown > 0 ? 'rgba(196, 163, 101, 0.3)' : '#c4a365',
+                  color: recoveryCooldown > 0 ? 'rgba(250, 248, 241, 0.6)' : '#0d281e',
                   border: 'none',
                   borderRadius: '6px',
                   fontWeight: 600,
-                  fontSize: '0.85rem',
-                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  cursor: recoveryLoading || recoveryCooldown > 0 ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  transition: 'background 0.2s, opacity 0.2s',
                 }}
               >
-                Understood
+                {recoveryLoading ? (
+                  <>
+                    <RefreshCw size={16} className="animate-spin" />
+                    <span>Sending Recovery Link...</span>
+                  </>
+                ) : recoveryCooldown > 0 ? (
+                  <>
+                    <Clock size={16} />
+                    <span>Resend Available in {recoveryCooldown}s</span>
+                  </>
+                ) : (
+                  <>
+                    <Mail size={16} />
+                    <span>Send Password Reset Link</span>
+                  </>
+                )}
               </button>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+                <Link
+                  href="/admin/reset-password"
+                  onClick={() => setShowHelpModal(false)}
+                  style={{
+                    color: '#c4a365',
+                    fontSize: '0.8rem',
+                    textDecoration: 'underline',
+                    opacity: 0.9,
+                  }}
+                >
+                  Go to Reset Password Portal
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowHelpModal(false)
+                    setRecoveryError('')
+                    setRecoverySuccess('')
+                  }}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'rgba(250, 248, 241, 0.6)',
+                    fontSize: '0.8rem',
+                    cursor: 'pointer',
+                    padding: '4px 8px',
+                  }}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -204,6 +204,7 @@ export async function GET() {
       },
     })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Stats GET Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to calculate dashboard statistics.' }, { status: 500 })
   }
 }

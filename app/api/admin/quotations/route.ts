@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyAdminAuth, isValidAdminRequestOrigin } from '@/lib/admin-auth'
 import {
   getQuotations,
   getQuotationById,
@@ -38,11 +38,19 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, quotations })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Quotations GET Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to fetch proposals data.' }, { status: 500 })
   }
 }
 
 export async function POST(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -80,11 +88,19 @@ export async function POST(request: Request) {
     const saved = await saveQuotation(payload)
     return NextResponse.json({ success: true, quotation: saved })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Quotations POST Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to save proposal.' }, { status: 500 })
   }
 }
 
 export async function PATCH(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -112,11 +128,19 @@ export async function PATCH(request: Request) {
     const updated = await getQuotationById(id)
     return NextResponse.json({ success: true, quotation: updated })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Quotations PATCH Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to update proposal.' }, { status: 500 })
   }
 }
 
 export async function DELETE(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -136,6 +160,7 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ success: true })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Quotations DELETE Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to delete proposal.' }, { status: 500 })
   }
 }

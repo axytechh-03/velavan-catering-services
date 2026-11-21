@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import path from 'path'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyAdminAuth, isValidAdminRequestOrigin } from '@/lib/admin-auth'
 import { getSupabaseServerClient } from '@/lib/supabase-server'
 
 export const dynamic = 'force-dynamic'
@@ -159,7 +159,15 @@ function validateFile(
  * - 'folder': The destination folder ('gallery' | 'services' | 'branding')
  */
 export async function POST(request: NextRequest) {
-  // 1. Enforce admin authentication
+  // 1. Enforce origin validation
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
+  // 2. Enforce admin authentication
   if (!(await verifyAdminAuth())) {
     return NextResponse.json(
       { success: false, error: 'Unauthorized. Admin session required.' },
@@ -250,9 +258,9 @@ export async function POST(request: NextRequest) {
       })
 
     if (uploadError) {
-      console.error('[upload-api] Supabase storage upload error:', uploadError.message)
+      console.error('[upload-api] Storage upload error:', uploadError.message)
       return NextResponse.json(
-        { success: false, error: `Storage upload failed: ${uploadError.message}` },
+        { success: false, error: 'Failed to upload image. Please check the file format and try again.' },
         { status: 500 }
       )
     }
@@ -288,7 +296,15 @@ export async function POST(request: NextRequest) {
  * - JSON body: { "path": "<folder>/<filename>" } (or full public URL)
  */
 export async function DELETE(request: NextRequest) {
-  // 1. Enforce admin authentication
+  // 1. Enforce origin validation
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
+  // 2. Enforce admin authentication
   if (!(await verifyAdminAuth())) {
     return NextResponse.json(
       { success: false, error: 'Unauthorized. Admin session required.' },
@@ -372,9 +388,9 @@ export async function DELETE(request: NextRequest) {
       .remove([targetPath])
 
     if (removeError) {
-      console.error('[delete-api] Supabase storage delete error:', removeError.message)
+      console.error('[delete-api] Storage delete error:', removeError.message)
       return NextResponse.json(
-        { success: false, error: `Storage deletion failed: ${removeError.message}` },
+        { success: false, error: 'Failed to delete image from storage. Please try again.' },
         { status: 500 }
       )
     }

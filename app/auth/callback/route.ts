@@ -4,13 +4,93 @@ import { createClient } from '@supabase/supabase-js'
 export const dynamic = 'force-dynamic'
 
 const ADMIN_EMAIL = 'axy.techh@gmail.com'
+const DEFAULT_FALLBACK_PATH = '/admin/reset-password'
+
+/**
+ * Validates and sanitizes redirect destination paths.
+ * Enforces strictly safe, relative internal destinations on the same origin.
+ * Rejects protocol-relative URLs (//), backslash bypasses (/\ or \), external schemes,
+ * malformed or nested URI encodings, control characters, and origin departures.
+ */
+function getSafeRedirectPath(
+  candidate: string | null | undefined,
+  fallback: string = DEFAULT_FALLBACK_PATH
+): string {
+  if (!candidate || typeof candidate !== 'string') {
+    return fallback
+  }
+
+  const trimmed = candidate.trim()
+  if (!trimmed) {
+    return fallback
+  }
+
+  // Must begin with a single slash and never a double slash or backslash
+  if (!trimmed.startsWith('/') || trimmed.startsWith('//') || trimmed.startsWith('/\\') || /\x5c/.test(trimmed)) {
+    return fallback
+  }
+
+  // Reject raw control characters or null bytes
+  if (/[\x00-\x1F\x7F]/.test(trimmed)) {
+    return fallback
+  }
+
+  // Iteratively decode to prevent nested percent-encoding bypasses (e.g. %252f, %255c)
+  let current = trimmed
+  for (let i = 0; i < 3; i++) {
+    try {
+      const decoded = decodeURIComponent(current)
+      if (decoded === current) break
+      current = decoded
+    } catch {
+      // Malformed URI encoding
+      return fallback
+    }
+  }
+
+  // Check decoded string for protocol-relative, backslash, or control-character bypasses
+  if (
+    !current.startsWith('/') ||
+    current.startsWith('//') ||
+    current.startsWith('/\\') ||
+    /\x5c/.test(current) ||
+    /[\x00-\x1F\x7F]/.test(current)
+  ) {
+    return fallback
+  }
+
+  // Validate that resolving against an isolated base cannot escape the origin
+  try {
+    const dummyOrigin = 'http://127.0.0.1:9999'
+    const parsed = new URL(trimmed, dummyOrigin)
+
+    if (parsed.origin !== dummyOrigin || parsed.protocol !== 'http:') {
+      return fallback
+    }
+
+    if (!parsed.pathname.startsWith('/') || parsed.pathname.startsWith('//') || /\x5c/.test(parsed.pathname)) {
+      return fallback
+    }
+
+    // Reconstruct safe relative path from parsed components (pathname + search + hash)
+    const safePath = parsed.pathname + parsed.search + parsed.hash
+    if (!safePath.startsWith('/') || safePath.startsWith('//') || safePath.startsWith('/\\') || /\x5c/.test(safePath)) {
+      return fallback
+    }
+
+    return safePath
+  } catch {
+    return fallback
+  }
+}
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
   const tokenHash = requestUrl.searchParams.get('token_hash')
   const type = requestUrl.searchParams.get('type')
-  const next = requestUrl.searchParams.get('next') || '/admin/reset-password'
+  const rawNext = requestUrl.searchParams.get('next')
+  const targetPath = getSafeRedirectPath(rawNext, DEFAULT_FALLBACK_PATH)
   const errorParam = requestUrl.searchParams.get('error_description') || requestUrl.searchParams.get('error')
 
   // Handle provider/Supabase explicit error query parameters
@@ -41,10 +121,11 @@ export async function GET(request: NextRequest) {
     // Exchange the Supabase recovery authorization code for a session
     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
     if (error || !data.session) {
+      console.error('[Auth Callback Error] Code exchange failed:', error?.message)
       const errorUrl = new URL('/admin/reset-password', request.url)
       errorUrl.searchParams.set(
         'error',
-        error?.message || 'Invalid or expired recovery authorization code. Please request a new link.'
+        'Invalid or expired recovery authorization code. Please request a new link.'
       )
       return NextResponse.redirect(errorUrl)
     }
@@ -57,10 +138,11 @@ export async function GET(request: NextRequest) {
       type: type as any,
     })
     if (error || !data.session) {
+      console.error('[Auth Callback Error] OTP verification failed:', error?.message)
       const errorUrl = new URL('/admin/reset-password', request.url)
       errorUrl.searchParams.set(
         'error',
-        error?.message || 'Invalid or expired recovery token. Please request a new link.'
+        'Invalid or expired recovery token. Please request a new link.'
       )
       return NextResponse.redirect(errorUrl)
     }
@@ -70,9 +152,12 @@ export async function GET(request: NextRequest) {
     // Neither 'code' nor 'token_hash' query parameter was provided.
     // In Supabase implicit grant recovery, the recovery tokens are appended as a URL hash
     // fragment (e.g. /auth/callback#access_token=...&type=recovery).
-    // Redirect cleanly to /admin/reset-password WITHOUT an error so the client page can process the hash.
-    const targetPath = next.startsWith('/') ? next : '/admin/reset-password'
-    return NextResponse.redirect(new URL(targetPath, request.url))
+    // Redirect cleanly to the safe target destination WITHOUT an error so the client page can process the hash.
+    const redirectUrl = new URL(targetPath, request.url)
+    if (redirectUrl.origin !== requestUrl.origin) {
+      return NextResponse.redirect(new URL(DEFAULT_FALLBACK_PATH, request.url))
+    }
+    return NextResponse.redirect(redirectUrl)
   }
 
   // Enforce administrator role security:
@@ -88,8 +173,11 @@ export async function GET(request: NextRequest) {
   }
 
   // Construct target redirect URL (defaults to /admin/reset-password)
-  const targetPath = next.startsWith('/') ? next : '/admin/reset-password'
-  const redirectResponse = NextResponse.redirect(new URL(targetPath, request.url))
+  const redirectUrl = new URL(targetPath, request.url)
+  if (redirectUrl.origin !== requestUrl.origin) {
+    return NextResponse.redirect(new URL(DEFAULT_FALLBACK_PATH, request.url))
+  }
+  const redirectResponse = NextResponse.redirect(redirectUrl)
 
   // SECURITY HARDENING:
   // Set ONLY a dedicated recovery-session cookie ('velavan_recovery_token') with short expiry (30 min).

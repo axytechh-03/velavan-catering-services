@@ -123,7 +123,7 @@ export async function POST(request: Request) {
     }
 
     // 4. Save enquiry record to Supabase (preserves original customer-formatted phone string)
-    const savedRecord = await addEnquiry({
+    await addEnquiry({
       name: trimmedName,
       phone: trimmedPhone,
       email: rawEmail ? String(rawEmail).trim().slice(0, 150) : '',
@@ -137,9 +137,15 @@ export async function POST(request: Request) {
       status: 'new',
     })
 
-    return NextResponse.json({ success: true, data: savedRecord })
+    return NextResponse.json({
+      success: true,
+      message: 'Thank you! Your enquiry has been received. Our team will contact you shortly.',
+    })
   } catch (error: any) {
-    console.error('API Error:', error)
-    return NextResponse.json({ error: error.message || 'Server error' }, { status: 500 })
+    console.error('[Enquiry API] Submission error:', error?.message || error)
+    return NextResponse.json(
+      { error: 'Unable to submit your enquiry right now. Please try again or reach us directly at +91 90803 09584.' },
+      { status: 500 }
+    )
   }
 }

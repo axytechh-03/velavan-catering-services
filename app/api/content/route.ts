@@ -80,7 +80,10 @@ export async function GET(request: Request) {
       },
     })
   } catch (err: any) {
-    console.error('Error fetching public content from Supabase:', err)
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Content API] Error fetching public content:', err?.message || err)
+    return NextResponse.json(
+      { success: false, error: 'Unable to load website content at this time. Please try refreshing.' },
+      { status: 500 }
+    )
   }
 }

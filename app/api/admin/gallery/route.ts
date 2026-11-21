@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyAdminAuth, isValidAdminRequestOrigin } from '@/lib/admin-auth'
 import {
   getGalleryDataAsync,
   saveGalleryDataAsync,
@@ -18,11 +18,19 @@ export async function GET() {
     const gallery = await getGalleryDataAsync()
     return NextResponse.json({ success: true, gallery })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Gallery GET Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to fetch gallery items.' }, { status: 500 })
   }
 }
 
 export async function POST(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -32,11 +40,19 @@ export async function POST(request: Request) {
     const saved = await saveGalleryItemAsync(body)
     return NextResponse.json({ success: true, item: saved })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Gallery POST Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to create gallery item.' }, { status: 500 })
   }
 }
 
 export async function PUT(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -52,11 +68,19 @@ export async function PUT(request: Request) {
     const saved = await saveGalleryItemAsync(body)
     return NextResponse.json({ success: true, item: saved })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Gallery PUT Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to update gallery data.' }, { status: 500 })
   }
 }
 
 export async function DELETE(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -72,6 +96,7 @@ export async function DELETE(request: Request) {
     const ok = await deleteGalleryItemAsync(id)
     return NextResponse.json({ success: ok })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Gallery DELETE Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to delete gallery item.' }, { status: 500 })
   }
 }

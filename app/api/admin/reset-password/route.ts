@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
+import { isValidAdminRequestOrigin } from '@/lib/admin-auth'
+import {
+  getClientIp,
+  hashIdentifier,
+  incrementRateLimit,
+} from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const ADMIN_EMAIL = 'axy.techh@gmail.com'
+const RESET_WINDOW_SECONDS = 900 // 15-minute window
+const RESET_IP_LIMIT = 5 // 5 attempts per IP per window
 
 /**
  * GET: Verify if an active, dedicated administrator recovery session exists.
@@ -73,6 +81,53 @@ export async function GET() {
  */
 export async function POST(request: NextRequest) {
   try {
+    if (!isValidAdminRequestOrigin(request)) {
+      return NextResponse.json(
+        { success: false, message: 'Forbidden: Invalid request origin.' },
+        { status: 403, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    let clientIp: string
+    let ipKey: string
+    try {
+      clientIp = getClientIp(request.headers)
+      ipKey = `recover:reset:ip:${hashIdentifier(clientIp)}`
+    } catch {
+      return NextResponse.json(
+        { success: false, message: 'Password update service temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    // 1. Atomic IP rate limiting check before password update processing
+    const rateLimit = await incrementRateLimit(ipKey, RESET_WINDOW_SECONDS, RESET_IP_LIMIT)
+
+    // Fail-closed if database rate-limiting infrastructure is unavailable in production
+    if (rateLimit.serviceUnavailable) {
+      return NextResponse.json(
+        { success: false, message: 'Password update service temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    // Enforce per-IP password update rate limit
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Too many password update attempts. Please wait before trying again.',
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(rateLimit.retryAfter || RESET_WINDOW_SECONDS),
+            'Cache-Control': 'no-store',
+          },
+        }
+      )
+    }
+
     const cookieStore = cookies()
     const recoveryToken = cookieStore.get('velavan_recovery_token')?.value
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -145,8 +200,9 @@ export async function POST(request: NextRequest) {
     const { error: updateError } = await adminClient.auth.admin.updateUserById(user.id, { password })
 
     if (updateError) {
+      console.error('[Admin Reset Password Error]:', updateError.message)
       return NextResponse.json(
-        { success: false, message: updateError.message || 'Failed to update administrator password.' },
+        { success: false, message: 'Unable to update administrator password. Please ensure it meets password requirements and try again.' },
         { status: 400, headers: { 'Cache-Control': 'no-store' } }
       )
     }

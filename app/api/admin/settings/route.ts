@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyAdminAuth, isValidAdminRequestOrigin } from '@/lib/admin-auth'
 import {
   getSiteSettingsDataAsync,
   saveSiteSettingsDataAsync,
@@ -49,11 +49,19 @@ export async function GET() {
       system: systemInfo,
     })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Settings GET Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to fetch settings.' }, { status: 500 })
   }
 }
 
 export async function PUT(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -63,6 +71,7 @@ export async function PUT(request: Request) {
     const updated = await saveSiteSettingsDataAsync(body)
     return NextResponse.json({ success: true, settings: updated })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Settings PUT Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to update settings.' }, { status: 500 })
   }
 }

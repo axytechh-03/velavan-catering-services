@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { isValidAdminRequestOrigin } from '@/lib/admin-auth'
+import {
+  getClientIp,
+  hashIdentifier,
+  incrementRateLimit,
+} from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 const ADMIN_EMAIL = 'axy.techh@gmail.com'
+const SESSION_WINDOW_SECONDS = 900 // 15-minute window
+const SESSION_IP_LIMIT = 10 // 10 attempts per IP per window
 
 /**
  * Dedicated secure recovery-session validation endpoint.
  *
  * Security Hardening Requirements:
+ * - Atomic IP-based rate limiting (10 attempts per 15 min per IP) using persistent database stored procedure.
  * - Accept recovery access token from the client.
  * - Validate it with Supabase Auth using getUser(token).
  * - Confirm exact administrator email and 'admin' role.
@@ -20,6 +29,53 @@ const ADMIN_EMAIL = 'axy.techh@gmail.com'
  */
 export async function POST(request: NextRequest) {
   try {
+    if (!isValidAdminRequestOrigin(request)) {
+      return NextResponse.json(
+        { success: false, message: 'Forbidden: Invalid request origin.' },
+        { status: 403, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    let clientIp: string
+    let ipKey: string
+    try {
+      clientIp = getClientIp(request.headers)
+      ipKey = `recover:session:ip:${hashIdentifier(clientIp)}`
+    } catch {
+      return NextResponse.json(
+        { success: false, message: 'Authentication service temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    // 1. Atomic IP rate limiting check before Supabase token verification
+    const rateLimit = await incrementRateLimit(ipKey, SESSION_WINDOW_SECONDS, SESSION_IP_LIMIT)
+
+    // Fail-closed if database rate-limiting infrastructure is unavailable in production
+    if (rateLimit.serviceUnavailable) {
+      return NextResponse.json(
+        { success: false, message: 'Authentication service temporarily unavailable. Please try again later.' },
+        { status: 503, headers: { 'Cache-Control': 'no-store' } }
+      )
+    }
+
+    // Enforce per-IP session exchange rate limit
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: 'Too many verification attempts. Please wait before trying again.',
+        },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(rateLimit.retryAfter || SESSION_WINDOW_SECONDS),
+            'Cache-Control': 'no-store',
+          },
+        }
+      )
+    }
+
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 

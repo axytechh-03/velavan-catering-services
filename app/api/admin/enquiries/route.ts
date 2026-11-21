@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { verifyAdminAuth } from '@/lib/admin-auth'
+import { verifyAdminAuth, isValidAdminRequestOrigin } from '@/lib/admin-auth'
 import { getEnquiries, updateEnquiry, deleteEnquiry, addEnquiry, logActivity } from '@/lib/cms-store'
 
 export const dynamic = 'force-dynamic'
@@ -53,11 +53,19 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ success: true, enquiries })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Enquiries GET Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to fetch enquiries.' }, { status: 500 })
   }
 }
 
 export async function PATCH(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -98,11 +106,19 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ success: true, enquiry: updated })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Enquiries PATCH Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to update enquiry.' }, { status: 500 })
   }
 }
 
 export async function DELETE(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -130,11 +146,19 @@ export async function DELETE(request: Request) {
     }
     return NextResponse.json({ success: ok })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Enquiries DELETE Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to delete enquiry.' }, { status: 500 })
   }
 }
 
 export async function POST(request: Request) {
+  if (!isValidAdminRequestOrigin(request)) {
+    return NextResponse.json(
+      { success: false, error: 'Forbidden: Invalid request origin.' },
+      { status: 403, headers: { 'Cache-Control': 'no-store' } }
+    )
+  }
+
   if (!(await verifyAdminAuth())) {
     return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 })
   }
@@ -147,6 +171,7 @@ export async function POST(request: Request) {
     })
     return NextResponse.json({ success: true, enquiry: created })
   } catch (err: any) {
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
+    console.error('[Admin Enquiries POST Error]:', err?.message || err)
+    return NextResponse.json({ success: false, error: 'Failed to create enquiry.' }, { status: 500 })
   }
 }

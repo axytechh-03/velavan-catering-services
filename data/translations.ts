@@ -73,7 +73,7 @@ export const TRANSLATIONS = {
     // Clients
     clientsEyebrow: "TRUSTED PARTNERS & CLIENTS",
     clientsTitle: "A Circle of Trust.",
-    clientsNote: "Logo placeholders for the prototype. Replace with Velavan's actual client logos.",
+    clientsNote: "Proud catering partner to Coimbatore's premier motorsport teams, industrial pioneers, and corporate institutions.",
 
     // Menu Section
     menuEyebrow: "A FEAST TO REMEMBER",
@@ -99,10 +99,14 @@ export const TRANSLATIONS = {
     menuAllCategoriesCount: "14 Categories",
 
     // Gallery Section
-    galleryEyebrow: "MOMENTS & MEMORIES",
-    galleryTitle: "A Glimpse of Our World.",
-    galleryDesc: "The atmosphere, the food and the little details that make a celebration special.",
-    galleryNote: "Sample photographs for design preview. Replace with authentic Velavan event photographs before launch.",
+    galleryEyebrow: "OUR GALLERY",
+    galleryTitle: "Moments We've Catered.",
+    galleryDesc: "A glimpse into the celebrations, gatherings and experiences we've made memorable.",
+    galleryNote: "Authentic photographs from real Velavan Catering wedding celebrations, grand banquets, and culinary events.",
+    galleryExploreBtn: "Explore Full Gallery",
+    galleryShowLessBtn: "Show Less",
+    galleryFeaturedBadge: "Featured Experience",
+    galleryViewStory: "View Photograph",
 
     // Enquiry Section
     enquiryEyebrow: "LET'S MAKE IT MEMORABLE",
@@ -262,7 +266,7 @@ export const TRANSLATIONS = {
     // Clients
     clientsEyebrow: "எங்களை நம்பும் வாடிக்கையாளர்கள்",
     clientsTitle: "நம்பிக்கையின் உறவு.",
-    clientsNote: "மாதிரி லோகோக்கள். வேலவன் வழங்கும் உண்மையான வாடிக்கையாளர் லோகோக்களால் மாற்றவும்.",
+    clientsNote: "கோவை மோட்டார்ஸ்போர்ட் பந்தய அணிகள், முன்னணி நிறுவனங்கள் மற்றும் தொழில் முனைவோரின் பெருமைமிகு கேட்டரிங் பங்குதாரர்.",
 
     // Menu Section
     menuEyebrow: "மறக்க முடியாத விருந்து",
@@ -288,10 +292,14 @@ export const TRANSLATIONS = {
     menuAllCategoriesCount: "14 உணவுப் பிரிவுகள்",
 
     // Gallery Section
-    galleryEyebrow: "தருணங்களும் நினைவுகளும்",
-    galleryTitle: "எங்கள் உலகின் ஒரு பார்வை.",
-    galleryDesc: "ஒரு விழாவைச் சிறப்பாக்கும் சூழல், உணவு மற்றும் சிறிய விவரங்கள்.",
-    galleryNote: "வடிவமைப்பு முன்னோட்டத்திற்கான மாதிரிப் புகைப்படங்கள். இணையதள வெளியீட்டிற்கு முன் வேலவனின் உண்மையான நிகழ்வுப் புகைப்படங்களைச் சேர்க்கவும்.",
+    galleryEyebrow: "எங்கள் புகைப்படத் தொகுப்பு",
+    galleryTitle: "நாங்கள் உபசரித்த நல்நினைவுகள்.",
+    galleryDesc: "ஒரு விழாவைச் சிறப்பாக்கும் சூழல், உணவு மற்றும் சிறிய விவரங்களின் தொகுப்பு.",
+    galleryNote: "வேலவன் கேட்டரிங் திருமண விழாக்கள், பிரம்மாண்ட விருந்துகள் மற்றும் நேரடி உணவு நிகழ்வுகளின் உண்மையான புகைப்படத் தொகுப்பு.",
+    galleryExploreBtn: "முழுமையான புகைப்படங்களை காண்க",
+    galleryShowLessBtn: "குறைவாகக் காண்க",
+    galleryFeaturedBadge: "பிரத்யேக உபசரிப்பு",
+    galleryViewStory: "புகைப்படத்தைப் பார்க்க",
 
     // Enquiry Section
     enquiryEyebrow: "மறக்க முடியாததாக மாற்றுவோம்",

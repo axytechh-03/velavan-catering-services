@@ -1,19 +1,23 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { smoothScrollTo } from '@/lib/utils'
+import { useCard3DTilt } from '@/lib/motion/useCard3DTilt'
 
 export function Story() {
   const { t } = useLanguage()
+  const visualRef = useRef<HTMLDivElement>(null)
+  useCard3DTilt(visualRef, { maxTilt: 6, scale: 1.02, speed: 400 })
 
   return (
     <section className="section" id="story">
       <div className="container intro-grid">
-        <div className="intro-visual reveal-left">
+        <div ref={visualRef} className="intro-visual reveal-left">
           <img
             src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=1100&q=85"
             alt="Velavan Catering Food Presentation"
+            loading="lazy"
           />
           <div className="photo-caption">
             <strong>✦</strong>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useLanguage } from '@/context/LanguageContext'
-import { ArrowUp } from 'lucide-react'
+import { ArrowUp, Instagram } from 'lucide-react'
 
 export function Footer() {
   const { language, t } = useLanguage()
@@ -13,6 +13,7 @@ export function Footer() {
     email: 'dhineshkumarctpm@gmail.com',
     addressEn: '15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201',
     addressTa: '15/49, மாரியம்மன் கோவில் வீதி, செட்டிபாளையம், கோயம்புத்தூர் – 641201',
+    instagram: 'https://www.instagram.com/velavan_caterers/',
   })
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export function Footer() {
               email: json.data.contact.email || 'dhineshkumarctpm@gmail.com',
               addressEn: json.data.contact.addressEn || '15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201',
               addressTa: json.data.contact.addressTa || '15/49, மாரியம்மன் கோவில் வீதி, செட்டிபாளையம், கோயம்புத்தூர் – 641201',
+              instagram: json.data.contact.instagram || 'https://www.instagram.com/velavan_caterers/',
             })
           }
         }
@@ -118,6 +120,22 @@ export function Footer() {
               <span>
                 📍 <span>{language === 'ta' ? contactData.addressTa : contactData.addressEn}</span>
               </span>
+              <div style={{ margin: '2px 0' }}>
+                <a
+                  href={contactData.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Follow Velavan Catering on Instagram (@velavan_caterers)"
+                  title="Follow @velavan_caterers on Instagram"
+                  className="footer-instagram-link"
+                  data-handle="@velavan_caterers"
+                >
+                  <span className="footer-social-btn">
+                    <Instagram size={18} />
+                  </span>
+                  <span className="footer-instagram-handle">@velavan_caterers</span>
+                </a>
+              </div>
               <a
                 href="#contact"
                 style={{ color: 'var(--gold2)', fontWeight: 700, marginTop: '6px' }}

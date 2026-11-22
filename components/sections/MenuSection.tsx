@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
 import { menuCategories, menuItems } from '@/data/menu'
+import { useCard3DTilt } from '@/lib/motion/useCard3DTilt'
 import {
   Sparkles,
   Soup,
@@ -58,6 +59,79 @@ const categoryWatermarkMap: Record<string, string> = {
   payasamDesserts: '/images/menu-watermarks/payasam-desserts.svg',
   lunchVegetables: '/images/menu-watermarks/lunch-vegetables.svg',
   beveragesPan: '/images/menu-watermarks/beverages-pan.svg',
+}
+
+interface MenuCategoryButtonProps {
+  cat: any
+  idx: number
+  dishCount: number
+  language: string
+  IconComponent: any
+  watermark: string
+  onSelect: (id: string) => void
+}
+
+function MenuCategoryButton({
+  cat,
+  idx,
+  dishCount,
+  language,
+  IconComponent,
+  watermark,
+  onSelect,
+}: MenuCategoryButtonProps) {
+  const btnRef = useRef<HTMLButtonElement>(null)
+  useCard3DTilt(btnRef, { maxTilt: 6, scale: 1.02, speed: 350 })
+
+  return (
+    <button
+      ref={btnRef}
+      type="button"
+      className="menu-category-card reveal-up"
+      style={{ transitionDelay: `${(idx % 4) * 0.08}s` }}
+      onClick={() => onSelect(cat.id)}
+      aria-label={`View ${cat.nameEn} dishes`}
+    >
+      <div className="cat-card-watermark" aria-hidden="true">
+        <img
+          src={watermark}
+          alt=""
+          className="cat-watermark-img"
+          loading="lazy"
+        />
+      </div>
+
+      <div className="cat-card-top">
+        <div className="cat-icon-bubble">
+          <IconComponent size={22} className="cat-icon" />
+        </div>
+        {cat.badge && (
+          <span className="cat-badge-tag">{cat.badge}</span>
+        )}
+      </div>
+
+      <div className="cat-card-body">
+        <h3 className="cat-title serif">
+          {language === 'ta' ? cat.nameTa : cat.nameEn}
+        </h3>
+        <div className="cat-subtitle">
+          {language === 'ta' ? cat.nameEn : cat.nameTa}
+        </div>
+      </div>
+
+      <div className="cat-card-footer">
+        <span className="cat-count">
+          {language === 'ta'
+            ? `${dishCount} உணவு வகைகள்`
+            : `${dishCount} Dishes`}
+        </span>
+        <span className="cat-action">
+          {language === 'ta' ? 'காண்க' : 'View'}
+          <ArrowRight size={14} className="cat-arrow" />
+        </span>
+      </div>
+    </button>
+  )
 }
 
 export function MenuSection() {
@@ -334,54 +408,16 @@ export function MenuSection() {
                 const dishCount = itemsList.filter((m) => m.categoryId === cat.id).length
 
                 return (
-                  <button
+                  <MenuCategoryButton
                     key={cat.id}
-                    type="button"
-                    className="menu-category-card reveal-up"
-                    style={{ transitionDelay: `${(idx % 4) * 0.08}s` }}
-                    onClick={() => handleSelectCategory(cat.id)}
-                    aria-label={`View ${cat.nameEn} dishes`}
-                  >
-                    {/* Subtle, elegant food-themed watermark in bottom-right corner */}
-                    <div className="cat-card-watermark" aria-hidden="true">
-                      <img
-                        src={categoryWatermarkMap[cat.id] || '/images/menu-watermarks/sweets.svg'}
-                        alt=""
-                        className="cat-watermark-img"
-                        loading="lazy"
-                      />
-                    </div>
-
-                    <div className="cat-card-top">
-                      <div className="cat-icon-bubble">
-                        <IconComponent size={22} className="cat-icon" />
-                      </div>
-                      {cat.badge && (
-                        <span className="cat-badge-tag">{cat.badge}</span>
-                      )}
-                    </div>
-
-                    <div className="cat-card-body">
-                      <h3 className="cat-title serif">
-                        {language === 'ta' ? cat.nameTa : cat.nameEn}
-                      </h3>
-                      <div className="cat-subtitle">
-                        {language === 'ta' ? cat.nameEn : cat.nameTa}
-                      </div>
-                    </div>
-
-                    <div className="cat-card-footer">
-                      <span className="cat-count">
-                        {language === 'ta'
-                          ? `${dishCount} உணவு வகைகள்`
-                          : `${dishCount} Dishes`}
-                      </span>
-                      <span className="cat-action">
-                        {language === 'ta' ? 'காண்க' : 'View'}
-                        <ArrowRight size={14} className="cat-arrow" />
-                      </span>
-                    </div>
-                  </button>
+                    cat={cat}
+                    idx={idx}
+                    dishCount={dishCount}
+                    language={language}
+                    IconComponent={IconComponent}
+                    watermark={categoryWatermarkMap[cat.id] || '/images/menu-watermarks/sweets.svg'}
+                    onSelect={handleSelectCategory}
+                  />
                 )
               })}
             </div>

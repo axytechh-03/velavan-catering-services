@@ -1,7 +1,32 @@
 'use client'
 
-import React from 'react'
+import React, { useRef } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCard3DTilt } from '@/lib/motion/useCard3DTilt'
+
+function RegCard({
+  children,
+  delay = '0s',
+}: {
+  children: React.ReactNode
+  delay?: string
+}) {
+  const cardRef = useRef<HTMLElement>(null)
+  useCard3DTilt(cardRef, { maxTilt: 5, scale: 1.02, speed: 400 })
+
+  return (
+    <article
+      ref={cardRef}
+      className="reg-card reveal-up is-revealed"
+      style={{
+        transitionDelay: delay,
+        opacity: 1,
+      }}
+    >
+      {children}
+    </article>
+  )
+}
 
 export function Registrations() {
   const { t } = useLanguage()
@@ -21,7 +46,7 @@ export function Registrations() {
 
         <div className="reg-grid">
           {/* Card 1: UDYAM – MSME REGISTRATION */}
-          <article className="reg-card reveal-up">
+          <RegCard delay="0s">
             <div className="reg-header">
               <div className="reg-title-wrap">
                 <span className="reg-sublabel">{t.regGovtOfIndia}</span>
@@ -56,10 +81,10 @@ export function Registrations() {
                 <span className="reg-status-badge">{t.regStatusVerified}</span>
               </li>
             </ul>
-          </article>
+          </RegCard>
 
           {/* Card 2: FSSAI – STATE LICENSE */}
-          <article className="reg-card reveal-up" style={{ transitionDelay: '0.15s' }}>
+          <RegCard delay="0.15s">
             <div className="reg-header">
               <div className="reg-title-wrap">
                 <span className="reg-sublabel">{t.regFoodSafetyStandards}</span>
@@ -94,7 +119,7 @@ export function Registrations() {
                 <span className="reg-status-badge">{t.regComplianceStatusValue}</span>
               </li>
             </ul>
-          </article>
+          </RegCard>
         </div>
       </div>
     </section>

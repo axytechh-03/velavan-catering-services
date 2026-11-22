@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 120" width="1080" height="240">
+  <rect width="100%" height="100%" fill="none"/>
+  
+  <!-- Letter D (first): stylized split D with top bar -->
+  <path d="M 18 24 H 56 C 70 24 76 34 76 60 C 76 86 70 98 56 98 H 18 V 60 H 36 V 82 H 50 C 56 82 58 74 58 60 C 58 46 56 40 50 40 H 36 V 34 H 18 Z" fill="#111111"/>
+  
+  <!-- Letter A: stylized angular A with inner red counter -->
+  <path d="M 96 38 H 82 V 98 H 100 V 78 H 124 V 98 H 144 L 126 24 H 106 Z M 100 62 L 112 38 L 124 62 Z" fill="#111111"/>
+  <polygon points="102,64 122,64 112,42" fill="#e11d2a"/>
+
+  <!-- Letter R: geometric capital R with curved bowl -->
+  <path d="M 152 24 H 188 C 198 24 204 30 204 44 C 204 54 198 60 188 62 L 204 98 H 186 L 172 64 H 168 V 98 H 152 Z M 168 38 V 50 H 186 C 189 50 191 48 191 44 C 191 40 189 38 186 38 Z" fill="#111111"/>
+
+  <!-- Letter K: Chevron < -->
+  <path d="M 250 24 L 218 61 L 250 98 H 234 L 206 61 L 234 24 Z" fill="#111111"/>
+
+  <!-- Center Formula LGB Car -->
+  <g id="formula-car" transform="translate(266, 12)">
+    <!-- Front wing -->
+    <rect x="5" y="4" width="38" height="6" rx="2" fill="#111111"/>
+    <!-- Front wheels -->
+    <rect x="0" y="14" width="10" height="20" rx="3" fill="#181818"/>
+    <rect x="38" y="14" width="10" height="20" rx="3" fill="#181818"/>
+    <!-- Suspension wishbones -->
+    <line x1="10" y1="24" x2="19" y2="24" stroke="#111111" stroke-width="2"/>
+    <line x1="29" y1="24" x2="38" y2="24" stroke="#111111" stroke-width="2"/>
+    <!-- Red Bodywork & Nosecone -->
+    <path d="M 21 6 H 27 L 29 32 L 33 52 V 82 H 15 V 52 L 19 32 Z" fill="#e11d2a"/>
+    <!-- Cockpit & Driver Helmet -->
+    <ellipse cx="24" cy="45" rx="5" ry="10" fill="#111111"/>
+    <circle cx="24" cy="42" r="3.5" fill="#ffffff"/>
+    <!-- Red Sidepods -->
+    <path d="M 15 52 L 9 58 V 76 L 15 79 Z" fill="#c91622"/>
+    <path d="M 33 52 L 39 58 V 76 L 33 79 Z" fill="#c91622"/>
+    <!-- Rear wheels -->
+    <rect x="0" y="64" width="11" height="24" rx="3" fill="#181818"/>
+    <rect x="37" y="64" width="11" height="24" rx="3" fill="#181818"/>
+    <!-- Rear wing -->
+    <rect x="3" y="86" width="42" height="7" rx="2" fill="#111111"/>
+  </g>
+
+  <!-- Letter D (second): matching first D -->
+  <path d="M 328 24 H 366 C 380 24 386 34 386 60 C 386 86 380 98 366 98 H 328 V 60 H 346 V 82 H 360 C 366 82 368 74 368 60 C 368 46 366 40 360 40 H 346 V 34 H 328 Z" fill="#111111"/>
+
+  <!-- Letter O with Red Center Disc -->
+  <path d="M 426 24 C 445 24 458 36 458 61 C 458 86 445 98 426 98 C 407 98 395 86 395 61 C 395 36 407 24 426 24 Z M 426 40 C 414 40 409 49 409 61 C 409 73 414 82 426 82 C 438 82 444 73 444 61 C 444 49 438 40 426 40 Z" fill="#111111"/>
+  <circle cx="426.5" cy="61" r="15" fill="#e11d2a"/>
+
+  <!-- Letter N: lowercase arch style n -->
+  <path d="M 466 98 V 40 C 466 28 476 24 489 24 C 502 24 518 28 518 40 V 98 H 502 V 44 C 502 39 496 38 491 38 C 486 38 482 39 482 44 V 98 Z" fill="#111111"/>
+</svg>

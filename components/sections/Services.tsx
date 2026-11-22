@@ -1,7 +1,38 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCard3DTilt } from '@/lib/motion/useCard3DTilt'
+
+function ServiceCardItem({ svc, idx, language }: { svc: any; idx: number; language: string }) {
+  const cardRef = useRef<HTMLElement>(null)
+  useCard3DTilt(cardRef, { maxTilt: 5, scale: 1.02, speed: 400 })
+
+  return (
+    <article
+      ref={cardRef}
+      className="service-card reveal-up"
+      style={{ transitionDelay: `${(idx % 3) * 0.12}s` }}
+    >
+      <div className="service-card-img-wrap">
+        <img
+          src={svc.image}
+          alt={language === 'ta' ? svc.titleTa : svc.titleEn}
+          style={{ objectFit: 'cover', objectPosition: svc.imagePosition || 'center center' }}
+          loading="lazy"
+        />
+      </div>
+      <div className="service-copy">
+        <div className="service-number">{svc.number}</div>
+        <h3>{language === 'ta' ? svc.titleTa : svc.titleEn}</h3>
+        <div className="service-tag">
+          {language === 'ta' ? svc.tagTa : svc.tagEn}
+        </div>
+        <p>{language === 'ta' ? svc.descTa : svc.descEn}</p>
+      </div>
+    </article>
+  )
+}
 
 export function Services() {
   const { language, t } = useLanguage()
@@ -149,31 +180,15 @@ export function Services() {
           </div>
         ) : (
           <div className="service-grid">
-          {servicesList.map((svc, idx) => (
-            <article
-              key={idx}
-              className="service-card reveal-up"
-              style={{ transitionDelay: `${(idx % 3) * 0.12}s` }}
-            >
-              <div className="service-card-img-wrap">
-                <img
-                  src={svc.image}
-                  alt={language === 'ta' ? svc.titleTa : svc.titleEn}
-                  style={{ objectFit: 'cover', objectPosition: svc.imagePosition || 'center center' }}
-                  loading="lazy"
-                />
-              </div>
-              <div className="service-copy">
-                <div className="service-number">{svc.number}</div>
-                <h3>{language === 'ta' ? svc.titleTa : svc.titleEn}</h3>
-                <div className="service-tag">
-                  {language === 'ta' ? svc.tagTa : svc.tagEn}
-                </div>
-                <p>{language === 'ta' ? svc.descTa : svc.descEn}</p>
-              </div>
-            </article>
-          ))}
-        </div>
+            {servicesList.map((svc, idx) => (
+              <ServiceCardItem
+                key={idx}
+                svc={svc}
+                idx={idx}
+                language={language}
+              />
+            ))}
+          </div>
         )}
       </div>
     </section>

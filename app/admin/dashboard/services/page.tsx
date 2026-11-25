@@ -181,15 +181,16 @@ export default function ServicesManagementPage() {
         <div>
           <h1
             style={{
-              fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontSize: '2rem',
-              margin: '0 0 6px',
-              color: '#faf8f1',
+              margin: '0 0 4px',
+              color: '#153d2d',
+              fontWeight: 700,
             }}
           >
             Celebration Services CMS
           </h1>
-          <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(250, 248, 241, 0.7)' }}>
+          <p style={{ margin: 0, fontSize: '0.88rem', color: '#6b756e' }}>
             Manage the 6 core catering service cards, titles, descriptions, capacities, and photography.
           </p>
         </div>
@@ -200,15 +201,19 @@ export default function ServicesManagementPage() {
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            background: 'rgba(196, 163, 101, 0.15)',
-            border: '1px solid rgba(196, 163, 101, 0.3)',
-            color: '#faf8f1',
+            background: '#ffffff',
+            border: '1px solid #d1c7b7',
+            color: '#153d2d',
             padding: '10px 14px',
             borderRadius: '8px',
             fontSize: '0.84rem',
             fontWeight: 600,
             cursor: 'pointer',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+            transition: 'transform 0.15s ease',
           }}
+          onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+          onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
         >
           <RefreshCw size={15} style={{ color: '#c4a365' }} />
           <span>Refresh</span>
@@ -224,7 +229,7 @@ export default function ServicesManagementPage() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))',
             gap: '24px',
           }}
         >
@@ -232,11 +237,11 @@ export default function ServicesManagementPage() {
             <div
               key={svc.id}
               style={{
-                background: 'rgba(21, 61, 45, 0.75)',
-                border: '1.5px solid rgba(196, 163, 101, 0.25)',
+                background: '#ffffff',
+                border: '1px solid #e3dcce',
                 borderRadius: '14px',
                 overflow: 'hidden',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.25)',
+                boxShadow: '0 4px 18px -2px rgba(21, 61, 45, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
                 display: 'flex',
                 flexDirection: 'column',
                 opacity: svc.active ? 1 : 0.65,
@@ -267,8 +272,8 @@ export default function ServicesManagementPage() {
                     position: 'absolute',
                     top: '12px',
                     left: '12px',
-                    background: 'rgba(13, 40, 30, 0.85)',
-                    border: '1px solid rgba(196, 163, 101, 0.4)',
+                    background: 'rgba(21, 61, 45, 0.9)',
+                    border: '1px solid rgba(196, 163, 101, 0.5)',
                     color: '#c4a365',
                     fontSize: '0.72rem',
                     fontWeight: 700,
@@ -290,7 +295,7 @@ export default function ServicesManagementPage() {
                   <button
                     onClick={() => handleToggleActive(svc)}
                     style={{
-                      background: svc.active ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)',
+                      background: svc.active ? 'rgba(16, 185, 129, 0.9)' : 'rgba(239, 68, 68, 0.9)',
                       color: '#ffffff',
                       border: 'none',
                       borderRadius: '12px',
@@ -315,19 +320,20 @@ export default function ServicesManagementPage() {
                   <h3
                     style={{
                       margin: '0 0 2px',
-                      color: '#faf8f1',
+                      color: '#153d2d',
                       fontSize: '1.25rem',
-                      fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
-                      fontWeight: 600,
+                      fontFamily: '"Cormorant Garamond", Georgia, serif',
+                      fontWeight: 700,
                     }}
                   >
                     {svc.titleEn}
                   </h3>
                   <div
                     style={{
-                      color: '#c4a365',
+                      color: '#9e7f41',
                       fontSize: '0.88rem',
                       fontFamily: 'var(--font-tamil, "Noto Sans Tamil", sans-serif)',
+                      fontWeight: 600,
                     }}
                   >
                     {svc.titleTa}
@@ -337,8 +343,8 @@ export default function ServicesManagementPage() {
                 <div
                   style={{
                     fontSize: '0.75rem',
-                    color: 'rgba(196, 163, 101, 0.95)',
-                    fontWeight: 600,
+                    color: '#9e7f41',
+                    fontWeight: 700,
                     letterSpacing: '0.04em',
                   }}
                 >
@@ -349,8 +355,8 @@ export default function ServicesManagementPage() {
                   style={{
                     margin: 0,
                     fontSize: '0.84rem',
-                    color: 'rgba(250, 248, 241, 0.75)',
-                    lineHeight: 1.45,
+                    color: '#55635b',
+                    lineHeight: 1.5,
                     flex: 1,
                   }}
                 >
@@ -364,11 +370,12 @@ export default function ServicesManagementPage() {
                     flexWrap: 'wrap',
                     gap: '10px',
                     padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.5)',
+                    background: '#faf8f1',
                     borderRadius: '8px',
-                    border: '1px solid rgba(196, 163, 101, 0.15)',
+                    border: '1px solid #e3dcce',
                     fontSize: '0.76rem',
-                    color: 'rgba(250, 248, 241, 0.8)',
+                    color: '#153d2d',
+                    fontWeight: 600,
                   }}
                 >
                   {svc.capacity && (
@@ -390,8 +397,8 @@ export default function ServicesManagementPage() {
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
-                    paddingTop: '8px',
-                    borderTop: '1px solid rgba(196, 163, 101, 0.2)',
+                    paddingTop: '10px',
+                    borderTop: '1px solid #f0eae1',
                   }}
                 >
                   <button
@@ -408,7 +415,11 @@ export default function ServicesManagementPage() {
                       fontSize: '0.82rem',
                       fontWeight: 700,
                       cursor: 'pointer',
+                      boxShadow: '0 2px 8px rgba(196, 163, 101, 0.25)',
+                      transition: 'transform 0.15s ease',
                     }}
+                    onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+                    onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
                   >
                     <Edit2 size={14} />
                     <span>Edit Service Card</span>
@@ -441,11 +452,11 @@ export default function ServicesManagementPage() {
           <div
             style={{
               width: '100%',
-              maxWidth: '680px',
-              background: '#0d281e',
-              border: '1.5px solid rgba(196, 163, 101, 0.4)',
+              maxWidth: '720px',
+              background: '#ffffff',
+              border: '1.5px solid #c4a365',
               borderRadius: '16px',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.35)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -453,40 +464,81 @@ export default function ServicesManagementPage() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Modal Header */}
             <div
               style={{
-                padding: '20px 24px',
-                borderBottom: '1px solid rgba(196, 163, 101, 0.25)',
-                background: 'rgba(21, 61, 45, 0.8)',
+                padding: '18px 24px',
+                borderBottom: '1px solid #e3dcce',
+                background: 'linear-gradient(135deg, #153d2d 0%, #0d281e 100%)',
                 display: 'flex',
                 justifyContent: 'space-between',
-                alignItems: 'center',
+                alignItems: 'flex-start',
+                gap: '16px',
               }}
             >
-              <h3 style={{ margin: 0, color: '#faf8f1', fontSize: '1.25rem' }}>
-                Edit Celebration Service: {formData.number}
-              </h3>
+              <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+                <span
+                  style={{
+                    fontSize: '0.72rem',
+                    color: '#c4a365',
+                    fontWeight: 700,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.08em',
+                    display: 'block',
+                    marginBottom: '2px',
+                  }}
+                >
+                  SERVICE CARD EDITOR
+                </span>
+                <h3
+                  style={{
+                    margin: 0,
+                    color: '#faf8f1',
+                    fontSize: '1.22rem',
+                    fontFamily: '"Cormorant Garamond", Georgia, serif',
+                    fontWeight: 700,
+                    lineHeight: 1.25,
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  Edit Celebration Service: {formData.number}
+                </h3>
+              </div>
               <button
                 onClick={() => setEditingService(null)}
+                aria-label="Close Edit Service Modal"
                 style={{
-                  background: 'none',
+                  background: 'rgba(255, 255, 255, 0.1)',
                   border: 'none',
-                  color: 'rgba(250, 248, 241, 0.7)',
+                  color: '#faf8f1',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   cursor: 'pointer',
-                  padding: '4px',
+                  flexShrink: 0,
                 }}
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
             <form
               onSubmit={handleSaveService}
-              style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}
+              style={{
+                padding: '24px',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                background: '#ffffff',
+              }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Title (English) *
                   </label>
                   <input
@@ -497,10 +549,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -509,7 +561,7 @@ export default function ServicesManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Title (தமிழ்) *
                   </label>
                   <input
@@ -520,10 +572,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -532,9 +584,9 @@ export default function ServicesManagementPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Tagline (English)
                   </label>
                   <input
@@ -544,10 +596,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -556,7 +608,7 @@ export default function ServicesManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Tagline (தமிழ்)
                   </label>
                   <input
@@ -566,10 +618,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -579,7 +631,7 @@ export default function ServicesManagementPage() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                   Description (English)
                 </label>
                 <textarea
@@ -589,10 +641,10 @@ export default function ServicesManagementPage() {
                   style={{
                     width: '100%',
                     padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
                     borderRadius: '8px',
-                    color: '#ffffff',
+                    color: '#153d2d',
                     fontSize: '0.86rem',
                     outline: 'none',
                     resize: 'none',
@@ -602,7 +654,7 @@ export default function ServicesManagementPage() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                   Description (தமிழ்)
                 </label>
                 <textarea
@@ -612,10 +664,10 @@ export default function ServicesManagementPage() {
                   style={{
                     width: '100%',
                     padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
                     borderRadius: '8px',
-                    color: '#ffffff',
+                    color: '#153d2d',
                     fontSize: '0.86rem',
                     outline: 'none',
                     resize: 'none',
@@ -624,9 +676,9 @@ export default function ServicesManagementPage() {
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Guest Capacity Text
                   </label>
                   <input
@@ -637,10 +689,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -649,7 +701,7 @@ export default function ServicesManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Service / Leaf Style
                   </label>
                   <input
@@ -660,10 +712,10 @@ export default function ServicesManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -687,8 +739,9 @@ export default function ServicesManagementPage() {
                   id="svc-active-toggle"
                   checked={formData.active}
                   onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
+                  style={{ accentColor: '#153d2d' }}
                 />
-                <label htmlFor="svc-active-toggle" style={{ fontSize: '0.86rem', color: '#faf8f1', cursor: 'pointer' }}>
+                <label htmlFor="svc-active-toggle" style={{ fontSize: '0.86rem', color: '#153d2d', cursor: 'pointer', fontWeight: 600 }}>
                   Active & Displayed on Public Website
                 </label>
               </div>
@@ -700,19 +753,21 @@ export default function ServicesManagementPage() {
                   gap: '12px',
                   marginTop: '16px',
                   paddingTop: '16px',
-                  borderTop: '1px solid rgba(196, 163, 101, 0.2)',
+                  borderTop: '1px solid #f0eae1',
+                  flexWrap: 'wrap',
                 }}
               >
                 <button
                   type="button"
                   onClick={() => setEditingService(null)}
                   style={{
-                    padding: '8px 16px',
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '6px',
-                    color: '#faf8f1',
+                    padding: '9px 18px',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
+                    borderRadius: '8px',
+                    color: '#153d2d',
                     fontSize: '0.85rem',
+                    fontWeight: 600,
                     cursor: 'pointer',
                   }}
                 >
@@ -722,14 +777,15 @@ export default function ServicesManagementPage() {
                   type="submit"
                   disabled={saving}
                   style={{
-                    padding: '8px 20px',
+                    padding: '9px 22px',
                     background: 'linear-gradient(135deg, #c4a365 0%, #b38f4d 100%)',
                     border: 'none',
-                    borderRadius: '6px',
+                    borderRadius: '8px',
                     color: '#0d281e',
                     fontSize: '0.85rem',
                     fontWeight: 700,
                     cursor: saving ? 'not-allowed' : 'pointer',
+                    boxShadow: '0 3px 12px rgba(196, 163, 101, 0.3)',
                   }}
                 >
                   {saving ? 'Saving...' : 'Save & Publish Service'}

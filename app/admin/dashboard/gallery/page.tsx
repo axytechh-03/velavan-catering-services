@@ -239,15 +239,16 @@ export default function GalleryManagementPage() {
         <div>
           <h1
             style={{
-              fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
+              fontFamily: '"Cormorant Garamond", Georgia, serif',
               fontSize: '2rem',
-              margin: '0 0 6px',
-              color: '#faf8f1',
+              margin: '0 0 4px',
+              color: '#153d2d',
+              fontWeight: 700,
             }}
           >
             Moments & Memories Gallery CMS
           </h1>
-          <p style={{ margin: 0, fontSize: '0.88rem', color: 'rgba(250, 248, 241, 0.7)' }}>
+          <p style={{ margin: 0, fontSize: '0.88rem', color: '#6b756e' }}>
             Manage the celebration photography carousel, captions, and visual storytelling for weddings and events.
           </p>
         </div>
@@ -259,15 +260,19 @@ export default function GalleryManagementPage() {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              background: 'rgba(196, 163, 101, 0.15)',
-              border: '1px solid rgba(196, 163, 101, 0.3)',
-              color: '#faf8f1',
+              background: '#ffffff',
+              border: '1px solid #d1c7b7',
+              color: '#153d2d',
               padding: '10px 14px',
               borderRadius: '8px',
               fontSize: '0.84rem',
               fontWeight: 600,
               cursor: 'pointer',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+              transition: 'transform 0.15s ease',
             }}
+            onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+            onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
             <RefreshCw size={15} style={{ color: '#c4a365' }} />
             <span>Refresh</span>
@@ -287,8 +292,11 @@ export default function GalleryManagementPage() {
               fontSize: '0.84rem',
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(196, 163, 101, 0.3)',
+              boxShadow: '0 4px 14px rgba(196, 163, 101, 0.35)',
+              transition: 'transform 0.15s ease',
             }}
+            onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+            onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
           >
             <Plus size={16} />
             <span>Add Photo</span>
@@ -305,7 +313,7 @@ export default function GalleryManagementPage() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))',
             gap: '20px',
           }}
         >
@@ -313,14 +321,15 @@ export default function GalleryManagementPage() {
             <div
               key={item.id}
               style={{
-                background: 'rgba(21, 61, 45, 0.75)',
-                border: '1.5px solid rgba(196, 163, 101, 0.25)',
-                borderRadius: '12px',
+                background: '#ffffff',
+                border: '1px solid #e3dcce',
+                borderRadius: '14px',
                 overflow: 'hidden',
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.25)',
+                boxShadow: '0 4px 18px -2px rgba(21, 61, 45, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
                 display: 'flex',
                 flexDirection: 'column',
                 opacity: item.active ? 1 : 0.6,
+                transition: 'transform 0.2s, box-shadow 0.2s',
               }}
             >
               {/* Photo Box */}
@@ -347,14 +356,13 @@ export default function GalleryManagementPage() {
                   onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
                   onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                 />
-
                 <div
                   style={{
                     position: 'absolute',
                     top: '10px',
                     left: '10px',
-                    background: 'rgba(13, 40, 30, 0.85)',
-                    border: '1px solid rgba(196, 163, 101, 0.4)',
+                    background: 'rgba(21, 61, 45, 0.9)',
+                    border: '1px solid rgba(196, 163, 101, 0.5)',
                     color: '#c4a365',
                     fontSize: '0.72rem',
                     fontWeight: 700,
@@ -378,7 +386,7 @@ export default function GalleryManagementPage() {
                   <button
                     onClick={() => handleToggleActive(item)}
                     style={{
-                      background: item.active ? 'rgba(16, 185, 129, 0.85)' : 'rgba(239, 68, 68, 0.85)',
+                      background: item.active ? 'rgba(16, 185, 129, 0.9)' : 'rgba(239, 68, 68, 0.9)',
                       color: '#ffffff',
                       border: 'none',
                       borderRadius: '12px',
@@ -422,7 +430,7 @@ export default function GalleryManagementPage() {
                   <div
                     style={{
                       fontSize: '0.72rem',
-                      color: '#c4a365',
+                      color: '#9e7f41',
                       fontWeight: 700,
                       textTransform: 'uppercase',
                       letterSpacing: '0.06em',
@@ -434,20 +442,21 @@ export default function GalleryManagementPage() {
                   <h3
                     style={{
                       margin: 0,
-                      color: '#faf8f1',
-                      fontSize: '1.05rem',
-                      fontWeight: 600,
-                      fontFamily: 'var(--font-serif, "Cormorant Garamond", Georgia, serif)',
+                      color: '#153d2d',
+                      fontSize: '1.08rem',
+                      fontWeight: 700,
+                      fontFamily: '"Cormorant Garamond", Georgia, serif',
                     }}
                   >
                     {item.titleEn}
                   </h3>
                   <div
                     style={{
-                      color: '#c4a365',
+                      color: '#9e7f41',
                       fontSize: '0.82rem',
                       marginTop: '2px',
                       fontFamily: 'var(--font-tamil, "Noto Sans Tamil", sans-serif)',
+                      fontWeight: 600,
                     }}
                   >
                     {item.titleTa}
@@ -457,9 +466,9 @@ export default function GalleryManagementPage() {
                 <p
                   style={{
                     margin: 0,
-                    fontSize: '0.8rem',
-                    color: 'rgba(250, 248, 241, 0.7)',
-                    lineHeight: 1.4,
+                    fontSize: '0.82rem',
+                    color: '#55635b',
+                    lineHeight: 1.45,
                     flex: 1,
                   }}
                 >
@@ -472,30 +481,48 @@ export default function GalleryManagementPage() {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingTop: '10px',
-                    borderTop: '1px solid rgba(196, 163, 101, 0.2)',
+                    borderTop: '1px solid #f0eae1',
+                    gap: '8px',
                   }}
                 >
-                  <span style={{ fontSize: '0.74rem', color: 'rgba(250, 248, 241, 0.45)', fontFamily: 'monospace' }}>
+                  <span
+                    title={item.url.split('/').pop()}
+                    style={{
+                      fontSize: '0.74rem',
+                      color: '#8a958e',
+                      fontFamily: 'monospace',
+                      flex: '1 1 auto',
+                      minWidth: 0,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
                     {item.url.split('/').pop()}
                   </span>
 
-                  <div style={{ display: 'flex', gap: '6px' }}>
+                  <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
                     <button
                       onClick={() => openEditModal(item)}
                       style={{
-                        padding: '6px 10px',
-                        background: 'rgba(196, 163, 101, 0.15)',
-                        border: '1px solid rgba(196, 163, 101, 0.3)',
+                        padding: '6px 12px',
+                        background: '#ffffff',
+                        border: '1px solid #d1c7b7',
                         borderRadius: '6px',
-                        color: '#c4a365',
+                        color: '#153d2d',
                         fontSize: '0.78rem',
+                        fontWeight: 600,
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                        transition: 'transform 0.15s ease',
                       }}
+                      onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+                      onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
                     >
-                      <Edit2 size={13} />
+                      <Edit2 size={13} style={{ color: '#9e7f41' }} />
                       <span>Edit</span>
                     </button>
 
@@ -503,14 +530,18 @@ export default function GalleryManagementPage() {
                       onClick={() => setItemToDelete(item)}
                       style={{
                         padding: '6px 8px',
-                        background: 'rgba(239, 68, 68, 0.12)',
-                        border: '1px solid rgba(239, 68, 68, 0.25)',
+                        background: '#fff1f2',
+                        border: '1px solid #fecdd3',
                         borderRadius: '6px',
-                        color: '#fca5a5',
+                        color: '#e11d48',
                         cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
+                        transition: 'transform 0.15s ease',
                       }}
+                      onMouseOver={(e) => (e.currentTarget.style.transform = 'translateY(-1px)')}
+                      onMouseOut={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+                      title="Delete Photo"
                     >
                       <Trash2 size={13} />
                     </button>
@@ -547,10 +578,10 @@ export default function GalleryManagementPage() {
             style={{
               width: '100%',
               maxWidth: '640px',
-              background: '#0d281e',
+              background: '#ffffff',
               border: '1.5px solid rgba(196, 163, 101, 0.4)',
               borderRadius: '16px',
-              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.6)',
+              boxShadow: '0 25px 60px rgba(0, 0, 0, 0.3)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -562,36 +593,78 @@ export default function GalleryManagementPage() {
               style={{
                 padding: '20px 24px',
                 borderBottom: '1px solid rgba(196, 163, 101, 0.25)',
-                background: 'rgba(21, 61, 45, 0.8)',
+                background: 'linear-gradient(135deg, #153d2d 0%, #0d281e 100%)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                gap: '16px',
               }}
             >
-              <h3 style={{ margin: 0, color: '#faf8f1', fontSize: '1.25rem' }}>
-                {isAddModal ? 'Add Celebration Photograph' : 'Edit Photograph Details'}
-              </h3>
+              <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+                <span
+                  style={{
+                    display: 'block',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    color: '#c4a365',
+                    letterSpacing: '0.08em',
+                    marginBottom: '2px',
+                  }}
+                >
+                  GALLERY PHOTO CMS
+                </span>
+                <h3
+                  style={{
+                    margin: 0,
+                    color: '#faf8f1',
+                    fontSize: '1.25rem',
+                    fontFamily: '"Cormorant Garamond", Georgia, serif',
+                    fontWeight: 700,
+                    lineHeight: 1.25,
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {isAddModal ? 'Add Celebration Photograph' : 'Edit Photograph Details'}
+                </h3>
+              </div>
               <button
                 onClick={() => {
                   setIsAddModal(false)
                   setEditingItem(null)
                 }}
+                aria-label="Close Photograph Modal"
                 style={{
-                  background: 'none',
+                  background: 'rgba(255, 255, 255, 0.1)',
                   border: 'none',
-                  color: 'rgba(250, 248, 241, 0.7)',
+                  color: '#faf8f1',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   cursor: 'pointer',
-                  padding: '4px',
+                  flexShrink: 0,
                 }}
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSaveItem} style={{ padding: '24px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+            <form
+              onSubmit={handleSaveItem}
+              style={{
+                padding: '24px',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                background: '#ffffff',
+              }}
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Title (English) *
                   </label>
                   <input
@@ -602,10 +675,10 @@ export default function GalleryManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -614,7 +687,7 @@ export default function GalleryManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Title (தமிழ்) *
                   </label>
                   <input
@@ -625,10 +698,10 @@ export default function GalleryManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -637,9 +710,9 @@ export default function GalleryManagementPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: '14px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Category Tag (English)
                   </label>
                   <input
@@ -650,10 +723,10 @@ export default function GalleryManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -662,7 +735,7 @@ export default function GalleryManagementPage() {
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                     Category Tag (தமிழ்)
                   </label>
                   <input
@@ -673,10 +746,10 @@ export default function GalleryManagementPage() {
                     style={{
                       width: '100%',
                       padding: '10px 12px',
-                      background: 'rgba(10, 35, 25, 0.65)',
-                      border: '1px solid rgba(196, 163, 101, 0.3)',
+                      background: '#faf8f1',
+                      border: '1px solid #d1c7b7',
                       borderRadius: '8px',
-                      color: '#ffffff',
+                      color: '#153d2d',
                       fontSize: '0.88rem',
                       outline: 'none',
                       boxSizing: 'border-box',
@@ -695,7 +768,7 @@ export default function GalleryManagementPage() {
               />
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                   Caption (English)
                 </label>
                 <textarea
@@ -705,10 +778,10 @@ export default function GalleryManagementPage() {
                   style={{
                     width: '100%',
                     padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
                     borderRadius: '8px',
-                    color: '#ffffff',
+                    color: '#153d2d',
                     fontSize: '0.86rem',
                     outline: 'none',
                     resize: 'none',
@@ -718,7 +791,7 @@ export default function GalleryManagementPage() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#c4a365', textTransform: 'uppercase', marginBottom: '6px' }}>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '6px' }}>
                   Caption (தமிழ்)
                 </label>
                 <textarea
@@ -728,10 +801,10 @@ export default function GalleryManagementPage() {
                   style={{
                     width: '100%',
                     padding: '10px 12px',
-                    background: 'rgba(10, 35, 25, 0.65)',
-                    border: '1px solid rgba(196, 163, 101, 0.3)',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
                     borderRadius: '8px',
-                    color: '#ffffff',
+                    color: '#153d2d',
                     fontSize: '0.86rem',
                     outline: 'none',
                     resize: 'none',
@@ -746,8 +819,9 @@ export default function GalleryManagementPage() {
                   id="gal-active"
                   checked={formData.active}
                   onChange={(e) => setFormData({ ...formData, active: e.target.checked })}
+                  style={{ accentColor: '#153d2d' }}
                 />
-                <label htmlFor="gal-active" style={{ fontSize: '0.86rem', color: '#faf8f1', cursor: 'pointer' }}>
+                <label htmlFor="gal-active" style={{ fontSize: '0.86rem', color: '#153d2d', cursor: 'pointer', fontWeight: 600 }}>
                   Publish in Public Carousel
                 </label>
               </div>
@@ -759,7 +833,7 @@ export default function GalleryManagementPage() {
                   gap: '12px',
                   marginTop: '10px',
                   paddingTop: '16px',
-                  borderTop: '1px solid rgba(196, 163, 101, 0.2)',
+                  borderTop: '1px solid #f0eae1',
                 }}
               >
                 <button
@@ -769,12 +843,13 @@ export default function GalleryManagementPage() {
                     setEditingItem(null)
                   }}
                   style={{
-                    padding: '8px 16px',
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    borderRadius: '6px',
-                    color: '#faf8f1',
+                    padding: '9px 18px',
+                    background: '#faf8f1',
+                    border: '1px solid #d1c7b7',
+                    borderRadius: '8px',
+                    color: '#153d2d',
                     fontSize: '0.85rem',
+                    fontWeight: 600,
                     cursor: 'pointer',
                   }}
                 >
@@ -784,14 +859,15 @@ export default function GalleryManagementPage() {
                   type="submit"
                   disabled={submitting}
                   style={{
-                    padding: '8px 20px',
+                    padding: '9px 22px',
                     background: 'linear-gradient(135deg, #c4a365 0%, #b38f4d 100%)',
                     border: 'none',
-                    borderRadius: '6px',
+                    borderRadius: '8px',
                     color: '#0d281e',
                     fontSize: '0.85rem',
                     fontWeight: 700,
                     cursor: submitting ? 'not-allowed' : 'pointer',
+                    boxShadow: '0 3px 12px rgba(196, 163, 101, 0.3)',
                   }}
                 >
                   {submitting ? 'Saving...' : 'Save Photograph'}
@@ -903,11 +979,11 @@ export default function GalleryManagementPage() {
             style={{
               width: '100%',
               maxWidth: '440px',
-              background: '#0d281e',
-              border: '1.5px solid rgba(239, 68, 68, 0.4)',
+              background: '#ffffff',
+              border: '1.5px solid #fecaca',
               borderRadius: '14px',
               padding: '28px 24px',
-              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.6)',
+              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.35)',
               textAlign: 'center',
             }}
             onClick={(e) => e.stopPropagation()}
@@ -917,8 +993,8 @@ export default function GalleryManagementPage() {
                 width: '54px',
                 height: '54px',
                 borderRadius: '50%',
-                background: 'rgba(239, 68, 68, 0.15)',
-                color: '#f87171',
+                background: '#fef2f2',
+                color: '#ef4444',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -928,11 +1004,11 @@ export default function GalleryManagementPage() {
               <AlertTriangle size={28} />
             </div>
 
-            <h3 style={{ margin: '0 0 8px', color: '#faf8f1', fontSize: '1.25rem' }}>
+            <h3 style={{ margin: '0 0 8px', color: '#153d2d', fontSize: '1.25rem', fontWeight: 700 }}>
               Confirm Photograph Deletion
             </h3>
-            <p style={{ margin: '0 0 20px', fontSize: '0.86rem', color: 'rgba(250, 248, 241, 0.7)', lineHeight: 1.5 }}>
-              Are you sure you want to permanently remove <strong style={{ color: '#ffffff' }}>{itemToDelete.titleEn}</strong> from the gallery?
+            <p style={{ margin: '0 0 20px', fontSize: '0.86rem', color: '#6b756e', lineHeight: 1.5 }}>
+              Are you sure you want to permanently remove <strong style={{ color: '#153d2d' }}>{itemToDelete.titleEn}</strong> from the gallery?
             </p>
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: '12px' }}>
@@ -940,11 +1016,12 @@ export default function GalleryManagementPage() {
                 onClick={() => setItemToDelete(null)}
                 style={{
                   padding: '10px 18px',
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  background: '#faf8f1',
+                  border: '1px solid #d1c7b7',
                   borderRadius: '6px',
-                  color: '#faf8f1',
+                  color: '#6b756e',
                   fontSize: '0.86rem',
+                  fontWeight: 600,
                   cursor: 'pointer',
                 }}
               >

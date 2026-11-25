@@ -512,7 +512,7 @@ function EnquiriesManagementContent() {
           </p>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           <button
             onClick={openNewQuotation}
             style={{
@@ -674,7 +674,7 @@ function EnquiriesManagementContent() {
                 gap: '12px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                 <AlertCircle size={18} style={{ color: '#ea580c' }} />
                 <span style={{ fontSize: '0.86rem', color: '#c2410c', fontWeight: 600 }}>
                   {overdueCount} enquiry follow-up{overdueCount > 1 ? 's' : ''} scheduled for today or overdue!
@@ -1565,9 +1565,10 @@ function EnquiriesManagementContent() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                gap: '16px',
               }}
             >
-              <div>
+              <div style={{ flex: '1 1 auto', minWidth: 0 }}>
                 <span
                   style={{
                     fontSize: '0.72rem',
@@ -1575,6 +1576,7 @@ function EnquiriesManagementContent() {
                     textTransform: 'uppercase',
                     letterSpacing: '0.12em',
                     fontWeight: 700,
+                    display: 'block',
                   }}
                 >
                   CUSTOMER DOSSIER #{selectedEnquiry.id}
@@ -1585,6 +1587,7 @@ function EnquiriesManagementContent() {
                     color: '#faf8f1',
                     fontSize: '1.45rem',
                     fontFamily: '"Cormorant Garamond", Georgia, serif',
+                    wordBreak: 'break-word',
                   }}
                 >
                   {selectedEnquiry.name}
@@ -1592,15 +1595,22 @@ function EnquiriesManagementContent() {
               </div>
               <button
                 onClick={() => setSelectedEnquiry(null)}
+                aria-label="Close Enquiry Modal"
                 style={{
-                  background: 'none',
+                  background: 'rgba(255, 255, 255, 0.1)',
                   border: 'none',
-                  color: 'rgba(250, 248, 241, 0.7)',
+                  color: '#faf8f1',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   cursor: 'pointer',
-                  padding: '4px',
+                  flexShrink: 0,
                 }}
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
@@ -1712,7 +1722,7 @@ function EnquiriesManagementContent() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))',
                   gap: '12px',
                   background: '#faf8f1',
                   border: '1px solid #e3dcce',
@@ -1767,7 +1777,7 @@ function EnquiriesManagementContent() {
               )}
 
               {/* Priority & Status Controls */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '12px' }}>
                 <div>
                   <label style={{ fontSize: '0.74rem', color: '#153d2d', fontWeight: 700, textTransform: 'uppercase' }}>
                     Enquiry Priority
@@ -1838,7 +1848,7 @@ function EnquiriesManagementContent() {
                   Follow-up Scheduling & Client Notes
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '10px' }}>
                   <div>
                     <span style={{ fontSize: '0.72rem', color: '#6b756e', display: 'block' }}>Next Follow-up Date</span>
                     <input
@@ -1911,6 +1921,8 @@ function EnquiriesManagementContent() {
                   alignItems: 'center',
                   borderTop: '1px solid #f3efe5',
                   paddingTop: '14px',
+                  flexWrap: 'wrap',
+                  gap: '10px',
                 }}
               >
                 <button

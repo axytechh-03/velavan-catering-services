@@ -760,6 +760,7 @@ export default function CateringProposalBuilder({
 
   return (
     <div
+      className="proposal-builder-modal"
       style={{
         position: 'fixed',
         inset: 0,
@@ -773,20 +774,25 @@ export default function CateringProposalBuilder({
     >
       {/* Top Modal Navigation Bar */}
       <div
+        className="proposal-builder-topbar no-print"
         style={{
-          height: '66px',
+          minHeight: '66px',
+          height: 'auto',
           background: 'linear-gradient(135deg, #153d2d 0%, #0d281e 100%)',
           borderBottom: '1.5px solid rgba(196, 163, 101, 0.4)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 24px',
+          padding: '12px 24px',
           color: '#faf8f1',
           flexShrink: 0,
           boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+          flexWrap: 'wrap',
+          gap: '12px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        {/* Left: Brand, Title, Quotation #, Subtitle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flex: '1 1 auto', minWidth: 0 }}>
           <div
             style={{
               width: '38px',
@@ -798,6 +804,7 @@ export default function CateringProposalBuilder({
               alignItems: 'center',
               justifyContent: 'center',
               padding: '3px',
+              flexShrink: 0,
             }}
           >
             <Image
@@ -809,15 +816,17 @@ export default function CateringProposalBuilder({
             />
           </div>
 
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
               <h2
+                className="proposal-builder-topbar-title"
                 style={{
                   margin: 0,
                   fontSize: '1.18rem',
                   fontWeight: 700,
                   fontFamily: '"Cormorant Garamond", Georgia, serif',
                   letterSpacing: '0.02em',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 Catering Proposal & Estimate
@@ -832,19 +841,29 @@ export default function CateringProposalBuilder({
                   borderRadius: '10px',
                   fontWeight: 700,
                   letterSpacing: '0.04em',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 #{quotationNumber}
               </span>
             </div>
-            <p style={{ margin: 0, fontSize: '0.74rem', color: 'rgba(250, 248, 241, 0.72)' }}>
+            <p style={{ margin: '2px 0 0', fontSize: '0.74rem', color: 'rgba(250, 248, 241, 0.72)' }}>
               Multi-meal session catering package builder with overall package pricing
             </p>
           </div>
         </div>
 
         {/* View Switcher & Action Buttons */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div
+          className="proposal-builder-topbar-actions"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            flexWrap: 'wrap',
+            flexShrink: 0,
+          }}
+        >
           {/* View mode toggle */}
           <div
             style={{
@@ -853,6 +872,7 @@ export default function CateringProposalBuilder({
               padding: '3px',
               borderRadius: '8px',
               border: '1px solid rgba(196, 163, 101, 0.3)',
+              flexShrink: 0,
             }}
           >
             <button
@@ -861,7 +881,7 @@ export default function CateringProposalBuilder({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '6px 14px',
+                padding: '6px 12px',
                 borderRadius: '6px',
                 border: 'none',
                 background: viewMode === 'build' ? '#c4a365' : 'transparent',
@@ -870,6 +890,7 @@ export default function CateringProposalBuilder({
                 fontSize: '0.8rem',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                whiteSpace: 'nowrap',
               }}
             >
               <UtensilsCrossed size={14} />
@@ -882,7 +903,7 @@ export default function CateringProposalBuilder({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                padding: '6px 14px',
+                padding: '6px 12px',
                 borderRadius: '6px',
                 border: 'none',
                 background: viewMode === 'preview' ? '#c4a365' : 'transparent',
@@ -891,6 +912,7 @@ export default function CateringProposalBuilder({
                 fontSize: '0.8rem',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
+                whiteSpace: 'nowrap',
               }}
             >
               <Eye size={14} />
@@ -909,14 +931,15 @@ export default function CateringProposalBuilder({
                 background: 'rgba(196, 163, 101, 0.25)',
                 border: '1px solid #c4a365',
                 color: '#faf8f1',
-                padding: '7px 14px',
+                padding: '7px 12px',
                 borderRadius: '8px',
                 fontWeight: 600,
-                fontSize: '0.82rem',
+                fontSize: '0.8rem',
                 cursor: 'pointer',
+                whiteSpace: 'nowrap',
               }}
             >
-              <Printer size={15} />
+              <Printer size={14} />
               <span>Print / Download PDF</span>
             </button>
           )}
@@ -932,14 +955,15 @@ export default function CateringProposalBuilder({
               background: '#ffffff',
               border: '1px solid #d1c7b7',
               color: '#153d2d',
-              padding: '7px 14px',
+              padding: '7px 12px',
               borderRadius: '8px',
               fontWeight: 600,
-              fontSize: '0.82rem',
+              fontSize: '0.8rem',
               cursor: saving ? 'not-allowed' : 'pointer',
+              whiteSpace: 'nowrap',
             }}
           >
-            <Save size={15} />
+            <Save size={14} />
             <span>Save Draft</span>
           </button>
 
@@ -954,15 +978,16 @@ export default function CateringProposalBuilder({
               background: 'linear-gradient(135deg, #c4a365 0%, #b38f4d 100%)',
               border: 'none',
               color: '#0d281e',
-              padding: '7px 16px',
+              padding: '7px 14px',
               borderRadius: '8px',
               fontWeight: 700,
-              fontSize: '0.82rem',
+              fontSize: '0.8rem',
               cursor: saving ? 'not-allowed' : 'pointer',
               boxShadow: '0 2px 8px rgba(196, 163, 101, 0.4)',
+              whiteSpace: 'nowrap',
             }}
           >
-            <Send size={15} />
+            <Send size={14} />
             <span>Save & Send</span>
           </button>
 
@@ -971,7 +996,7 @@ export default function CateringProposalBuilder({
             onClick={onClose}
             aria-label="Close Proposal Builder"
             style={{
-              background: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.15)',
               border: 'none',
               color: '#faf8f1',
               width: '32px',
@@ -981,7 +1006,7 @@ export default function CateringProposalBuilder({
               alignItems: 'center',
               justifyContent: 'center',
               cursor: 'pointer',
-              marginLeft: '6px',
+              flexShrink: 0,
             }}
           >
             <X size={18} />
@@ -1029,6 +1054,7 @@ export default function CateringProposalBuilder({
 
       {/* Main Body (Scrollable) */}
       <div
+        className="proposal-builder-body"
         style={{
           flex: 1,
           overflowY: 'auto',
@@ -1083,7 +1109,7 @@ export default function CateringProposalBuilder({
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))',
                   gap: '14px',
                 }}
               >
@@ -1266,6 +1292,7 @@ export default function CateringProposalBuilder({
 
             {/* 2. DYNAMIC MULTI-MEAL SESSIONS BUILDER + MENU CATALOG */}
             <div
+              className="proposal-builder-split-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'minmax(320px, 38%) minmax(440px, 62%)',
@@ -1274,6 +1301,7 @@ export default function CateringProposalBuilder({
             >
               {/* LEFT: Menu Items Catalog */}
               <div
+                className="proposal-catalog-col"
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e3dcce',
@@ -1396,13 +1424,14 @@ export default function CateringProposalBuilder({
                       alignItems: 'center',
                       padding: '4px 0',
                       borderBottom: '1px solid #f3efe5',
+                      gap: '8px',
                     }}
                   >
                     <span style={{ fontSize: '0.74rem', color: '#153d2d', fontWeight: 700 }}>
                       Select a food category
                     </span>
 
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
                       <button
                         type="button"
                         onClick={() => handleExpandAllCategories(true)}
@@ -1439,8 +1468,8 @@ export default function CateringProposalBuilder({
 
                       <span style={{ fontSize: '0.7rem', color: '#cbd5e1' }}>|</span>
 
-                      {/* Dedicated Scroll Up & Down Controls */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {/* Compact Scroll Up & Down Icon Controls */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '3px' }}>
                         <button
                           type="button"
                           onClick={handleCatalogScrollUp}
@@ -1449,20 +1478,19 @@ export default function CateringProposalBuilder({
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '3px',
-                            padding: '3px 8px',
-                            borderRadius: '5px',
+                            justifyContent: 'center',
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
                             border: canScrollUp ? '1px solid #c4a365' : '1px solid #e3dcce',
                             background: canScrollUp ? '#ffffff' : '#f8f8f8',
                             color: canScrollUp ? '#153d2d' : '#9ca3af',
-                            fontSize: '0.7rem',
-                            fontWeight: 700,
                             cursor: canScrollUp ? 'pointer' : 'not-allowed',
+                            padding: 0,
                             transition: 'all 0.15s ease',
                           }}
                         >
-                          <ChevronUp size={13} style={{ color: canScrollUp ? '#c4a365' : '#9ca3af' }} />
-                          <span>Scroll Up</span>
+                          <ChevronUp size={14} style={{ color: canScrollUp ? '#c4a365' : '#9ca3af' }} />
                         </button>
                         <button
                           type="button"
@@ -1472,20 +1500,19 @@ export default function CateringProposalBuilder({
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '3px',
-                            padding: '3px 8px',
-                            borderRadius: '5px',
-                            border: canScrollDown ? '1px solid #153d2d' : '1px solid #e3dcce',
-                            background: canScrollDown ? '#153d2d' : '#f8f8f8',
-                            color: canScrollDown ? '#faf8f1' : '#9ca3af',
-                            fontSize: '0.7rem',
-                            fontWeight: 700,
+                            justifyContent: 'center',
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
+                            border: canScrollDown ? '1px solid #c4a365' : '1px solid #e3dcce',
+                            background: canScrollDown ? '#ffffff' : '#f8f8f8',
+                            color: canScrollDown ? '#153d2d' : '#9ca3af',
                             cursor: canScrollDown ? 'pointer' : 'not-allowed',
+                            padding: 0,
                             transition: 'all 0.15s ease',
                           }}
                         >
-                          <ChevronDown size={13} style={{ color: canScrollDown ? '#c4a365' : '#9ca3af' }} />
-                          <span>Scroll Down</span>
+                          <ChevronDown size={14} style={{ color: canScrollDown ? '#c4a365' : '#9ca3af' }} />
                         </button>
                       </div>
                     </div>
@@ -1742,6 +1769,7 @@ export default function CateringProposalBuilder({
 
               {/* RIGHT: Multi-Meal Sessions Manager */}
               <div
+                className="proposal-sessions-col"
                 style={{
                   background: '#ffffff',
                   border: '1px solid #e3dcce',
@@ -1864,8 +1892,8 @@ export default function CateringProposalBuilder({
                       <div
                         style={{
                           display: 'grid',
-                          gridTemplateColumns: '1.4fr 1fr 1fr 0.8fr',
-                          gap: '10px',
+                          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))',
+                          gap: '12px',
                           marginBottom: '10px',
                         }}
                       >
@@ -1963,7 +1991,7 @@ export default function CateringProposalBuilder({
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
                         <div style={{ flex: 1 }}>
                           <input
                             type="text"
@@ -2151,6 +2179,7 @@ export default function CateringProposalBuilder({
                               {group.items.map(({ dish, originalIndex }) => (
                                 <div
                                   key={originalIndex}
+                                  className="assigned-dish-row"
                                   style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -2159,6 +2188,7 @@ export default function CateringProposalBuilder({
                                     borderBottom: '1px solid #f3efe5',
                                     gap: '12px',
                                     background: '#ffffff',
+                                    flexWrap: 'wrap',
                                   }}
                                 >
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
@@ -2178,7 +2208,7 @@ export default function CateringProposalBuilder({
                                   </div>
 
                                   {/* Chef prep / serving note input */}
-                                  <div style={{ flex: 1, maxWidth: '280px' }}>
+                                  <div style={{ flex: '1 1 200px', maxWidth: '280px', minWidth: '150px' }}>
                                     <input
                                       type="text"
                                       value={dish.unit || ''}
@@ -2369,6 +2399,7 @@ export default function CateringProposalBuilder({
                 4. OVERALL PACKAGE PRICING (MANDATORY: SINGLE PACKAGE AMOUNT) + TERMS
                 ========================================================================= */}
             <div
+              className="proposal-builder-pricing-grid"
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'minmax(320px, 1fr) minmax(360px, 1fr)',
@@ -2495,7 +2526,7 @@ export default function CateringProposalBuilder({
                 </div>
 
                 {/* Advance & Balance Grid */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '12px' }}>
                   <div>
                     <label style={{ fontSize: '0.72rem', fontWeight: 700, color: '#6b756e', textTransform: 'uppercase' }}>
                       Advance Amount (₹)
@@ -2543,7 +2574,7 @@ export default function CateringProposalBuilder({
                 </div>
 
                 {/* Due Date & GST Toggle */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 150px), 1fr))', gap: '12px' }}>
                   <div>
                     <label style={{ fontSize: '0.72rem', color: '#6b756e', fontWeight: 700, textTransform: 'uppercase' }}>
                       Balance Due Date
@@ -2665,6 +2696,7 @@ export default function CateringProposalBuilder({
           >
             {/* Top Royal Brand Header */}
             <div
+              className="proposal-print-header"
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -2687,27 +2719,31 @@ export default function CateringProposalBuilder({
                     justifyContent: 'center',
                     padding: '6px',
                     boxShadow: '0 3px 10px rgba(0,0,0,0.1)',
+                    flexShrink: 0,
                   }}
                 >
-                  <Image
+                  <img
                     src="/images/logo/logo.png"
-                    alt="Velavan"
+                    alt="Velavan Catering Services"
                     width={56}
                     height={56}
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'contain', width: '56px', height: '56px' }}
                   />
                 </div>
 
                 <div>
                   <h1
+                    className="proposal-print-company-name"
                     style={{
                       fontFamily: '"Cormorant Garamond", Georgia, serif',
-                      fontSize: '1.9rem',
-                      fontWeight: 700,
+                      fontSize: '2rem',
+                      fontWeight: 800,
                       color: '#153d2d',
                       margin: '0 0 2px',
-                      lineHeight: 1.1,
+                      lineHeight: 1.15,
                       letterSpacing: '0.02em',
+                      display: 'block',
+                      visibility: 'visible',
                     }}
                   >
                     Velavan Catering Services
@@ -2726,8 +2762,8 @@ export default function CateringProposalBuilder({
                   <div style={{ fontSize: '0.76rem', color: '#6b756e', marginTop: '4px' }}>
                     15/49, Mariamman Kovil Street, Chettipalayam, Coimbatore – 641201 | Phone: +91 90803 09584 / +91 98422 11223
                   </div>
-                  <div style={{ fontSize: '0.72rem', color: '#9e7f41', marginTop: '2px' }}>
-                    FSSAI: 12426003001273 | MSME: UDYAM-TN-03-0341714
+                  <div style={{ fontSize: '0.72rem', color: '#9e7f41', marginTop: '2px', fontWeight: 600 }}>
+                    FSSAI: 12426003001273 | MSME: UDYAM-TN-03-0341714 | Email: velavancatering@gmail.com
                   </div>
                 </div>
               </div>
@@ -3308,7 +3344,7 @@ export default function CateringProposalBuilder({
                 <label style={{ fontSize: '0.74rem', fontWeight: 700, color: '#153d2d', textTransform: 'uppercase', marginBottom: '4px', display: 'block' }}>
                   Menu Category Assignment *
                 </label>
-                <div style={{ display: 'flex', gap: '14px', marginBottom: '8px' }}>
+                <div style={{ display: 'flex', gap: '14px', marginBottom: '8px', flexWrap: 'wrap' }}>
                   <label style={{ fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: '#153d2d' }}>
                     <input
                       type="radio"
@@ -3458,27 +3494,175 @@ export default function CateringProposalBuilder({
         </div>
       )}
 
-      {/* Print CSS Rules */}
+      {/* Responsive & Print CSS Rules */}
       <style jsx global>{`
-        @media print {
-          body {
-            background: #ffffff !important;
-            color: #000000 !important;
+        /* Responsive screen layout rules */
+        @media (max-width: 1200px) {
+          .proposal-builder-split-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 20px !important;
           }
+          .proposal-catalog-col,
+          .proposal-sessions-col {
+            width: 100% !important;
+            height: auto !important;
+            min-height: 520px !important;
+            max-height: none !important;
+          }
+          .proposal-builder-pricing-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 20px !important;
+          }
+          .proposal-builder-topbar {
+            height: auto !important;
+            min-height: 66px !important;
+            padding: 12px 18px !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+          }
+          .proposal-builder-topbar-actions {
+            width: 100% !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .proposal-builder-topbar {
+            height: auto !important;
+            min-height: 60px !important;
+            padding: 12px 14px !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+          }
+          .proposal-builder-topbar-actions {
+            width: 100% !important;
+            justify-content: flex-start !important;
+            gap: 8px !important;
+          }
+          .proposal-builder-body {
+            padding: 14px 10px !important;
+          }
+          .a4-document-container {
+            padding: 24px 16px !important;
+            border-radius: 6px !important;
+          }
+          .proposal-catalog-col,
+          .proposal-sessions-col {
+            padding: 14px 12px !important;
+          }
+          .proposal-print-header {
+            flex-direction: column !important;
+            gap: 14px !important;
+            align-items: flex-start !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .proposal-builder-topbar-title {
+            font-size: 1rem !important;
+          }
+          .proposal-builder-body {
+            padding: 10px 6px !important;
+          }
+          .a4-document-container {
+            padding: 18px 10px !important;
+            font-size: 0.9em !important;
+          }
+          .assigned-dish-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+          }
+        }
+
+        @media print {
+          @page {
+            size: A4 portrait;
+            margin: 10mm 12mm 10mm 12mm;
+          }
+          html, body {
+            background: #ffffff !important;
+            color: #1f2f25 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 100% !important;
+            overflow: visible !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          /* Hide all surrounding admin chrome */
           header,
+          nav,
+          aside,
           .admin-sidebar,
           .admin-toolbar,
-          button,
-          .no-print {
+          .sidebar-collapse-btn,
+          .mobile-drawer-toggle,
+          .no-print,
+          .proposal-builder-topbar,
+          button {
             display: none !important;
+          }
+          /* Reset modal fixed position and backdrop */
+          .proposal-builder-modal {
+            position: static !important;
+            inset: auto !important;
+            width: 100% !important;
+            height: auto !important;
+            background: #ffffff !important;
+            backdrop-filter: none !important;
+            display: block !important;
+            overflow: visible !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+          }
+          .proposal-builder-body {
+            background: #ffffff !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            height: auto !important;
+            display: block !important;
           }
           .a4-document-container {
             max-width: 100% !important;
+            width: 100% !important;
             margin: 0 !important;
-            padding: 16px 20px !important;
+            padding: 0 !important;
             box-shadow: none !important;
             border: none !important;
-            page-break-after: always;
+            overflow: visible !important;
+            display: block !important;
+            page-break-after: auto;
+          }
+          .proposal-print-header {
+            display: flex !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            margin-bottom: 24px !important;
+            padding-bottom: 20px !important;
+            border-bottom: 2.5px solid #153d2d !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          .proposal-print-company-name {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: #153d2d !important;
+            font-size: 2rem !important;
+            font-weight: 800 !important;
+            margin-top: 0 !important;
+            margin-bottom: 2px !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
         }
       `}</style>

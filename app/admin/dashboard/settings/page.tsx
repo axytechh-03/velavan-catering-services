@@ -248,7 +248,7 @@ export default function SettingsManagementPage() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))', gap: '20px' }}>
         {/* ========================================================================= */}
         {/* CARD 1: SECURITY & PASSWORD CHANGE (WHITE 3D SURFACE) */}
         {/* ========================================================================= */}
@@ -448,35 +448,56 @@ export default function SettingsManagementPage() {
               border: '1px solid #e3dcce',
               display: 'flex',
               flexDirection: 'column',
-              gap: '10px',
+              gap: '12px',
               fontSize: '0.82rem',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b756e' }}>Database Engine</span>
-              <strong style={{ color: '#153d2d' }}>{systemInfo?.databaseMode || 'Local High-Speed JSON Store'}</strong>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px 12px' }}>
+              <span style={{ color: '#6b756e', flexShrink: 0, fontWeight: 500 }}>Database Engine</span>
+              <strong style={{ color: '#153d2d', wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'right' }}>
+                {systemInfo?.databaseMode || 'Local High-Speed JSON Store'}
+              </strong>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b756e' }}>Active Storage Path</span>
-              <code style={{ color: '#153d2d', background: '#ffffff', border: '1px solid #e3dcce', padding: '2px 6px', borderRadius: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '6px 12px' }}>
+              <span style={{ color: '#6b756e', flexShrink: 0, fontWeight: 500 }}>Active Storage Path</span>
+              <code
+                style={{
+                  color: '#153d2d',
+                  background: '#ffffff',
+                  border: '1px solid #e3dcce',
+                  padding: '3px 8px',
+                  borderRadius: '6px',
+                  fontSize: '0.78rem',
+                  fontFamily: 'monospace',
+                  wordBreak: 'break-all',
+                  overflowWrap: 'anywhere',
+                  maxWidth: '100%',
+                  display: 'inline-block',
+                  textAlign: 'left',
+                }}
+              >
                 {systemInfo?.storagePath || 'data/cms-data.json'}
               </code>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b756e' }}>Framework & Runtime</span>
-              <span style={{ color: '#153d2d', fontWeight: 600 }}>Next.js 14 · Node {systemInfo?.nodeVersion || 'v20'}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px 12px' }}>
+              <span style={{ color: '#6b756e', flexShrink: 0, fontWeight: 500 }}>Framework & Runtime</span>
+              <span style={{ color: '#153d2d', fontWeight: 600, wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'right' }}>
+                Next.js 14 · Node {systemInfo?.nodeVersion || 'v20'}
+              </span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b756e' }}>Platform OS</span>
-              <span style={{ color: '#153d2d', textTransform: 'capitalize', fontWeight: 600 }}>{systemInfo?.platform || 'Windows'}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px 12px' }}>
+              <span style={{ color: '#6b756e', flexShrink: 0, fontWeight: 500 }}>Platform OS</span>
+              <span style={{ color: '#153d2d', textTransform: 'capitalize', fontWeight: 600, textAlign: 'right' }}>
+                {systemInfo?.platform || 'Windows'}
+              </span>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: '#6b756e' }}>Server Timestamp</span>
-              <span style={{ color: '#153d2d' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: '4px 12px' }}>
+              <span style={{ color: '#6b756e', flexShrink: 0, fontWeight: 500 }}>Server Timestamp</span>
+              <span style={{ color: '#153d2d', wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'right' }}>
                 {systemInfo?.serverTime ? new Date(systemInfo.serverTime).toLocaleString() : 'Active'}
               </span>
             </div>
@@ -490,7 +511,7 @@ export default function SettingsManagementPage() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 80px), 1fr))',
                 gap: '8px',
                 marginTop: '8px',
                 textAlign: 'center',

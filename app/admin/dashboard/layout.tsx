@@ -299,19 +299,29 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
         {/* Sidebar Brand Header */}
         <div
           style={{
-            padding: collapsed ? '18px 12px' : '20px 18px',
+            padding: collapsed ? '16px 8px 12px' : '20px 18px',
             borderBottom: '1px solid rgba(196, 163, 101, 0.18)',
             display: 'flex',
+            flexDirection: collapsed ? 'column' : 'row',
             alignItems: 'center',
             justifyContent: collapsed ? 'center' : 'space-between',
-            gap: '12px',
+            gap: collapsed ? '10px' : '12px',
+            transition: 'all 0.22s cubic-bezier(0.2, 0, 0, 1)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', overflow: 'hidden' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              overflow: 'hidden',
+              justifyContent: collapsed ? 'center' : 'flex-start',
+            }}
+          >
             <div
               style={{
-                width: '42px',
-                height: '42px',
+                width: collapsed ? '38px' : '42px',
+                height: collapsed ? '38px' : '42px',
                 borderRadius: '50%',
                 background: '#ffffff',
                 border: '1.5px solid #c4a365',
@@ -319,15 +329,16 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                padding: '4px',
+                padding: '3px',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                transition: 'all 0.2s ease',
               }}
             >
               <Image
                 src="/images/logo/logo.png"
                 alt="Velavan"
-                width={34}
-                height={34}
+                width={collapsed ? 30 : 34}
+                height={collapsed ? 30 : 34}
                 style={{ objectFit: 'contain' }}
               />
             </div>
@@ -367,12 +378,13 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
             onClick={() => setCollapsed(!collapsed)}
             className="sidebar-collapse-btn"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             style={{
               background: 'rgba(196, 163, 101, 0.15)',
               border: '1px solid rgba(196, 163, 101, 0.3)',
               color: '#c4a365',
-              width: '26px',
-              height: '26px',
+              width: collapsed ? '24px' : '26px',
+              height: collapsed ? '24px' : '26px',
               borderRadius: '6px',
               display: 'flex',
               alignItems: 'center',
@@ -380,10 +392,19 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
               cursor: 'pointer',
               padding: 0,
               flexShrink: 0,
-              transition: 'transform 0.15s ease',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.2)',
+              transition: 'transform 0.15s ease, background 0.15s ease',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(196, 163, 101, 0.3)'
+              e.currentTarget.style.transform = 'scale(1.05)'
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'rgba(196, 163, 101, 0.15)'
+              e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            {collapsed ? <ChevronRight size={15} /> : <ChevronLeft size={15} />}
+            {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={15} />}
           </button>
         </div>
 
@@ -638,6 +659,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
       >
         {/* Top Admin Toolbar - MANDATE: NO DATE DISPLAYED */}
         <header
+          className="admin-topbar"
           style={{
             height: '68px',
             backgroundColor: '#ffffff',
@@ -678,6 +700,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
             <div>
               {/* Breadcrumb */}
               <div
+                className="admin-breadcrumb"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -1045,6 +1068,7 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
 
         {/* Dashboard Main Viewport */}
         <main
+          className="admin-main-content"
           style={{
             flex: 1,
             padding: '28px 32px',
@@ -1285,6 +1309,8 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           .admin-main-wrapper {
             margin-left: 0 !important;
             width: 100% !important;
+            min-width: 0 !important;
+            overflow-x: hidden !important;
           }
           .mobile-drawer-toggle {
             display: flex !important;
@@ -1294,11 +1320,31 @@ export default function StandaloneAdminDashboardLayout({ children }: AdminLayout
           }
         }
         @media (max-width: 768px) {
+          .admin-topbar {
+            height: 60px !important;
+            padding: 0 14px !important;
+          }
+          .admin-main-content {
+            padding: 18px 14px !important;
+          }
+          .admin-breadcrumb {
+            display: none !important;
+          }
           .view-site-text {
             display: none !important;
           }
           .profile-btn-label {
             display: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .admin-topbar {
+            height: 56px !important;
+            padding: 0 10px !important;
+            gap: 8px !important;
+          }
+          .admin-main-content {
+            padding: 14px 10px !important;
           }
         }
       `}</style>
